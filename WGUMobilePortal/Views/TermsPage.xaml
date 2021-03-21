@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="WGUMobilePortal.Views.TermsPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:model="clr-namespace:WGUMobilePortal.Models;assembly=WGUMobilePortal"
+    xmlns:mvvm="clr-namespace:MvvmHelpers;assembly=MvvmHelpers"
+    xmlns:viewmodels="clr-namespace:WGUMobilePortal.ViewModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    x:Name="MyTermsPage"
+    x:DataType="viewmodels:TermsViewModel"
+    BackgroundColor="White">
+    <ContentPage.BindingContext>
+        <viewmodels:TermsViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:ItemSelectedEventArgsConverter x:Key="ItemSelectedEventArgsConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding AddCommand}"/>
+    </ContentPage.ToolbarItems>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackLayout BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
+                <ContentView Padding="0,0,0,5" VerticalOptions="FillAndExpand">
+                    <Image Source="wgu_logo.png" VerticalOptions="Center" HeightRequest="64" />
+                </ContentView>
+            </StackLayout>
+        </StackLayout>
+        <ScrollView Grid.Row="1">
+            <StackLayout Orientation="Vertical" Padding="30,24,30,24" Spacing="10">
+                <Label Text="Terms Page"
+                       FontSize="Title"
+                       HorizontalTextAlignment="Center"/>
+            </StackLayout>
+        </ScrollView>
+
+
+        <ListView 
+            BackgroundColor="Transparent"
+            CachingStrategy="RecycleElement"
+            GroupDisplayBinding="{Binding Key}"
+            HasUnevenRows="True"
+            IsPullToRefreshEnabled="True"
+            IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+            ItemsSource="{Binding Term}"
+            RefreshCommand="{Binding RefreshCommand}"
+            RefreshControlColor="Red"
+            SelectionMode="Single"
+            SeparatorVisibility="None"
+            Grid.Row="1">
+
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="model:Term">
+                    <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem
+                            Command="{Binding Source={x:Reference MyTermsPage}, Path=BindingContext.RemoveCommand}"
+                            CommandParameter="{Binding .}"
+                            IsDestructive="True"
+                            Text="Delete" />
+                        </ViewCell.ContextActions>
+                        <Grid Padding="10">
+                            <Frame CornerRadius="20" HasShadow="True">
+                                <StackLayout Orientation="Horizontal">
+                                    <StackLayout VerticalOptions="Center">
+                                        <Label FontSize="Large"
+                                            Text="{Binding Name}"
+                                            VerticalOptions="Center" />
+                                                    <Grid Padding="10">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <Label HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource Primary}">
+                                                            <Label.Text>
+                                                                <MultiBinding StringFormat="{}{0:MM/dd/yyyy} - {1:MM/dd/yyyy}">
+                                                                    <Binding Path="StartDate" />
+                                                                    <Binding Path="EndDate" />
+                                                                </MultiBinding>
+                                                            </Label.Text>
+                                                        </Label>
+                                                    </Grid>
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</ContentPage>

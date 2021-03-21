@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+    <ContentPage x:Class="WGUMobilePortal.Views.TermsPage"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:WGUMobilePortal.Models;assembly=WGUMobilePortal"
+             xmlns:mvvm="clr-namespace:MvvmHelpers;assembly=MvvmHelpers"
+             xmlns:vm="clr-namespace:WGUMobilePortal.ViewModels"
+             xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:DataType="vm:TermsViewModel"
+             Title="{Binding Title}"
+             x:Name="MyTermsPage">
+
+    <ContentPage.BindingContext>
+        <vm:TermsViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:ItemSelectedEventArgsConverter x:Key="ItemSelectedEventArgsConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="ADD +" Command="{Binding AddCommand}"/>
+    </ContentPage.ToolbarItems>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackLayout BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
+                <ContentView Padding="0,0,0,5" VerticalOptions="FillAndExpand">
+                    <Image Source="wgu_logo.png" VerticalOptions="Center" HeightRequest="64" />
+                </ContentView>
+            </StackLayout>
+        </StackLayout>
+        <ScrollView Grid.Row="1">
+            <StackLayout Orientation="Vertical" Padding="30,24,30,24" Spacing="10">
+                <Label Text="Terms Page"
+                       FontSize="Title"
+                       HorizontalTextAlignment="Center"/>
+            </StackLayout>
+        </ScrollView>
+
+        <!-- Taken form the Coffee App-->
+        <!--
+        <ListView
+        BackgroundColor="Transparent"
+        CachingStrategy="RecycleElement"
+        HasUnevenRows="True"
+        IsPullToRefreshEnabled="True"
+        IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+        ItemsSource="{Binding Term}"
+        RefreshCommand="{Binding RefreshCommand}"
+        RefreshControlColor="Red"
+        SelectionMode="None"
+        SeparatorVisibility="None"
+        Grid.Row="1">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="model:Term">
+                    <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem
+                            Command="{Binding Source={x:Reference MyTermsPage}, Path=BindingContext.RemoveCommand}"
+                            CommandParameter="{Binding .}"
+                            IsDestructive="True"
+                            Text="Delete" />
+                        </ViewCell.ContextActions>
+                        <Grid Padding="10">
+                            <Frame CornerRadius="20" HasShadow="True">
+                                <StackLayout Orientation="Horizontal">
+                                    <StackLayout VerticalOptions="Center">
+                                        <Label
+                                        FontSize="Large"
+                                        Text="{Binding Name}"
+                                        VerticalOptions="Center" />
+                                        <Label
+                                        FontSize="Large"
+                                        Text="{Binding StartDate}"
+                                        VerticalOptions="Center" />
+                                        <Label
+                                        FontSize="Small"
+                                        Text="{Binding Id}"
+                                        VerticalOptions="Center" />
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView> -->
+
+            <CollectionView Grid.Row="1"
+                        Margin="25"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand"
+                        SelectionMode="None"
+                        ItemsSource="{Binding Term}">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="20"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Term">
+                        <pv:PancakeView BackgroundColor="{StaticResource Secondary}" VerticalOptions="StartAndExpand" 
+                                    HorizontalOptions="FillAndExpand">
+                        <Grid VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <BoxView BackgroundColor="{StaticResource Primary}" WidthRequest="3" HorizontalOptions="Start"
+                                     VerticalOptions="FillAndExpand"/>
+                            <xct:Expander Grid.Column="1">
+                                <xct:Expander.Header>
+                                    <Grid HorizontalOptions="FillAndExpand">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="3.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label Text="{Binding Name}" TextColor="{StaticResource Primary}"/>
+                                            <Label HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource Primary}">
+                                                <Label.Text>
+                                                    <MultiBinding StringFormat="{}{0:MM/dd/yyyy} - {1:MM/dd/yyyy}">
+                                                        <Binding Path="StartDate" />
+                                                        <Binding Path="EndDate" />
+                                                    </MultiBinding>
+                                                </Label.Text>
+                                            </Label>
+                                        </StackLayout>
+                                        <BoxView Grid.Column="1" BackgroundColor="#F2F4F8" WidthRequest="1" HorizontalOptions="Start" 
+                                                 VerticalOptions="FillAndExpand"/>
+                                        <StackLayout Grid.Column="2" HorizontalOptions="Start" VerticalOptions="Center" Margin="20">
+                                            <Label HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource Primary}">
+                                                <Label.Text>
+                                                    <MultiBinding StringFormat="{}{0:MM/dd/yyyy} - {1:MM/dd/yyyy}">
+                                                        <Binding Path="StartDate" />
+                                                        <Binding Path="EndDate" />
+                                                    </MultiBinding>
+                                                </Label.Text>
+                                            </Label>
+                                        </StackLayout>
+                                    </Grid>
+                                </xct:Expander.Header>
+                                <Grid HorizontalOptions="FillAndExpand">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="3.5*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <BoxView Grid.Column="1" BackgroundColor="#F2F4F8" WidthRequest="1" HorizontalOptions="Start" 
+                                             VerticalOptions="FillAndExpand"/>
+                                    <StackLayout Grid.Column="2" Spacing="10">
+                                        <Label Text="SPEAKERS" TextColor="Black" Opacity="0.5" FontSize="10" Margin="20,0"/>
+                                        <StackLayout BindableLayout.ItemsSource="{Binding Name}" HorizontalOptions="Start" VerticalOptions="Center" Margin="20,0,0,20">
+                                            <BindableLayout.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Label TextColor="Black" FontSize="12">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <FormattedString.Spans>
+                                                                    <Span Text="{Binding StartDate}"/>
+                                                                    <Span Text=" - "/>
+                                                                    <Span Text="{Binding EndDate}" FontAttributes="Bold"/>
+                                                                </FormattedString.Spans>
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                </DataTemplate>
+                                            </BindableLayout.ItemTemplate>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </Grid>
+                            </xct:Expander>
+                        </Grid>
+                    </pv:PancakeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+
+        <!-- <Label HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource Primary}">
+                                    <Label.Text>
+                                        <MultiBinding StringFormat="{}{0:MM/dd/yyyy} - {1:MM/dd/yyyy}">
+                                            <Binding Path="StartDate" />
+                                            <Binding Path="EndDate" />
+                                        </MultiBinding>
+                                    </Label.Text>
+                                </Label> -->
+
+
+        <!--
+      x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
+      https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/compiled-bindings
+    -->
+        <!--<RefreshView x:DataType="local:TermsViewModel" Command="{Binding LoadItemsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+            <CollectionView x:Name="TermsListView"
+                ItemsSource="{Binding Items}"
+                SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10" x:DataType="model:Item">
+                            <Label Text="{Binding Text}" 
+                            LineBreakMode="NoWrap" 
+                            Style="{DynamicResource ListItemTextStyle}" 
+                            FontSize="16" />
+                            <Label Text="{Binding Description}" 
+                            LineBreakMode="NoWrap"
+                            Style="{DynamicResource ListItemDetailTextStyle}"
+                            FontSize="13" />
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                NumberOfTapsRequired="1"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:TermsViewModel}}, Path=ItemTapped}"		
+                                CommandParameter="{Binding .}">
+                                </TapGestureRecognizer>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>-->
+    </Grid>
+
+
+</ContentPage>

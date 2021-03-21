@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WGUMobilePortal.Views.MainPage"
+             xmlns:vm="clr-namespace:WGUMobilePortal.ViewModels"
+             Title="{Binding Title}">
+
+    <ContentPage.BindingContext>
+        <vm:MainViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackLayout BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
+                <ContentView Padding="0,0,0,5" VerticalOptions="FillAndExpand">
+                    <Image Source="wgu_logo.png" VerticalOptions="Center" HeightRequest="64" />
+                </ContentView>
+            </StackLayout>
+        </StackLayout>
+        <ScrollView Grid.Row="1">
+            <StackLayout Orientation="Vertical" Padding="30,24,30,5" Spacing="10">
+                <Label Text="Mobile Student Portal"
+                       FontSize="Title"
+                       HorizontalTextAlignment="Center"
+                       TextColor="{StaticResource Secondary}"/>
+                <Label Padding="0,0,0,0"/>
+                <!--FlyoutItem Title="About" Icon="icon_about.png">
+                    <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
+                </FlyoutItem> -->
+                <Button Margin="0,10,0,0" Text="Terms"
+                        Command="{Binding NavigateToTerms}"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White" />
+                <Button Margin="0,10,0,0" Text="Courses"
+                        Command="{Binding NavigateToCourses}"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White" />
+                <Button Margin="0,10,0,0" Text="Assessments"
+                        Command="{Binding NavigateToAssessments}"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White" />
+            </StackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>
