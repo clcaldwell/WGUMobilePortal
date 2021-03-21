@@ -1,20 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="WGUMobilePortal.Views.AssessmentsPage"
-             xmlns:vm="clr-namespace:WGUMobilePortal.ViewModels"
-             Title="{Binding Title}">
-    
+<ContentPage
+    x:Class="WGUMobilePortal.Views.AssessmentsPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:model="clr-namespace:WGUMobilePortal.Models;assembly=WGUMobilePortal"
+    xmlns:mvvm="clr-namespace:MvvmHelpers;assembly=MvvmHelpers"
+    xmlns:viewmodels="clr-namespace:WGUMobilePortal.ViewModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    x:Name="MyAssessmentsPage"
+    x:DataType="viewmodels:AssessmentsViewModel"
+    BackgroundColor="White"
+    Title="{Binding Title}">
     <ContentPage.BindingContext>
-        <vm:AssessmentsViewModel />
+        <viewmodels:AssessmentsViewModel />
     </ContentPage.BindingContext>
-    
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:ItemSelectedEventArgsConverter x:Key="ItemSelectedEventArgsConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="ADD +"
-                     Order="Primary"
-                     Priority="0" />
+        <ToolbarItem Text="Add" Command="{Binding AddCommand}"/>
     </ContentPage.ToolbarItems>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -29,28 +39,64 @@
         </StackLayout>
         <ScrollView Grid.Row="1">
             <StackLayout Orientation="Vertical" Padding="30,24,30,24" Spacing="10">
-                <Label Text="Assessments Page" FontSize="Title"/>
-                <Label Text="This is the main page. Will place some buttons here" FontSize="16" Padding="0,0,0,0"/>
-                <Label FontSize="16" Padding="0,24,0,0">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <FormattedString.Spans>
-                                <Span Text="Learn more at "/>
-                                <Span Text="https://aka.ms/xamarin-quickstart" FontAttributes="Bold"/>
-                            </FormattedString.Spans>
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-                <Button Margin="0,10,0,0" Text="Btn 1"
-                        Command="{Binding OpenWebCommand}"
-                        BackgroundColor="{StaticResource Primary}"
-                        TextColor="White" />
-                <Button Margin="0,10,0,0" Text="Btn 2"
-                        Command="{Binding OpenWebCommand}"
-                        BackgroundColor="{StaticResource Primary}"
-                        TextColor="White" />
+                <Label Text="Assessments Page"
+                       FontSize="Title"
+                       HorizontalTextAlignment="Center"/>
             </StackLayout>
         </ScrollView>
-    </Grid>
 
+        <RefreshView Command="{Binding RefreshCommand}"
+                     IsRefreshing="True"
+                     RefreshColor="Red"
+                     Grid.Row="1"
+                     HorizontalOptions="Center">
+        </RefreshView>
+
+        <CollectionView 
+            BackgroundColor="Transparent"
+            ItemsSource="{Binding Assessment}"
+            ItemsLayout="VerticalList"
+            SelectionMode="Single"
+            Grid.Row="1">
+            <CollectionView.EmptyView>
+                <StackLayout Padding="10">
+                    <Label HorizontalOptions="Center"
+                           Text="No assessments exist" />
+                </StackLayout>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:Assessment">
+                    <Grid Padding="10">
+                        <Frame CornerRadius="20" HasShadow="True">
+                            <xct:Expander>
+                                <xct:Expander.Header>
+                                    <Label FontSize="Large"
+                                        Text="{Binding Name}"
+                                        VerticalOptions="Center" />
+                                </xct:Expander.Header>
+                                <xct:Expander.Content>
+                                    <StackLayout>
+                                        <Label HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                TextColor="{StaticResource Primary}">
+                                            <Label.Text>
+                                                <MultiBinding StringFormat="{}{0:MM/dd/yyyy} - {1:MM/dd/yyyy}">
+                                                    <Binding Path="StartDate" />
+                                                    <Binding Path="EndDate" />
+                                                </MultiBinding>
+                                            </Label.Text>
+                                        </Label>
+                                        <Button Text="Click to Rotate Text!"
+                                        VerticalOptions="CenterAndExpand"
+                                        HorizontalOptions="Center"
+                                        Clicked="OnButtonClicked" />
+                                    </StackLayout>
+                                </xct:Expander.Content>
+                            </xct:Expander>
+                        </Frame>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
 </ContentPage>

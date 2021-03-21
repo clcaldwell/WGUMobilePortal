@@ -104,6 +104,45 @@ namespace WGUMobilePortal.Services
             await db.DeleteAsync<Course>(id);
         }
 
+        // Assessment Tasks
+        public static async Task<Assessment> GetAssessment(int id)
+        {
+            await Init();
+
+            var assessment = await db.GetAsync<Assessment>(id);
+            return assessment;
+        }
+        public static async Task<IEnumerable<Assessment>> GetAllAssessment()
+        {
+            await Init();
+
+            var term = await db.Table<Assessment>().ToListAsync();
+            return term;
+        }
+        public static async Task AddAssessment(string name, DateTime startdate, DateTime enddate)
+        {
+            await Init();
+
+            var term = new Assessment
+            {
+                Name = name,
+                StartDate = startdate,
+                EndDate = enddate
+            };
+
+            var id = await db.InsertAsync(term);
+        }
+        public static async Task EditAssessment()
+        {
+            await Init();
+        }
+        public static async Task RemoveAssessment(int id)
+        {
+            await Init();
+
+            await db.DeleteAsync<Assessment>(id);
+        }
+
     }
 }
 
