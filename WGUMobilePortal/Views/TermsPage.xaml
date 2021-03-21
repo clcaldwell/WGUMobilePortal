@@ -9,7 +9,8 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:Name="MyTermsPage"
     x:DataType="viewmodels:TermsViewModel"
-    BackgroundColor="White">
+    BackgroundColor="White"
+    Title="{Binding Title}">
     <ContentPage.BindingContext>
         <viewmodels:TermsViewModel />
     </ContentPage.BindingContext>

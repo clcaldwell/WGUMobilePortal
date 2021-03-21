@@ -26,6 +26,7 @@ namespace WGUMobilePortal.Services
             await db.CreateTablesAsync<Term, Course, Assessment>();
         }
 
+        // Term Tasks
         public static async Task<Term> GetTerm(int id)
         {
             await Init();
@@ -62,6 +63,45 @@ namespace WGUMobilePortal.Services
             await Init();
 
             await db.DeleteAsync<Term>(id);
+        }
+
+        // Course Tasks
+        public static async Task<Course> GetCourse(int id)
+        {
+            await Init();
+
+            var course = await db.GetAsync<Course>(id);
+            return course;
+        }
+        public static async Task<IEnumerable<Course>> GetAllCourse()
+        {
+            await Init();
+
+            var term = await db.Table<Course>().ToListAsync();
+            return term;
+        }
+        public static async Task AddCourse(string name, DateTime startdate, DateTime enddate)
+        {
+            await Init();
+
+            var term = new Course
+            {
+                Name = name,
+                StartDate = startdate,
+                EndDate = enddate
+            };
+
+            var id = await db.InsertAsync(term);
+        }
+        public static async Task EditCourse()
+        {
+            await Init();
+        }
+        public static async Task RemoveCourse(int id)
+        {
+            await Init();
+
+            await db.DeleteAsync<Course>(id);
         }
 
     }

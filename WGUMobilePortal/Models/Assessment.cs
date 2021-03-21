@@ -4,7 +4,7 @@ using SQLite;
 
 namespace WGUMobilePortal.Models
 {
-    class Assessment
+    public class Assessment
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
