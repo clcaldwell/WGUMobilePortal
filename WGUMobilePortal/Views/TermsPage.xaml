@@ -65,33 +65,35 @@
             </CollectionView.EmptyView>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:Term">
-                        <Grid Padding="10">
-                            <Frame CornerRadius="20" HasShadow="True">
-                                <StackLayout Orientation="Horizontal">
-                                    <StackLayout VerticalOptions="Center">
-                                        <Label FontSize="Large"
-                                            Text="{Binding Name}"
-                                            VerticalOptions="Center" />
-                                                    <Grid Padding="10">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="Auto" />
-                                                            <ColumnDefinition Width="Auto" />
-                                                        </Grid.ColumnDefinitions>
-                                                        <Label HorizontalOptions="Center"
-                                                               VerticalOptions="Center"
-                                                               TextColor="{StaticResource Primary}">
-                                                            <Label.Text>
-                                                                <MultiBinding StringFormat="{}{0:MM/dd/yyyy} - {1:MM/dd/yyyy}">
-                                                                    <Binding Path="StartDate" />
-                                                                    <Binding Path="EndDate" />
-                                                                </MultiBinding>
-                                                            </Label.Text>
-                                                        </Label>
-                                                    </Grid>
+                            <Grid Padding="10">
+                        <Frame CornerRadius="20" HasShadow="True">
+                            <xct:Expander>
+                                <xct:Expander.Header>
+                                    <Label FontSize="Large"
+                                        Text="{Binding Name}"
+                                        VerticalOptions="Center" />
+                                </xct:Expander.Header>
+                                <xct:Expander.Content>
+                                    <StackLayout>
+                                    <Label HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                TextColor="{StaticResource Primary}">
+                                        <Label.Text>
+                                            <MultiBinding StringFormat="{}{0:MM/dd/yyyy} - {1:MM/dd/yyyy}">
+                                                <Binding Path="StartDate" />
+                                                <Binding Path="EndDate" />
+                                            </MultiBinding>
+                                        </Label.Text>
+                                    </Label>
+                                    <Button Text="Click to Rotate Text!"
+                                        VerticalOptions="CenterAndExpand"
+                                        HorizontalOptions="Center"
+                                        Clicked="OnButtonClicked" />
                                     </StackLayout>
-                                </StackLayout>
-                            </Frame>
-                        </Grid>
+                                </xct:Expander.Content>
+                            </xct:Expander>
+                        </Frame>
+                    </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
