@@ -44,31 +44,27 @@
             </StackLayout>
         </ScrollView>
 
-
-        <ListView 
+        <RefreshView Command="{Binding RefreshCommand}"
+                     IsRefreshing="True"
+                     RefreshColor="Red"
+                     Grid.Row="1"
+                     HorizontalOptions="Center">
+        </RefreshView>
+    
+        <CollectionView 
             BackgroundColor="Transparent"
-            CachingStrategy="RecycleElement"
-            GroupDisplayBinding="{Binding Key}"
-            HasUnevenRows="True"
-            IsPullToRefreshEnabled="True"
-            IsRefreshing="{Binding IsBusy, Mode=OneWay}"
             ItemsSource="{Binding Term}"
-            RefreshCommand="{Binding RefreshCommand}"
-            RefreshControlColor="Red"
+            ItemsLayout="VerticalList"
             SelectionMode="Single"
-            SeparatorVisibility="None"
             Grid.Row="1">
-
-            <ListView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <StackLayout Padding="10">
+                    <Label HorizontalOptions="Center"
+                           Text="No terms exist" />
+                </StackLayout>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:Term">
-                    <ViewCell>
-                        <ViewCell.ContextActions>
-                            <MenuItem
-                            Command="{Binding Source={x:Reference MyTermsPage}, Path=BindingContext.RemoveCommand}"
-                            CommandParameter="{Binding .}"
-                            IsDestructive="True"
-                            Text="Delete" />
-                        </ViewCell.ContextActions>
                         <Grid Padding="10">
                             <Frame CornerRadius="20" HasShadow="True">
                                 <StackLayout Orientation="Horizontal">
@@ -81,7 +77,9 @@
                                                             <ColumnDefinition Width="Auto" />
                                                             <ColumnDefinition Width="Auto" />
                                                         </Grid.ColumnDefinitions>
-                                                        <Label HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource Primary}">
+                                                        <Label HorizontalOptions="Center"
+                                                               VerticalOptions="Center"
+                                                               TextColor="{StaticResource Primary}">
                                                             <Label.Text>
                                                                 <MultiBinding StringFormat="{}{0:MM/dd/yyyy} - {1:MM/dd/yyyy}">
                                                                     <Binding Path="StartDate" />
@@ -94,9 +92,8 @@
                                 </StackLayout>
                             </Frame>
                         </Grid>
-                    </ViewCell>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </Grid>
 </ContentPage>
