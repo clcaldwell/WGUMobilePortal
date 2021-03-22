@@ -86,10 +86,11 @@
                                             </MultiBinding>
                                         </Label.Text>
                                     </Label>
-                                    <Button Text="Click to Rotate Text!"
+                                        <Button Text="Delete"
                                         VerticalOptions="CenterAndExpand"
                                         HorizontalOptions="Center"
-                                        Clicked="OnButtonClicked" />
+                                        Clicked="OnDeleteButtonClicked"
+                                        CommandParameter="{Binding .}"/>
                                     </StackLayout>
                                 </xct:Expander.Content>
                             </xct:Expander>

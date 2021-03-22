@@ -50,7 +50,7 @@ namespace WGUMobilePortal.ViewModels
             await Refresh();
         }
 
-        async Task Refresh()
+        public async Task Refresh()
         {
             IsBusy = true;
 

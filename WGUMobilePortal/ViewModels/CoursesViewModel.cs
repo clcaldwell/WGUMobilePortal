@@ -21,11 +21,11 @@ namespace WGUMobilePortal.ViewModels
 
             Title = "Courses View";
 
-            Course = new ObservableRangeCollection<Models.Course>();
+            Course = new ObservableRangeCollection<Course>();
 
             RefreshCommand = new AsyncCommand(Refresh);
             AddCommand = new AsyncCommand(Add);
-            RemoveCommand = new AsyncCommand<Models.Course>(Remove);
+            RemoveCommand = new AsyncCommand<Course>(Remove);
 
             Load();
         }

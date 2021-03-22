@@ -1,6 +1,9 @@
 ﻿
 using System;
 
+using WGUMobilePortal.Models;
+using WGUMobilePortal.Services;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -13,9 +16,18 @@ namespace WGUMobilePortal.Views
         {
             InitializeComponent();
         }
-        async void OnButtonClicked(object sender, EventArgs args)
+        async void OnDeleteButtonClicked(object sender, EventArgs args)
         {
-            //await label.RelRotateTo(360, 1000);
+
+            Button clickedButton = (Button)sender;
+            Term selectedTerm = (Term)clickedButton.CommandParameter;
+
+            var result = await this.DisplayAlert("Alert!", $"Are you sure you want to delete {selectedTerm.Name}", "Yes", "No");
+            if (result)
+            {
+                await DBService.RemoveTerm(selectedTerm.Id);
+            }
+                        
         }
 
     }
