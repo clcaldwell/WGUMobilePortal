@@ -14,7 +14,7 @@ namespace WGUMobilePortal.Services
     public static class DBService
     {
         static SQLiteAsyncConnection db;
-        static async Task Init()
+        static async Task InitDB()
         {
             if (db != null)
                 return;
@@ -29,21 +29,21 @@ namespace WGUMobilePortal.Services
         // Term Tasks
         public static async Task<Term> GetTerm(int id)
         {
-            await Init();
+            await InitDB();
 
             var term = await db.GetAsync<Term>(id);
             return term;
         }
         public static async Task<IEnumerable<Term>> GetAllTerm()
         {
-            await Init();
+            await InitDB();
 
             var term = await db.Table<Term>().ToListAsync();
             return term;
         }
         public static async Task AddTerm(string name, DateTime startdate, DateTime enddate)
         {
-            await Init();
+            await InitDB();
             
             var term = new Term
             {
@@ -56,11 +56,11 @@ namespace WGUMobilePortal.Services
         }
         public static async Task EditTerm()
         {
-            await Init();
+            await InitDB();
         }
         public static async Task RemoveTerm(int id)
         {
-            await Init();
+            await InitDB();
 
             await db.DeleteAsync<Term>(id);
         }
@@ -68,60 +68,139 @@ namespace WGUMobilePortal.Services
         // Course Tasks
         public static async Task<Course> GetCourse(int id)
         {
-            await Init();
+            await InitDB();
 
             var course = await db.GetAsync<Course>(id);
             return course;
         }
         public static async Task<IEnumerable<Course>> GetAllCourse()
         {
-            await Init();
+            await InitDB();
 
             var term = await db.Table<Course>().ToListAsync();
             return term;
         }
-        public static async Task AddCourse(string name, DateTime startdate, DateTime enddate)
+        public static async Task AddCourse(string name, DateTime startdate, DateTime enddate, Status status)
         {
-            await Init();
+            await InitDB();
 
             var term = new Course
             {
                 Name = name,
                 StartDate = startdate,
-                EndDate = enddate
+                EndDate = enddate,
+                Status = status
             };
 
             var id = await db.InsertAsync(term);
         }
         public static async Task EditCourse()
         {
-            await Init();
+            await InitDB();
         }
         public static async Task RemoveCourse(int id)
         {
-            await Init();
+            await InitDB();
 
             await db.DeleteAsync<Course>(id);
+        }
+
+        // Course Instructor
+        public static async Task<Course.Instructor> GetInstructor(int id)
+        {
+            await InitDB();
+
+            var instructor = await db.GetAsync<Course.Instructor>(id);
+            return instructor;
+        }
+        public static async Task<IEnumerable<Course.Instructor>> GetAllInstructor()
+        {
+            await InitDB();
+
+            var instructor = await db.Table<Course.Instructor>().ToListAsync();
+            return instructor;
+        }
+        public static async Task AddInstructor(string firstname, string lastname, string phonenumber, string emailaddress)
+        {
+            await InitDB();
+
+            var instructor = new Course.Instructor
+            {
+                FirstName = firstname,
+                LastName = lastname,
+                PhoneNumber = phonenumber,
+                EmailAddress = emailaddress
+            };
+
+            var id = await db.InsertAsync(instructor);
+        }
+        public static async Task EditInstructor()
+        {
+            await InitDB();
+        }
+        public static async Task RemoveInstructor(int id)
+        {
+            await InitDB();
+
+            await db.DeleteAsync<Course.Instructor>(id);
+        }
+
+        // course Notes
+        public static async Task<Course.Note> GetNote(int id)
+        {
+            await InitDB();
+
+            var note = await db.GetAsync<Course.Note>(id);
+            return note;
+        }
+        public static async Task<IEnumerable<Course.Note>> GetAllNote()
+        {
+            await InitDB();
+
+            var note = await db.Table<Course.Note>().ToListAsync();
+            return note;
+        }
+        public static async Task AddNote(string contents)
+        {
+            await InitDB();
+
+            var note = new Course.Note
+            {
+                Contents = contents,
+                TimeStamp = DateTime.Now
+            };
+
+            var id = await db.InsertAsync(note);
+        }
+        public static async Task EditNote()
+        {
+            await InitDB();
+        }
+        public static async Task RemoveNote(int id)
+        {
+            await InitDB();
+
+            await db.DeleteAsync<Course.Note>(id);
         }
 
         // Assessment Tasks
         public static async Task<Assessment> GetAssessment(int id)
         {
-            await Init();
+            await InitDB();
 
             var assessment = await db.GetAsync<Assessment>(id);
             return assessment;
         }
         public static async Task<IEnumerable<Assessment>> GetAllAssessment()
         {
-            await Init();
+            await InitDB();
 
             var term = await db.Table<Assessment>().ToListAsync();
             return term;
         }
         public static async Task AddAssessment(string name, DateTime startdate, DateTime enddate)
         {
-            await Init();
+            await InitDB();
 
             var term = new Assessment
             {
@@ -134,11 +213,11 @@ namespace WGUMobilePortal.Services
         }
         public static async Task EditAssessment()
         {
-            await Init();
+            await InitDB();
         }
         public static async Task RemoveAssessment(int id)
         {
-            await Init();
+            await InitDB();
 
             await db.DeleteAsync<Assessment>(id);
         }
