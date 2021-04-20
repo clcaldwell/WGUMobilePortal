@@ -89,8 +89,9 @@
                                         <Button Text="Delete"
                                         VerticalOptions="CenterAndExpand"
                                         HorizontalOptions="Center"
-                                        Clicked="OnDeleteButtonClicked"
-                                        CommandParameter="{Binding .}"/>
+                                        Command="{Binding Source={x:Reference MyAssessmentsPage}, Path=BindingContext.RemoveCommand}"
+                                        CommandParameter="{Binding .}"
+                                        />
                                     </StackLayout>
                                 </xct:Expander.Content>
                             </xct:Expander>

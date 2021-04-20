@@ -6,13 +6,13 @@ using Xamarin.Forms.Xaml;
 namespace WGUMobilePortal.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class CoursesPage : ContentPage
+    public partial class AssessmentsPage : ContentPage
     {
-        public CoursesPage()
+        public AssessmentsPage()
         {
             InitializeComponent();
 
-            this.BindingContext = new CoursesViewModel();
+            this.BindingContext = new AssessmentsViewModel();
         }
     }
 }

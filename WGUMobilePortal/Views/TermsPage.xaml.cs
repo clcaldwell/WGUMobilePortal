@@ -1,8 +1,4 @@
-﻿
-using System;
-
-using WGUMobilePortal.Models;
-using WGUMobilePortal.Services;
+﻿using WGUMobilePortal.ViewModels;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -15,20 +11,8 @@ namespace WGUMobilePortal.Views
         public TermsPage()
         {
             InitializeComponent();
+
+            this.BindingContext = new TermsViewModel();
         }
-        async void OnDeleteButtonClicked(object sender, EventArgs args)
-        {
-
-            Button clickedButton = (Button)sender;
-            Term selectedTerm = (Term)clickedButton.CommandParameter;
-
-            var result = await this.DisplayAlert("Alert!", $"Are you sure you want to delete {selectedTerm.Name}", "Yes", "No");
-            if (result)
-            {
-                await DBService.RemoveTerm(selectedTerm.Id);
-            }
-                        
-        }
-
     }
 }
