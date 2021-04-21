@@ -16,13 +16,86 @@
     </ContentPage.BindingContext>
 
     <ContentPage.Resources>
+        <DataTemplate x:Name="TermTemplate" x:DataType="model:Term" x:Key="TermTemplate">
+            <Grid Padding="10">
+                <Frame CornerRadius="20" HasShadow="True">
+                    <xct:Expander>
+                        <xct:Expander.Header>
+                            <Label FontSize="Large"
+                                        Text="{Binding Name}"
+                                        VerticalOptions="Center" />
+                        </xct:Expander.Header>
+                        <xct:Expander.Content>
+                            <StackLayout>
+                                <Label HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                TextColor="{StaticResource Primary}">
+                                    <Label.Text>
+                                        <MultiBinding StringFormat="{}{0:MM/dd/yyyy} - {1:MM/dd/yyyy}">
+                                            <Binding Path="StartDate" />
+                                            <Binding Path="EndDate" />
+                                        </MultiBinding>
+                                    </Label.Text>
+                                </Label>
+                                <Button Text="Delete"
+                                        VerticalOptions="CenterAndExpand"
+                                        HorizontalOptions="Center"
+                                        Command="{Binding Source={x:Reference MyTermsPage}, Path=BindingContext.RemoveCommand}"
+                                        CommandParameter="{Binding .}"/>
+                            </StackLayout>
+                        </xct:Expander.Content>
+                    </xct:Expander>
+                </Frame>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Name="NewTermTemplate" x:Key="NewTermTemplate">
+            <Grid Padding="10">
+                <Frame CornerRadius="20" HasShadow="True">
+                    <xct:Expander>
+                        <xct:Expander.Header>
+                            <Label FontSize="Large"
+                                        Text="NEW TERM"
+                                        VerticalOptions="Center" />
+                        </xct:Expander.Header>
+                        <!--<xct:Expander.Content>
+                            <StackLayout>
+                                <Label HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                TextColor="{StaticResource Primary}">
+                                    <Label.Text>
+                                        <MultiBinding StringFormat="{}{0:MM/dd/yyyy} - {1:MM/dd/yyyy}">
+                                            <Binding Path="StartDate" />
+                                            <Binding Path="EndDate" />
+                                        </MultiBinding>
+                                    </Label.Text>
+                                </Label>
+                                <Button Text="ADD NEW"
+                                        VerticalOptions="CenterAndExpand"
+                                        HorizontalOptions="Center"
+                                        Command="{Binding Source={x:Reference MyTermsPage}, Path=BindingContext.RemoveCommand}"
+                                        CommandParameter="{Binding .}"/>
+                            </StackLayout>
+                        </xct:Expander.Content>-->
+                    </xct:Expander>
+                </Frame>
+            </Grid>
+        </DataTemplate>
+        <viewmodels:TermTemplateSelector
+            TermTemplate="{StaticResource TermTemplate}" 
+            NewTermTemplate="{StaticResource NewTermTemplate}"
+            x:Name="templateselector"
+            x:Key="TermTemplateSelector"/>
         <ResourceDictionary>
             <xct:ItemSelectedEventArgsConverter x:Key="ItemSelectedEventArgsConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add" Command="{Binding AddCommand}"/>
+        <ToolbarItem 
+            Text="Add"
+            Command="{Binding AddCommand}"
+            Clicked="AddItem_Clicked"
+            />
     </ContentPage.ToolbarItems>
 
     <Grid>
@@ -51,53 +124,20 @@
                      Grid.Row="1"
                      HorizontalOptions="Center">
         </RefreshView>
-    
-        <CollectionView 
+
+        <CollectionView AutomationId="termsColView"
             BackgroundColor="Transparent"
             ItemsSource="{Binding Term}"
             ItemsLayout="VerticalList"
             SelectionMode="Single"
-            Grid.Row="1">
+            Grid.Row="1"
+            ItemTemplate="{StaticResource TermTemplateSelector}">
             <CollectionView.EmptyView>
                 <StackLayout Padding="10">
                     <Label HorizontalOptions="Center"
                            Text="No terms exist" />
                 </StackLayout>
             </CollectionView.EmptyView>
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="model:Term">
-                            <Grid Padding="10">
-                        <Frame CornerRadius="20" HasShadow="True">
-                            <xct:Expander>
-                                <xct:Expander.Header>
-                                    <Label FontSize="Large"
-                                        Text="{Binding Name}"
-                                        VerticalOptions="Center" />
-                                </xct:Expander.Header>
-                                <xct:Expander.Content>
-                                    <StackLayout>
-                                    <Label HorizontalOptions="Center"
-                                VerticalOptions="Center"
-                                TextColor="{StaticResource Primary}">
-                                        <Label.Text>
-                                            <MultiBinding StringFormat="{}{0:MM/dd/yyyy} - {1:MM/dd/yyyy}">
-                                                <Binding Path="StartDate" />
-                                                <Binding Path="EndDate" />
-                                            </MultiBinding>
-                                        </Label.Text>
-                                    </Label>
-                                        <Button Text="Delete"
-                                        VerticalOptions="CenterAndExpand"
-                                        HorizontalOptions="Center"
-                                        Command="{Binding Source={x:Reference MyTermsPage}, Path=BindingContext.RemoveCommand}"
-                                        CommandParameter="{Binding .}"/>
-                                    </StackLayout>
-                                </xct:Expander.Content>
-                            </xct:Expander>
-                        </Frame>
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
         </CollectionView>
     </Grid>
 </ContentPage>

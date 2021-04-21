@@ -14,5 +14,10 @@ namespace WGUMobilePortal.Views
 
             this.BindingContext = new TermsViewModel();
         }
+
+        private void AddItem_Clicked(object sender, System.EventArgs e)
+        {
+            //new TermTemplateSelector()
+        }
     }
 }
