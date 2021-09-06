@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-using WGUMobilePortal.Models;
-using WGUMobilePortal.Services;
-
-using Xamarin.Forms;
-
 namespace WGUMobilePortal.ViewModels
 {
-    public class BaseViewModel : INotifyPropertyChanged
+
+    public class BaseViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
         //public DBService<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
 
@@ -28,29 +23,25 @@ namespace WGUMobilePortal.ViewModels
             set { SetProperty(ref title, value); }
         }
 
-        protected bool SetProperty<T>(ref T backingStore, T value,
-            [CallerMemberName] string propertyName = "",
-            Action onChanged = null)
+        protected virtual void SetProperty<T>(ref T member, T val,
+            [CallerMemberName] string propertyName = null)
         {
-            if (EqualityComparer<T>.Default.Equals(backingStore, value))
-                return false;
+            if (object.Equals(member, val)) return;
 
-            backingStore = value;
-            onChanged?.Invoke();
-            OnPropertyChanged(propertyName);
-            return true;
+            member = val;
+            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        #region INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            var changed = PropertyChanged;
-            if (changed == null)
-                return;
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
-            changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this,
+                new PropertyChangedEventArgs(propertyName));
         }
-        #endregion
+
+        string IDataErrorInfo.Error => throw new NotImplementedException();
+
+        string IDataErrorInfo.this[string columnName] => throw new NotImplementedException();
     }
 }

@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:viewmodels="clr-namespace:WGUMobilePortal.ViewModels" 
+             x:DataType="viewmodels:TermsViewModel"
+             x:Class="WGUMobilePortal.Views.AddEditTermPage"
+             x:Name="MyAddEditTermPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Term Name"/>
+            <Label Text="{Binding NewTermName, Mode=OneWay}"/>
+            <Entry Placeholder="Term Name 1" Text="{Binding NewTermName, Mode=TwoWay}" />
+            <Label Text="Start Date"/>
+            <Label Text="{Binding NewTermStart, Mode=OneWay}"/>
+            <DatePicker Date="{Binding NewTermStart}" />
+            <Label Text="End Date"/>
+            <Label Text="{Binding NewTermEnd, Mode=OneWay}"/>
+            <DatePicker Date="{Binding NewTermEnd}" />
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                <Button Command="{Binding Source={x:Reference MyAddEditTermPage},
+                    Path=BindingContext.AddNewCommand}" CommandParameter="{Binding NewTerm}"
+                        Text="Save"/> 
+                <Button Command="{Binding CancelCommand}" Text="Cancel" />
+            </StackLayout>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

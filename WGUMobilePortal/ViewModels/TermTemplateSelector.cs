@@ -1,22 +1,16 @@
-﻿using System.Linq;
-
-using WGUMobilePortal.Models;
-
-using Xamarin.Forms;
-
-namespace WGUMobilePortal.ViewModels
+﻿namespace WGUMobilePortal.ViewModels
 {
-    public class TermTemplateSelector : DataTemplateSelector
-    {
-        public DataTemplate TermTemplate { get; set; }
-        public DataTemplate NewTermTemplate { get; set; }
+    //public class TermTemplateSelector : DataTemplateSelector
+    //{
+    //public DataTemplate TermTemplate { get; set; }
+    //public DataTemplate NewTermTemplate { get; set; }
 
-        protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
-        {
-            var currentItem = ((Term)item);
+    //protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
+    //{
+    //var currentItem = (Term)item;
 
-            var template = currentItem.Equals((container as CollectionView).ItemsSource.Cast<Term>().LastOrDefault()) ? TermTemplate : NewTermTemplate;
-            return template;
-        }
-    }
+    //var template = currentItem.Equals((container as CollectionView).ItemsSource.Cast<Term>().LastOrDefault()) ? TermTemplate : NewTermTemplate;
+    //return template;
+    //}
+    //}
 }

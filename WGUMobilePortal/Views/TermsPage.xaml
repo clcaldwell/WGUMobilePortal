@@ -37,6 +37,11 @@
                                         </MultiBinding>
                                     </Label.Text>
                                 </Label>
+                                <Button Text="Modify"
+                                        VerticalOptions="CenterAndExpand"
+                                        HorizontalOptions="Center"
+                                        Command="{Binding Source={x:Reference MyTermsPage}, Path=BindingContext.EditCommand}"
+                                        CommandParameter="{Binding .}"/>
                                 <Button Text="Delete"
                                         VerticalOptions="CenterAndExpand"
                                         HorizontalOptions="Center"
@@ -57,7 +62,7 @@
                                         Text="NEW TERM"
                                         VerticalOptions="Center" />
                         </xct:Expander.Header>
-                        <!--<xct:Expander.Content>
+                        <xct:Expander.Content>
                             <StackLayout>
                                 <Label HorizontalOptions="Center"
                                 VerticalOptions="Center"
@@ -74,17 +79,21 @@
                                         HorizontalOptions="Center"
                                         Command="{Binding Source={x:Reference MyTermsPage}, Path=BindingContext.RemoveCommand}"
                                         CommandParameter="{Binding .}"/>
+
                             </StackLayout>
-                        </xct:Expander.Content>-->
+                            
+                            
+                        </xct:Expander.Content> 
                     </xct:Expander>
                 </Frame>
             </Grid>
         </DataTemplate>
-        <viewmodels:TermTemplateSelector
+        <!--<viewmodels:TermTemplateSelector
             TermTemplate="{StaticResource TermTemplate}" 
+            
             NewTermTemplate="{StaticResource NewTermTemplate}"
             x:Name="templateselector"
-            x:Key="TermTemplateSelector"/>
+            x:Key="TermTemplateSelector"/>-->
         <ResourceDictionary>
             <xct:ItemSelectedEventArgsConverter x:Key="ItemSelectedEventArgsConverter" />
         </ResourceDictionary>
@@ -104,8 +113,10 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackLayout BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
+            
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
                 <ContentView Padding="0,0,0,5" VerticalOptions="FillAndExpand">
+                    
                     <Image Source="wgu_logo.png" VerticalOptions="Center" HeightRequest="64" />
                 </ContentView>
             </StackLayout>
@@ -125,7 +136,7 @@
                      HorizontalOptions="Center">
         </RefreshView>
 
-        <CollectionView AutomationId="termsColView"
+        <!--<CollectionView AutomationId="termsColView"
             BackgroundColor="Transparent"
             ItemsSource="{Binding Term}"
             ItemsLayout="VerticalList"
@@ -138,6 +149,6 @@
                            Text="No terms exist" />
                 </StackLayout>
             </CollectionView.EmptyView>
-        </CollectionView>
+        </CollectionView> -->
     </Grid>
 </ContentPage>

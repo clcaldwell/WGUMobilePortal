@@ -4,16 +4,17 @@ using System.Threading.Tasks;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
 
+using WGUMobilePortal.Models;
 using WGUMobilePortal.Services;
 
 namespace WGUMobilePortal.ViewModels
 {
     public class AssessmentsViewModel : BaseViewModel
     {
-        public ObservableRangeCollection<Models.Assessment> Assessment { get; set; }
+        public ObservableRangeCollection<Assessment> Assessment { get; set; }
         public AsyncCommand RefreshCommand { get; }
         public AsyncCommand AddCommand { get; }
-        public AsyncCommand<Models.Assessment> RemoveCommand { get; }
+        public AsyncCommand<Assessment> RemoveCommand { get; }
 
         public AssessmentsViewModel()
         {
@@ -41,7 +42,7 @@ namespace WGUMobilePortal.ViewModels
             await Refresh();
         }
 
-        async Task Remove(Models.Assessment term)
+        async Task Remove(Assessment term)
         {
             await DBService.RemoveAssessment(term.Id);
             await Refresh();
@@ -53,7 +54,8 @@ namespace WGUMobilePortal.ViewModels
 
             Assessment.Clear();
 
-            var assessments = await DBService.GetAllAssessment();
+            System.Collections.Generic.IEnumerable<Assessment> 
+                assessments = await DBService.GetAllAssessments();
 
             Assessment.AddRange(assessments);
 
@@ -64,7 +66,7 @@ namespace WGUMobilePortal.ViewModels
         {
             IsBusy = true;
             Assessment.Clear();
-            var assessments = await DBService.GetAllAssessment();
+            System.Collections.Generic.IEnumerable<Assessment> assessments = await DBService.GetAllAssessments();
             Assessment.AddRange(assessments);
             IsBusy = false;
         }

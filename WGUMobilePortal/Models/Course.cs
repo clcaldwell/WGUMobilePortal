@@ -47,19 +47,38 @@ namespace WGUMobilePortal.Models
         [Required(ErrorMessage = "Must have a {0}")]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "Must have a {0}")]
         public DateTime StartDate { get; set; }
 
+        [Required(ErrorMessage = "Must have a {0}")]
         public DateTime EndDate { get; set; }
 
+        [Required(ErrorMessage = "Must have a {0}")]
         public Status Status { get; set; }
 
         public bool Notify { get; set; }
 
-        [ManyToOne]
-        public Instructor CourseInstructor { get; set; }
+        //[ManyToOne]
+        //public Instructor CourseInstructor { get; set; }
+
+        [Required(ErrorMessage = "Must have a {0}")]
+        public string InstructorFirstName { get; set; }
+
+        [Required(ErrorMessage = "Must have a {0}")]
+        public string InstructorLastName { get; set; }
+
+        [Required(ErrorMessage = "Must have a valid {0}")]
+        [DataType(DataType.PhoneNumber, ErrorMessage = "Invalid {0}")]
+        public string InstructorPhone { get; set; }
+
+        [Required(ErrorMessage = "Must have a valid {0}")]
+        [DataType(DataType.EmailAddress, ErrorMessage = "Invalid {0}")]
+        public string InstructorEmail { get; set; }
 
         [OneToMany]
         public Note CourseNote { get; set; }
+
+        //public List<Note> CourseNotes { get; set; }
 
         [OneToMany]
         public Assessment Assessment { get; set; }

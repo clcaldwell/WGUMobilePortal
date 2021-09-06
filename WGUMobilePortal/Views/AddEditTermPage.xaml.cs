@@ -1,4 +1,5 @@
-﻿using WGUMobilePortal.ViewModels;
+﻿
+using WGUMobilePortal.ViewModels;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -6,20 +7,12 @@ using Xamarin.Forms.Xaml;
 namespace WGUMobilePortal.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class TermsPage : ContentPage
+    public partial class AddEditTermPage : ContentPage
     {
-        public TermsPage()
+        public AddEditTermPage()
         {
             InitializeComponent();
-
             this.BindingContext = new TermsViewModel();
-        }
-
-        private void AddItem_Clicked(object sender, System.EventArgs e)
-        {
-            //new
-            //
-            //()
         }
     }
 }

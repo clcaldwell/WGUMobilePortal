@@ -27,7 +27,7 @@ namespace WGUMobilePortal.Views
 
         private async void OnPopupTask(object sender, EventArgs e)
         {
-            var page = new TermTaskView();
+            TermTaskView page = new TermTaskView();
             //StartPopup(page);
             await Navigation.PushPopupAsync(page, true);
             //PopupNavigation.PushAsync(new TermTaskView());

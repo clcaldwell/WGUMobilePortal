@@ -12,7 +12,7 @@ namespace WGUMobilePortal.Models
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Assessment must have a {0]")]
+        [Required(ErrorMessage = "Assessment must have a {0}")]
         public string Name { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

@@ -11,10 +11,10 @@ namespace WGUMobilePortal.ViewModels
 {
     public class CoursesViewModel : BaseViewModel
     {
-        public ObservableRangeCollection<Models.Course> Course { get; set; }
+        public ObservableRangeCollection<Course> Course { get; set; }
         public AsyncCommand RefreshCommand { get; }
         public AsyncCommand AddCommand { get; }
-        public AsyncCommand<Models.Course> RemoveCommand { get; }
+        public AsyncCommand<Course> RemoveCommand { get; }
 
         public CoursesViewModel()
         {
@@ -43,22 +43,19 @@ namespace WGUMobilePortal.ViewModels
             await Refresh();
         }
 
-        async Task Remove(Models.Course term)
+        async Task Remove(Course course)
         {
-            await DBService.RemoveCourse(term.Id);
+            await DBService.RemoveCourse(course);
             await Refresh();
         }
 
         async Task Refresh()
         {
             IsBusy = true;
-
             Course.Clear();
 
-            var courses = await DBService.GetAllCourse();
-
+            System.Collections.Generic.IEnumerable<Course> courses = await DBService.GetAllCourses();
             Course.AddRange(courses);
-
             IsBusy = false;
         }
 
@@ -66,7 +63,7 @@ namespace WGUMobilePortal.ViewModels
         {
             IsBusy = true;
             Course.Clear();
-            var courses = await DBService.GetAllCourse();
+            System.Collections.Generic.IEnumerable<Course> courses = await DBService.GetAllCourses();
             Course.AddRange(courses);
             IsBusy = false;
         }
