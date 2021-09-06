@@ -106,25 +106,25 @@ namespace WGUMobilePortal.Services
         }
 
         // Course Instructor
-        public static async Task<Course.Instructor> GetInstructor(int id)
+        public static async Task<Instructor> GetInstructor(int id)
         {
             await InitDB();
 
-            var instructor = await db.GetAsync<Course.Instructor>(id);
+            var instructor = await db.GetAsync<Instructor>(id);
             return instructor;
         }
-        public static async Task<IEnumerable<Course.Instructor>> GetAllInstructor()
+        public static async Task<IEnumerable<Instructor>> GetAllInstructor()
         {
             await InitDB();
 
-            var instructor = await db.Table<Course.Instructor>().ToListAsync();
+            var instructor = await db.Table<Instructor>().ToListAsync();
             return instructor;
         }
         public static async Task AddInstructor(string firstname, string lastname, string phonenumber, string emailaddress)
         {
             await InitDB();
 
-            var instructor = new Course.Instructor
+            var instructor = new Instructor
             {
                 FirstName = firstname,
                 LastName = lastname,
@@ -142,29 +142,29 @@ namespace WGUMobilePortal.Services
         {
             await InitDB();
 
-            await db.DeleteAsync<Course.Instructor>(id);
+            await db.DeleteAsync<Instructor>(id);
         }
 
         // course Notes
-        public static async Task<Course.Note> GetNote(int id)
+        public static async Task<Note> GetNote(int id)
         {
             await InitDB();
 
-            var note = await db.GetAsync<Course.Note>(id);
+            var note = await db.GetAsync<Note>(id);
             return note;
         }
-        public static async Task<IEnumerable<Course.Note>> GetAllNote()
+        public static async Task<IEnumerable<Note>> GetAllNote()
         {
             await InitDB();
 
-            var note = await db.Table<Course.Note>().ToListAsync();
+            var note = await db.Table<Note>().ToListAsync();
             return note;
         }
         public static async Task AddNote(string contents)
         {
             await InitDB();
 
-            var note = new Course.Note
+            var note = new Note
             {
                 Contents = contents,
                 TimeStamp = DateTime.Now
@@ -180,7 +180,7 @@ namespace WGUMobilePortal.Services
         {
             await InitDB();
 
-            await db.DeleteAsync<Course.Note>(id);
+            await db.DeleteAsync<Note>(id);
         }
 
         // Assessment Tasks
