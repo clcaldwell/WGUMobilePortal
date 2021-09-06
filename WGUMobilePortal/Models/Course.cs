@@ -9,18 +9,6 @@ namespace WGUMobilePortal.Models
 {
     public class Course
     {
-
-        public class Note
-        {
-            [PrimaryKey, AutoIncrement]
-            public int Id { get; set; }
-
-            public DateTime TimeStamp { get; set; }
-
-            [Required(ErrorMessage = "Note cannot be blank")]
-            public string Contents { get; set; }
-        }
-
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
         
