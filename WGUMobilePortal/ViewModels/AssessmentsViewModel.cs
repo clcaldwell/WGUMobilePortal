@@ -36,8 +36,9 @@ namespace WGUMobilePortal.ViewModels
 
             DateTime startdate = new DateTime(2020, 01, 01);
             DateTime enddate = new DateTime(2020, 06, 30);
+            Models.AssessmentStyle style = Models.AssessmentStyle.Objective;
 
-            await DBService.AddAssessment(name, startdate, enddate);
+            await DBService.AddAssessment(name, startdate, enddate, style);
             await Refresh();
         }
 

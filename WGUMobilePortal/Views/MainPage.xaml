@@ -43,6 +43,10 @@
                         Command="{Binding NavigateToAssessments}"
                         BackgroundColor="{StaticResource Primary}"
                         TextColor="White" />
+                <Button Margin="0,10,0,0" Text="Generate dummy Data"
+                        Command="{Binding GenerateDummyData}"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White" />
             </StackLayout>
         </ScrollView>
     </Grid>

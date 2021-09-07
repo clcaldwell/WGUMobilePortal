@@ -19,7 +19,7 @@ namespace WGUMobilePortal.Models
 
         public DateTime EndDate { get; set; }
 
-        public Status Status { get; set; }
+        public CourseStatus Status { get; set; }
 
         public bool Notify { get; set; }
 
@@ -29,12 +29,9 @@ namespace WGUMobilePortal.Models
         [OneToMany]
         public Note CourseNote { get; set; }
 
-        [OneToMany]
-        public Assessment Assessment { get; set; }
-
     }
 
-    public enum Status
+    public enum CourseStatus
     {
         Started,
         Completed,

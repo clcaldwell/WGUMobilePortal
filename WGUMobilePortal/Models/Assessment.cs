@@ -18,13 +18,14 @@ namespace WGUMobilePortal.Models
         public DateTime EndDate { get; set; }
 
         [Required(ErrorMessage = "Must select the style of assessment")]
-        public Style Style { get; set; } 
+        public AssessmentStyle Style { get; set; } 
 
         [ManyToOne]
         public Course Course { get; set; }
+
     }
 
-    public enum Style
+    public enum AssessmentStyle
     {
         Objective,
         Performance

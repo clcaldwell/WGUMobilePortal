@@ -37,7 +37,7 @@ namespace WGUMobilePortal.ViewModels
 
             DateTime startdate = new DateTime(2020, 01, 01);
             DateTime enddate = new DateTime(2020, 06, 30);
-            Status status = Status.Started;
+            CourseStatus status = CourseStatus.Started;
 
             await DBService.AddCourse(name, startdate, enddate, status);
             await Refresh();

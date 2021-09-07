@@ -77,8 +77,8 @@
                                 <xct:Expander.Content>
                                     <StackLayout>
                                         <Label HorizontalOptions="Center"
-                                VerticalOptions="Center"
-                                TextColor="{StaticResource Primary}">
+                                            VerticalOptions="Center"
+                                            TextColor="{StaticResource Primary}">
                                             <Label.Text>
                                                 <MultiBinding StringFormat="{}{0:MM/dd/yyyy} - {1:MM/dd/yyyy}">
                                                     <Binding Path="StartDate" />
