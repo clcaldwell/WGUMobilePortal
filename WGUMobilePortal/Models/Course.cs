@@ -1,9 +1,12 @@
 ﻿using System;
 
+using SQLite;
+
 namespace WGUMobilePortal.Models
 {
     public class Course // : ViewModels.BaseViewModel
     {
+        [PrimaryKey, AutoIncrement] 
         public int Id { get; set; }
 
         public string Name { get; set; }
@@ -12,9 +15,9 @@ namespace WGUMobilePortal.Models
         public CourseStatus Status { get; set; }
         public bool Notify { get; set; }
 
-        public Instructor Instructor { get; set; }
-        public Note Note { get; set; }
-        public Assessment Assessment { get; set; }
+        public int InstructorId { get; set; }
+        public Nullable<int> NoteId { get; set; }
+        public int AssessmentId { get; set; }
 
     }
 

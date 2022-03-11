@@ -139,7 +139,8 @@ namespace WGUMobilePortal.Services
         {
             await InitDB();
 
-            course.Note = note;
+            //await db.UpdateAsync(note);
+            course.NoteId = note.Id;
             await db.UpdateAsync(course);
         }
         public static async Task AddCourseNote(int courseid, int noteid)
@@ -149,7 +150,7 @@ namespace WGUMobilePortal.Services
             Course course = await db.GetAsync<Course>(courseid);
             Note note = await db.GetAsync<Note>(noteid);
 
-            course.Note = note;
+            course.NoteId = note.Id;
 
             await db.UpdateAsync(course);
         }

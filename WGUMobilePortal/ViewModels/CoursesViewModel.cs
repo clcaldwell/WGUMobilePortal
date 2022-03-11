@@ -84,8 +84,8 @@ namespace WGUMobilePortal.ViewModels
                     EndDate = currentCourse.EndDate,
                     Status = currentCourse.Status,
                     Notify = currentCourse.Notify,
-                    Instructor = currentCourse.Instructor,
-                    Note = currentCourse.Note
+                    InstructorId = currentCourse.InstructorId,
+                    NoteId = currentCourse.NoteId
                     //Assessment = currentCourse.Assessment,
                     //NoteContent = currentCourse.Note.Contents//,
                     //InstructorFirstName = currentCourse.Instructor.FirstName,
@@ -94,7 +94,7 @@ namespace WGUMobilePortal.ViewModels
                     //InstructorEmailAddress = currentCourse.Instructor.EmailAddress
                 };
                 // Called after initialization to force OnPropertyChanged
-                if (currentCourse.Note != null)
+                if (currentCourse.NoteId != null)
                 {
                     //course.NoteContent = currentCourse.Note.Contents;
                 }

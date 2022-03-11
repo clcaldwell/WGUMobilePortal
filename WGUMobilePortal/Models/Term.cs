@@ -2,6 +2,8 @@
 
 using SQLite;
 
+using WGUMobilePortal.Models;
+
 namespace WGUMobilePortal.Models
 {
     public class Term
@@ -13,6 +15,6 @@ namespace WGUMobilePortal.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        public Course Course { get; set; }
+        public int CourseId { get; set; }
     }
 }
