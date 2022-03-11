@@ -1,19 +1,18 @@
 ﻿using System;
-using System.Threading.Tasks;
-
-using MvvmHelpers;
-using MvvmHelpers.Commands;
+using System.Collections.ObjectModel;
 
 using WGUMobilePortal.Services;
+
+using Xamarin.Forms;
 
 namespace WGUMobilePortal.ViewModels
 {
     public class TermsViewModel : BaseViewModel
     {
-        public ObservableRangeCollection<Models.Term> Term { get; set; }
-        public AsyncCommand RefreshCommand { get; }
-        public AsyncCommand AddCommand { get; }
-        public AsyncCommand<Models.Term> RemoveCommand { get; }
+        public ObservableCollection<Models.Term> Term { get; set; }
+        public Command RefreshCommand { get; }
+        public Command AddCommand { get; }
+        public Command<Models.Term> RemoveCommand { get; }
 
 
         public TermsViewModel()
@@ -21,16 +20,16 @@ namespace WGUMobilePortal.ViewModels
 
             Title = "Terms View";
 
-            Term = new ObservableRangeCollection<Models.Term>();
+            Term = new ObservableCollection<Models.Term>();
 
-            RefreshCommand = new AsyncCommand(Refresh);
-            AddCommand = new AsyncCommand(Add);
-            RemoveCommand = new AsyncCommand<Models.Term>(Remove);
+            RefreshCommand = new Command(Refresh);
+            AddCommand = new Command(Add);
+            RemoveCommand = new Command<Models.Term>(Remove);
 
             Load();
         }
 
-        async Task Add()
+        async void Add()
         {
             //string name = "Term 1";
             string name = await App.Current.MainPage.DisplayPromptAsync("Name", "Name of Term");
@@ -41,16 +40,16 @@ namespace WGUMobilePortal.ViewModels
             DateTime enddate = new DateTime(2020, 06, 30);
 
             await DBService.AddTerm(name, startdate, enddate);
-            await Refresh();
+            Refresh();
         }
 
-        async Task Remove(Models.Term term)
+        async void Remove(Models.Term term)
         {
             await DBService.RemoveTerm(term.Id);
-            await Refresh();
+            Refresh();
         }
 
-        public async Task Refresh()
+        async void Refresh()
         {
             IsBusy = true;
 
@@ -60,7 +59,10 @@ namespace WGUMobilePortal.ViewModels
 
             var terms = await DBService.GetAllTerm();
 
-            Term.AddRange(terms);
+            foreach (Models.Term term in terms)
+            {
+                Term.Add(term);
+            }
 
             IsBusy = false;
         }
@@ -70,7 +72,10 @@ namespace WGUMobilePortal.ViewModels
             IsBusy = true;
             Term.Clear();
             var terms = await DBService.GetAllTerm();
-            Term.AddRange(terms);
+            foreach (Models.Term term in terms)
+            {
+                Term.Add(term);
+            }
             IsBusy = false;
         }
     }

@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-using WGUMobilePortal.ViewModels;
-using WGUMobilePortal.Views;
-
-using Xamarin.Forms;
-
-namespace WGUMobilePortal
+﻿namespace WGUMobilePortal
 {
     public partial class AppShell : Xamarin.Forms.Shell
     {

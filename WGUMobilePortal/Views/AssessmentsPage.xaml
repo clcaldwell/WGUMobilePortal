@@ -4,7 +4,6 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:model="clr-namespace:WGUMobilePortal.Models;assembly=WGUMobilePortal"
-    xmlns:mvvm="clr-namespace:MvvmHelpers;assembly=MvvmHelpers"
     xmlns:viewmodels="clr-namespace:WGUMobilePortal.ViewModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:Name="MyAssessmentsPage"
@@ -15,11 +14,11 @@
         <viewmodels:AssessmentsViewModel />
     </ContentPage.BindingContext>
 
-    <ContentPage.Resources>
+    <!--<ContentPage.Resources>
         <ResourceDictionary>
             <xct:ItemSelectedEventArgsConverter x:Key="ItemSelectedEventArgsConverter" />
         </ResourceDictionary>
-    </ContentPage.Resources>
+    </ContentPage.Resources>-->
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Add" Command="{Binding AddCommand}"/>
@@ -68,13 +67,13 @@
                 <DataTemplate x:DataType="model:Assessment">
                     <Grid Padding="10">
                         <Frame CornerRadius="20" HasShadow="True">
-                            <xct:Expander>
-                                <xct:Expander.Header>
-                                    <Label FontSize="Large"
+                            <!--<xct:Expander>
+                                <xct:Expander.Header>-->
+                                    <!--<Label FontSize="Large"
                                         Text="{Binding Name}"
-                                        VerticalOptions="Center" />
-                                </xct:Expander.Header>
-                                <xct:Expander.Content>
+                                        VerticalOptions="Center" />-->
+                                <!--</xct:Expander.Header>
+                                <xct:Expander.Content>-->
                                     <StackLayout>
                                         <Label HorizontalOptions="Center"
                                 VerticalOptions="Center"
@@ -93,8 +92,8 @@
                                         CommandParameter="{Binding .}"
                                         />
                                     </StackLayout>
-                                </xct:Expander.Content>
-                            </xct:Expander>
+                                <!--</xct:Expander.Content>
+                            </xct:Expander>-->
                         </Frame>
                     </Grid>
                 </DataTemplate>

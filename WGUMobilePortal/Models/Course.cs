@@ -1,33 +1,20 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-
-using SQLite;
-
-using SQLiteNetExtensions.Attributes;
 
 namespace WGUMobilePortal.Models
 {
-    public class Course
+    public class Course // : ViewModels.BaseViewModel
     {
-        [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
-        
-        [Required(ErrorMessage = "Must have a {0}")]
+
         public string Name { get; set; }
-
         public DateTime StartDate { get; set; }
-
         public DateTime EndDate { get; set; }
-
         public CourseStatus Status { get; set; }
-
         public bool Notify { get; set; }
 
-        [ManyToOne]
-        public Instructor CourseInstructor { get; set; }
-
-        [OneToMany]
-        public Note CourseNote { get; set; }
+        public Instructor Instructor { get; set; }
+        public Note Note { get; set; }
+        public Assessment Assessment { get; set; }
 
     }
 

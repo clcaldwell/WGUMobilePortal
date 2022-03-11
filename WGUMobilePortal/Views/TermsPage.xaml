@@ -4,9 +4,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:model="clr-namespace:WGUMobilePortal.Models;assembly=WGUMobilePortal"
-    xmlns:mvvm="clr-namespace:MvvmHelpers;assembly=MvvmHelpers"
     xmlns:viewmodels="clr-namespace:WGUMobilePortal.ViewModels"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:Name="MyTermsPage"
     x:DataType="viewmodels:TermsViewModel"
     BackgroundColor="White"
@@ -15,11 +13,11 @@
         <viewmodels:TermsViewModel />
     </ContentPage.BindingContext>
 
-    <ContentPage.Resources>
+    <!--<ContentPage.Resources>
         <ResourceDictionary>
             <xct:ItemSelectedEventArgsConverter x:Key="ItemSelectedEventArgsConverter" />
         </ResourceDictionary>
-    </ContentPage.Resources>
+    </ContentPage.Resources>-->
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Add" Command="{Binding AddCommand}"/>
@@ -68,23 +66,26 @@
                 <DataTemplate x:DataType="model:Term">
                             <Grid Padding="10">
                         <Frame CornerRadius="20" HasShadow="True">
-                            <xct:Expander>
-                                <xct:Expander.Header>
-                                    <Label FontSize="Large"
+                            <!--<xct1:Expander>
+                                <xct:Expander.Header>-->
+                                    <!--<Label FontSize="Large"
                                         Text="{Binding Name}"
-                                        VerticalOptions="Center" />
-                                </xct:Expander.Header>
-                                <xct:Expander.Content>
+                                        VerticalOptions="Center" />-->
+                                <!--</xct:Expander.Header>
+                                <xct:Expander.Content>-->
                                     <StackLayout>
                                     <Label HorizontalOptions="Center"
                                 VerticalOptions="Center"
                                 TextColor="{StaticResource Primary}">
                                         <Label.Text>
-                                            <MultiBinding StringFormat="{}{0:MM/dd/yyyy} - {1:MM/dd/yyyy}">
-                                                <Binding Path="StartDate" />
-                                                <Binding Path="EndDate" />
-                                            </MultiBinding>
-                                        </Label.Text>
+                                        <MultiBinding StringFormat="{}
+                                                      Name: {0}
+                                                      Date: {1:MM/dd/yyyy} - {2:MM/dd/yyyy}">
+                                            <Binding Path="Name"/>
+                                            <Binding Path="StartDate" />
+                                            <Binding Path="EndDate" />
+                                        </MultiBinding>
+                                    </Label.Text>
                                     </Label>
                                         <Button Text="Delete"
                                         VerticalOptions="CenterAndExpand"
@@ -92,8 +93,8 @@
                                         Command="{Binding Source={x:Reference MyTermsPage}, Path=BindingContext.RemoveCommand}"
                                         CommandParameter="{Binding .}"/>
                                     </StackLayout>
-                                </xct:Expander.Content>
-                            </xct:Expander>
+                                <!--</xct:Expander.Content>
+                            </xct1:Expander>-->
                         </Frame>
                     </Grid>
                 </DataTemplate>
