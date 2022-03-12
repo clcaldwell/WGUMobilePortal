@@ -84,9 +84,23 @@ namespace WGUMobilePortal.Services
 
             var id = await db.InsertAsync(term);
         }
-        public static async Task EditTerm()
+        public static async Task EditTerm(int id, string name, DateTime startdate, DateTime enddate)
         {
             await InitDB();
+
+            Term term = await db.GetAsync<Term>(id);
+
+            term.Name = name;
+            term.StartDate = startdate;
+            term.EndDate = enddate;
+
+            await db.UpdateAsync(term);
+        }
+        public static async Task EditTerm(Term term)
+        {
+            await InitDB();
+
+            await db.UpdateAsync(term);
         }
         public static async Task RemoveTerm(int id)
         {

@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="WGUMobilePortal.Views.ModifyTermsPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:model="clr-namespace:WGUMobilePortal.Models;assembly=WGUMobilePortal"
+    xmlns:viewmodels="clr-namespace:WGUMobilePortal.ViewModels"
+    x:Name="MyModifyTermsPage"
+    BackgroundColor="White"
+    Title="{Binding Title}">
+    <ContentPage.BindingContext>
+        <viewmodels:ModifyTermsViewModel />
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Content>
+        <StackLayout 
+            VerticalOptions="CenterAndExpand" 
+            HorizontalOptions="CenterAndExpand">
+            <Label Text="{Binding Name}" />
+            <Label Text="{Binding Id}" />
+            <Entry x:Name="Name" Text="{Binding Name, Mode=TwoWay}" />
+            <DatePicker x:Name="StartDate" Date="{Binding StartDate, Mode=TwoWay}" />
+            <DatePicker x:Name="EndDate" Date="{Binding EndDate, Mode=TwoWay}" />
+            <Entry x:Name="strId" Text="{Binding Id}" IsReadOnly="True"/>
+
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" BindingContext="{Binding Term}">
+                <Button Text="Modify"
+                Command="{Binding Source={x:Reference MyModifyTermsPage}, Path=BindingContext.ModifyCommand}"
+                CommandParameter="{Binding .}"
+            />
+                <Button Text="Save"
+                Command="{Binding Source={x:Reference MyModifyTermsPage}, Path=BindingContext.SaveCommand}"
+                CommandParameter="{Binding .}"
+            />
+                <Button Text="Delete"
+                Command="{Binding Source={x:Reference MyModifyTermsPage}, Path=BindingContext.RemoveCommand}"
+                CommandParameter="{Binding .}"
+            />
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

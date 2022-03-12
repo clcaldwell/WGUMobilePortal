@@ -1,6 +1,4 @@
-﻿using System;
-
-using WGUMobilePortal.ViewModels;
+﻿using WGUMobilePortal.ViewModels;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -8,14 +6,13 @@ using Xamarin.Forms.Xaml;
 namespace WGUMobilePortal.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class TermsPage : ContentPage
+    public partial class ModifyTermsPage : ContentPage
     {
-        public TermsPage()
+        public ModifyTermsPage()
         {
             InitializeComponent();
 
-            this.BindingContext = new TermsViewModel();
+            this.BindingContext = new ModifyTermsViewModel();
         }
-
     }
 }

@@ -1,17 +1,21 @@
-﻿namespace WGUMobilePortal
+﻿using WGUMobilePortal.Views;
+
+using Xamarin.Forms;
+
+namespace WGUMobilePortal
 {
     public partial class AppShell : Xamarin.Forms.Shell
     {
         public AppShell()
         {
             InitializeComponent();
-            //Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
-            //Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
-        }
 
-        //private async void OnMenuItemClicked(object sender, EventArgs e)
-        //{
-            //await Shell.Current.GoToAsync("//LoginPage");
-        //}
+            Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
+            Routing.RegisterRoute(nameof(AssessmentsPage), typeof(AssessmentsPage));
+            Routing.RegisterRoute(nameof(CoursesPage), typeof(CoursesPage));
+            Routing.RegisterRoute(nameof(TermsPage), typeof(TermsPage));
+            Routing.RegisterRoute(nameof(ModifyTermsPage), typeof(ModifyTermsPage));
+
+        }
     }
 }

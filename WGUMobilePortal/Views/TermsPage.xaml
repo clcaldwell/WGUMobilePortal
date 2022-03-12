@@ -87,12 +87,17 @@
                                         </MultiBinding>
                                     </Label.Text>
                                     </Label>
-                                        <Button Text="Delete"
-                                        VerticalOptions="CenterAndExpand"
-                                        HorizontalOptions="Center"
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                                    <Button Text="View / Modify" WidthRequest="200"
+                                        Command="{Binding Source={x:Reference MyTermsPage}, Path=BindingContext.ModifyCommand}"
+                                        CommandParameter="{Binding .}"
+                                        />
+                                    <Button Text="Delete"
                                         Command="{Binding Source={x:Reference MyTermsPage}, Path=BindingContext.RemoveCommand}"
-                                        CommandParameter="{Binding .}"/>
-                                    </StackLayout>
+                                        CommandParameter="{Binding .}"
+                                        />
+                                </StackLayout>
+                            </StackLayout>
                                 <!--</xct:Expander.Content>
                             </xct1:Expander>-->
                         </Frame>

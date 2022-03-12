@@ -13,6 +13,7 @@ namespace WGUMobilePortal.ViewModels
         public Command RefreshCommand { get; }
         public Command AddCommand { get; }
         public Command<Models.Assessment> RemoveCommand { get; }
+        public Command<Models.Assessment> ModifyCommand { get; }
 
         public AssessmentsViewModel()
         {
@@ -24,6 +25,7 @@ namespace WGUMobilePortal.ViewModels
             RefreshCommand = new Command(Refresh);
             AddCommand = new Command(Add);
             RemoveCommand = new Command<Models.Assessment>(Remove);
+            //ModifyCommand = new Command<Models.Assessment>();
 
             Load();
         }
@@ -41,11 +43,19 @@ namespace WGUMobilePortal.ViewModels
             Refresh();
         }
 
-        async void Remove(Models.Assessment term)
+        async void Remove(Models.Assessment assessment)
         {
-            await DBService.RemoveAssessment(term.Id);
+            await DBService.RemoveAssessment(assessment.Id);
             Refresh();
         }
+
+        //aysnc async void Modify(Models.Assessment assessment)
+        //{
+            //NavigateToTerms = new Command(async () =>
+            //await var termsPage = new Views.TermsPage();
+            //await AppShell.Current.Navigation.PushAsync(new Views.TermsPage()));
+
+        //}
 
         async void Refresh()
         {

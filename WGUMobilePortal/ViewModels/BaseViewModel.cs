@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
+using Xamarin.Forms;
+
 namespace WGUMobilePortal.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged, IDataErrorInfo

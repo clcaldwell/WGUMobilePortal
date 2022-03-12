@@ -75,23 +75,35 @@
                                 <!--</xct:Expander.Header>
                                 <xct:Expander.Content>-->
                                     <StackLayout>
-                                        <Label HorizontalOptions="Center"
+                                <Label HorizontalOptions="Center"
                                 VerticalOptions="Center"
                                 TextColor="{StaticResource Primary}">
-                                            <Label.Text>
-                                                <MultiBinding StringFormat="{}{0:MM/dd/yyyy} - {1:MM/dd/yyyy}">
-                                                    <Binding Path="StartDate" />
-                                                    <Binding Path="EndDate" />
-                                                </MultiBinding>
-                                            </Label.Text>
-                                        </Label>
-                                        <Button Text="Delete"
-                                        VerticalOptions="CenterAndExpand"
-                                        HorizontalOptions="Center"
+                                    <Label.Text>
+                                        <Binding Path="Name"></Binding>
+                                    </Label.Text>
+                                </Label>
+
+                                <Label HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                TextColor="{StaticResource Primary}">
+                                    <Label.Text>
+                                        <MultiBinding StringFormat="{}Date: {0:MM/dd/yyyy} - {1:MM/dd/yyyy}">
+                                            <Binding Path="StartDate" />
+                                                <Binding Path="EndDate" />
+                                        </MultiBinding>
+                                    </Label.Text>
+                                </Label>
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">      
+                                <Button Text="View / Modify" WidthRequest="200"
                                         Command="{Binding Source={x:Reference MyAssessmentsPage}, Path=BindingContext.RemoveCommand}"
                                         CommandParameter="{Binding .}"
                                         />
-                                    </StackLayout>
+                                <Button Text="Delete"
+                                        Command="{Binding Source={x:Reference MyAssessmentsPage}, Path=BindingContext.RemoveCommand}"
+                                        CommandParameter="{Binding .}"
+                                        />
+                                </StackLayout>
+                            </StackLayout>
                                 <!--</xct:Expander.Content>
                             </xct:Expander>-->
                         </Frame>
