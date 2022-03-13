@@ -14,29 +14,189 @@
     
     <ContentPage.Content>
         <StackLayout 
-            VerticalOptions="CenterAndExpand" 
+            VerticalOptions="Start" 
             HorizontalOptions="CenterAndExpand">
-            <Label Text="{Binding Name}" />
-            <Label Text="{Binding Id}" />
-            <Entry x:Name="Name" Text="{Binding Name, Mode=TwoWay}" />
-            <DatePicker x:Name="StartDate" Date="{Binding StartDate, Mode=TwoWay}" />
-            <DatePicker x:Name="EndDate" Date="{Binding EndDate, Mode=TwoWay}" />
-            <Entry x:Name="strId" Text="{Binding Id}" IsReadOnly="True"/>
-
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" BindingContext="{Binding Term}">
-                <Button Text="Modify"
-                Command="{Binding Source={x:Reference MyModifyTermsPage}, Path=BindingContext.ModifyCommand}"
-                CommandParameter="{Binding .}"
-            />
-                <Button Text="Save"
-                Command="{Binding Source={x:Reference MyModifyTermsPage}, Path=BindingContext.SaveCommand}"
-                CommandParameter="{Binding .}"
-            />
-                <Button Text="Delete"
-                Command="{Binding Source={x:Reference MyModifyTermsPage}, Path=BindingContext.RemoveCommand}"
-                CommandParameter="{Binding .}"
-            />
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" IsVisible="{Binding IsModifyTerm}">
+                <Label Text="Term Name:" VerticalOptions="Center"/>
+                <Entry x:Name="Name" Text="{Binding Name, Mode=TwoWay}" FontSize="Small" WidthRequest="150" VerticalOptions="Center"/>
             </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" IsVisible="{Binding IsModifyTerm}">
+                <Label Text="Term Start:" VerticalOptions="Center"/>
+                <DatePicker x:Name="StartDate" Date="{Binding StartDate, Mode=TwoWay}" FontSize="Small" WidthRequest="150" VerticalOptions="Center"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" IsVisible="{Binding IsModifyTerm}">
+                <Label Text="Term End:" VerticalOptions="Center"/>
+                <DatePicker x:Name="EndDate" Date="{Binding EndDate, Mode=TwoWay}" FontSize="Small" WidthRequest="150" VerticalOptions="Center"/>
+            </StackLayout>
+
+            <StackLayout HeightRequest="400" IsVisible="{Binding IsModifyTerm}">
+                <Label Text="Attached Courses" HorizontalOptions="Center" VerticalOptions="Center" FontAttributes="Bold"/>
+
+                <CollectionView IsVisible="{Binding IsModifyTerm}"
+                ItemsSource="{Binding AttachedCourses, Mode=OneWay}"
+                SelectionMode="Single"
+                SelectedItem="{Binding SelectedCourse, Mode=OneWayToSource}">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout
+                    Orientation="Vertical" Span="3"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.EmptyView>
+                        <StackLayout Padding="12">
+                            <Label HorizontalOptions="Center" Text="No assigned courses for this term" />
+                        </StackLayout>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+
+                        <DataTemplate>
+                            <StackLayout Padding="10" >
+                                <Frame CornerRadius="5" HasShadow="True" BackgroundColor="AliceBlue" Padding="2">
+                                    <StackLayout BackgroundColor="AliceBlue" Orientation="Vertical" VerticalOptions="Start" Padding="0">
+                                        <Label Text="{Binding Name}" FontAttributes="Bold" Padding="0"/>
+                                        <StackLayout Padding="0">
+                                            <Label Text="{Binding StartDate, StringFormat='{}{0:MM/dd/yyyy} - '}"
+                                                HorizontalOptions="Start" FontSize="Small" />
+                                        </StackLayout>
+                                        <StackLayout Padding="0">
+                                            <Label Text="{Binding EndDate, StringFormat='{}{0:MM/dd/yyyy}'}"
+                                                HorizontalOptions="Start" FontSize="Small" />
+                                        </StackLayout>
+                                        <StackLayout>
+                                            <Label Text="{Binding Status, StringFormat='{}Status: {0}'}"
+                                                HorizontalOptions="Start"/>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                            <!--<StackLayout Orientation="Horizontal" HorizontalOptions="Center" Padding="15">
+                            <Grid Padding="5" BackgroundColor="AliceBlue" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0"
+                                    Text="{Binding Name}"
+                                    FontAttributes="Bold" FontSize="Medium"/>
+                                <Label Grid.Row="1"
+                                    Grid.Column="0"
+                                    Text="{Binding StartDate, StringFormat='{0:MM/dd/yyyy} - '}"
+                                    FontAttributes="Italic"
+                                    VerticalOptions="End" />
+                                <Label Grid.Row="1"
+                                    Grid.Column="1"
+                                    Text="{Binding EndDate, StringFormat='{0:MM/dd/yyyy}'}"
+                                    FontAttributes="Italic"
+                                    VerticalOptions="End" />
+                                <Label Grid.Row="2"
+                                    Grid.Column="0"
+                                    Text="{Binding Status}"
+                                    FontAttributes="Italic"
+                                    VerticalOptions="End" />
+                            </Grid>
+                        </StackLayout>-->
+                        </DataTemplate>
+
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <StackLayout Orientation="Horizontal" Padding="0,0,0,65" HorizontalOptions="Center" >
+                    <Button Text="Attach Course" FontAttributes="None"
+                            FontSize="Small" BackgroundColor="LightSlateGray"
+                            BorderColor="DarkSlateBlue" BorderWidth="1"
+                            TextColor="Black" Scale=".8"
+                            Command="{Binding Source={x:Reference MyModifyTermsPage}, Path=BindingContext.OpenCourseSelectionCommand}"
+                            CommandParameter="{Binding .}" />
+                    <Button Text="Remove Course" FontAttributes="None"
+                            FontSize="Small" BackgroundColor="LightSlateGray"
+                            BorderColor="DarkSlateBlue" BorderWidth="1"
+                            TextColor="Black" Scale=".8"
+                            Command="{Binding Source={x:Reference MyModifyTermsPage}, Path=BindingContext.RemoveCourseCommand}"
+                            CommandParameter="{Binding .}" />
+                </StackLayout>
+            </StackLayout>
+
+
+
+
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" BindingContext="{Binding Term}" VerticalOptions="End" IsVisible="{Binding IsModifyTerm}">
+
+                <Button Text="Save" WidthRequest="175"
+                    Command="{Binding Source={x:Reference MyModifyTermsPage}, Path=BindingContext.SaveCommand}"
+                    CommandParameter="{Binding .}" />
+                <Button Text="Delete" WidthRequest="100" BackgroundColor="DarkRed"
+                    Command="{Binding Source={x:Reference MyModifyTermsPage}, Path=BindingContext.RemoveCommand}"
+                    CommandParameter="{Binding .}" />
+            </StackLayout>
+
+
+            <StackLayout IsVisible="{Binding IsCourseSelection}">
+                <Frame
+            x:Name="popuplayout"
+            HasShadow="True"
+            IsVisible="{Binding IsCourseSelection}"
+            BackgroundColor="DarkSlateBlue"
+            AbsoluteLayout.LayoutFlags="All"
+            AbsoluteLayout.LayoutBounds="1,1,0.5,0.5">
+                <StackLayout>
+                        <CollectionView IsVisible="{Binding IsCourseSelection}"
+                            ItemsSource="{Binding CourseSelectionList, Mode=OneWay}"
+                            SelectionMode="Single"
+                            SelectedItem="{Binding SelectedAttachCourse, Mode=OneWayToSource}">
+                            <CollectionView.ItemsLayout>
+                                <GridItemsLayout
+                    Orientation="Vertical" Span="3"/>
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.EmptyView>
+                                <StackLayout Padding="12">
+                                    <Label HorizontalOptions="Center" Text="No courses available for attachment. Please go to Courses page and create a new course." />
+                                </StackLayout>
+                            </CollectionView.EmptyView>
+                            <CollectionView.ItemTemplate>
+
+                                <DataTemplate>
+                                    <StackLayout Padding="10" >
+                                        <Frame CornerRadius="5" HasShadow="True" BackgroundColor="AliceBlue" Padding="2">
+                                            <StackLayout BackgroundColor="AliceBlue" Orientation="Vertical" VerticalOptions="Start" Padding="0">
+                                                <Label Text="{Binding Name}" FontAttributes="Bold" Padding="0"/>
+                                                <StackLayout Padding="0">
+                                                    <Label Text="{Binding StartDate, StringFormat='{}{0:MM/dd/yyyy} - '}"
+                                                HorizontalOptions="Start" FontSize="Small" />
+                                                </StackLayout>
+                                                <StackLayout Padding="0">
+                                                    <Label Text="{Binding EndDate, StringFormat='{}{0:MM/dd/yyyy}'}"
+                                                HorizontalOptions="Start" FontSize="Small" />
+                                                </StackLayout>
+                                                <StackLayout>
+                                                    <Label Text="{Binding Status, StringFormat='{}Status: {0}'}"
+                                                HorizontalOptions="Start"/>
+                                                </StackLayout>
+                                            </StackLayout>
+                                        </Frame>
+                                    </StackLayout>
+                                </DataTemplate>
+
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                        
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" BindingContext="{Binding SelectedAttachCourse}" VerticalOptions="End">
+
+                            <Button Text="Select" WidthRequest="175"
+                                Command="{Binding Source={x:Reference MyModifyTermsPage}, Path=BindingContext.SelectCourseCommand}"
+                                CommandParameter="{Binding .}" />
+                            <Button Text="Cancel" WidthRequest="100" BackgroundColor="DarkRed"
+                                Command="{Binding Source={x:Reference MyModifyTermsPage}, Path=BindingContext.CancelCourseSelectionCommand}"
+                                CommandParameter="{Binding .}" />
+                        </StackLayout>
+                    
+                    </StackLayout>
+
+                </Frame>
+            </StackLayout>
+        
         </StackLayout>
+
     </ContentPage.Content>
 </ContentPage>

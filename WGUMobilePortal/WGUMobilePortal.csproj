@@ -9,6 +9,8 @@
     <Company />
     <Product>WGU Mobile Portal</Product>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <Platforms>AnyCPU;x86</Platforms>
+    <OutputType>Library</OutputType>
   </PropertyGroup>
 
   <ItemGroup>

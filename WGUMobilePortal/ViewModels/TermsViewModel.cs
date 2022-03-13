@@ -73,18 +73,12 @@ namespace WGUMobilePortal.ViewModels
         async void Refresh()
         {
             IsBusy = true;
-
-            //await Task.Delay(100);
-
             Term.Clear();
-
             var terms = await DBService.GetAllTerm();
-
             foreach (Models.Term term in terms)
             {
                 Term.Add(term);
             }
-
             IsBusy = false;
         }
 

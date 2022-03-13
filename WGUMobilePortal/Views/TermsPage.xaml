@@ -74,13 +74,11 @@
                                 <!--</xct:Expander.Header>
                                 <xct:Expander.Content>-->
                                     <StackLayout>
-                                    <Label HorizontalOptions="Center"
+                                    <Label HorizontalOptions="Start"
                                 VerticalOptions="Center"
                                 TextColor="{StaticResource Primary}">
                                         <Label.Text>
-                                        <MultiBinding StringFormat="{}
-                                                      Name: {0}
-                                                      Date: {1:MM/dd/yyyy} - {2:MM/dd/yyyy}">
+                                        <MultiBinding StringFormat="{}{0}&#x0a;{1:MM/dd/yyyy} - {2:MM/dd/yyyy}">
                                             <Binding Path="Name"/>
                                             <Binding Path="StartDate" />
                                             <Binding Path="EndDate" />
@@ -92,7 +90,7 @@
                                         Command="{Binding Source={x:Reference MyTermsPage}, Path=BindingContext.ModifyCommand}"
                                         CommandParameter="{Binding .}"
                                         />
-                                    <Button Text="Delete"
+                                    <Button Text="Delete" BackgroundColor="DarkRed"
                                         Command="{Binding Source={x:Reference MyTermsPage}, Path=BindingContext.RemoveCommand}"
                                         CommandParameter="{Binding .}"
                                         />

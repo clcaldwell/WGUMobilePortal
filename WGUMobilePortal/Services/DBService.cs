@@ -56,6 +56,16 @@ namespace WGUMobilePortal.Services
             NoteTableInfo.ToString();
         }
 
+        public static async Task ResetAll()
+        {
+            await InitDB();
+            await db.DeleteAllAsync<Term>();
+            await db.DeleteAllAsync<Course>();
+            await db.DeleteAllAsync<Assessment>();
+            await db.DeleteAllAsync<Instructor>();
+            await db.DeleteAllAsync<Note>();    
+        }
+
         // Term Tasks
         public static async Task<Term> GetTerm(int id)
         {
@@ -67,11 +77,9 @@ namespace WGUMobilePortal.Services
         public static async Task<IEnumerable<Term>> GetAllTerm()
         {
             await InitDB();
-
-            var term = await db.Table<Term>().ToListAsync();
-            return term;
+            return await db.Table<Term>().ToListAsync();
         }
-        public static async Task AddTerm(string name, DateTime startdate, DateTime enddate)
+        public static async Task<int> AddTerm(string name, DateTime startdate, DateTime enddate)
         {
             await InitDB();
             
@@ -82,7 +90,8 @@ namespace WGUMobilePortal.Services
                 EndDate = enddate
             };
 
-            var id = await db.InsertAsync(term);
+            await db.InsertAsync(term);
+            return term.Id;
         }
         public static async Task EditTerm(int id, string name, DateTime startdate, DateTime enddate)
         {
@@ -113,16 +122,12 @@ namespace WGUMobilePortal.Services
         public static async Task<Course> GetCourse(int id)
         {
             await InitDB();
-
-            //return await db.FindAsync<Course>(id);
             return await db.GetAsync<Course>(id);
         }
         public static async Task<IEnumerable<Course>> GetAllCourse()
         {
             await InitDB();
-
-            var course = await db.Table<Course>().ToListAsync();
-            return course;
+            return await db.Table<Course>().ToListAsync();
         }
         public static async Task<int> AddCourse(string name, DateTime startdate, DateTime enddate, CourseStatus status)
         {
@@ -184,7 +189,7 @@ namespace WGUMobilePortal.Services
             var instructor = await db.Table<Instructor>().ToListAsync();
             return instructor;
         }
-        public static async Task AddInstructor(string firstname, string lastname, string phonenumber, string emailaddress)
+        public static async Task<int> AddInstructor(string firstname, string lastname, string phonenumber, string emailaddress)
         {
             await InitDB();
 
@@ -196,7 +201,8 @@ namespace WGUMobilePortal.Services
                 EmailAddress = emailaddress
             };
 
-            var id = await db.InsertAsync(instructor);
+            await db.InsertAsync(instructor);
+            return instructor.Id;
         }
         public static async Task EditInstructor()
         {
@@ -263,11 +269,11 @@ namespace WGUMobilePortal.Services
             var term = await db.Table<Assessment>().ToListAsync();
             return term;
         }
-        public static async Task AddAssessment(string name, DateTime startdate, DateTime enddate, AssessmentStyle style)
+        public static async Task<int> AddAssessment(string name, DateTime startdate, DateTime enddate, AssessmentStyle style)
         {
             await InitDB();
 
-            var term = new Assessment
+            var assessment = new Assessment
             {
                 Name = name,
                 StartDate = startdate,
@@ -275,7 +281,8 @@ namespace WGUMobilePortal.Services
                 Style = style
             };
 
-            var id = await db.InsertAsync(term);
+            await db.InsertAsync(assessment);
+            return assessment.Id;
         }
         public static async Task EditAssessment()
         {
