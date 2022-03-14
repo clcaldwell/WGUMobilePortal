@@ -9,9 +9,9 @@ namespace WGUMobilePortal.Views
     public partial class ModifyTermsPage : ContentPage
     {
         public ModifyTermsPage()
-        {
+        {              
             InitializeComponent();
-
+            BindingContext = this;
             this.BindingContext = new ModifyTermsViewModel();
         }
     }

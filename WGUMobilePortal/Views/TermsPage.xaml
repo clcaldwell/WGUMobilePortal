@@ -13,12 +13,6 @@
         <viewmodels:TermsViewModel />
     </ContentPage.BindingContext>
 
-    <!--<ContentPage.Resources>
-        <ResourceDictionary>
-            <xct:ItemSelectedEventArgsConverter x:Key="ItemSelectedEventArgsConverter" />
-        </ResourceDictionary>
-    </ContentPage.Resources>-->
-
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Add" Command="{Binding AddCommand}"/>
     </ContentPage.ToolbarItems>
@@ -44,15 +38,14 @@
         </ScrollView>
 
         <RefreshView Command="{Binding RefreshCommand}"
-                     IsRefreshing="True"
-                     RefreshColor="Red"
-                     Grid.Row="1"
-                     HorizontalOptions="Center">
-        </RefreshView>
+                    IsRefreshing="{Binding IsBusy}"
+                    RefreshColor="Red"
+                    Grid.Row="1"
+                    HorizontalOptions="Center">
     
         <CollectionView 
             BackgroundColor="Transparent"
-            ItemsSource="{Binding Term}"
+            ItemsSource="{Binding Terms}"
             ItemsLayout="VerticalList"
             SelectionMode="Single"
             Grid.Row="1">
@@ -65,15 +58,8 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:Term">
                             <Grid Padding="10">
-                        <Frame CornerRadius="20" HasShadow="True">
-                            <!--<xct1:Expander>
-                                <xct:Expander.Header>-->
-                                    <!--<Label FontSize="Large"
-                                        Text="{Binding Name}"
-                                        VerticalOptions="Center" />-->
-                                <!--</xct:Expander.Header>
-                                <xct:Expander.Content>-->
-                                    <StackLayout>
+                            <Frame CornerRadius="20" HasShadow="True">
+                                <StackLayout>
                                     <Label HorizontalOptions="Start"
                                 VerticalOptions="Center"
                                 TextColor="{StaticResource Primary}">
@@ -88,20 +74,17 @@
                                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                                     <Button Text="View / Modify" WidthRequest="200"
                                         Command="{Binding Source={x:Reference MyTermsPage}, Path=BindingContext.ModifyCommand}"
-                                        CommandParameter="{Binding .}"
-                                        />
+                                        CommandParameter="{Binding .}" />
                                     <Button Text="Delete" BackgroundColor="DarkRed"
                                         Command="{Binding Source={x:Reference MyTermsPage}, Path=BindingContext.RemoveCommand}"
-                                        CommandParameter="{Binding .}"
-                                        />
+                                        CommandParameter="{Binding .}" />
                                 </StackLayout>
                             </StackLayout>
-                                <!--</xct:Expander.Content>
-                            </xct1:Expander>-->
                         </Frame>
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+        </RefreshView>
     </Grid>
 </ContentPage>

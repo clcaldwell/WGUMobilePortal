@@ -17,15 +17,17 @@ namespace WGUMobilePortal.Models
         {
             get
             {
-                if ( _courseId == null && !string.IsNullOrEmpty(_strCourseId))
+                if (_courseId == null && !string.IsNullOrEmpty(_strCourseId))
                 {
                     return _strCourseId;
-                } else if ( _courseId != null )
+                }
+                else if (_courseId != null)
                 {
                     _courseId.Sort();
                     List<string> strList = _courseId.Select(x => x.ToString()).ToList();
                     return string.Join(",", strList);
-                } else
+                }
+                else
                 {
                     return null;
                 }
