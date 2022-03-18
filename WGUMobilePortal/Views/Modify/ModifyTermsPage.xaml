@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:model="clr-namespace:WGUMobilePortal.Models;assembly=WGUMobilePortal"
     xmlns:viewmodels="clr-namespace:WGUMobilePortal.ViewModels" 
+    xmlns:behaviors="clr-namespace:WGUMobilePortal.Behaviors"
     ControlTemplate="{DynamicResource ModifyTermsView}"
     x:Name="MyModifyTermsPage"
     BackgroundColor="White"
@@ -13,6 +14,7 @@
         <viewmodels:ModifyTermsViewModel />
     </ContentPage.BindingContext>
     <ContentPage.Triggers>
+
         <DataTrigger TargetType="ContentPage"
                         Binding="{Binding IsCourseSelection}"
                         Value="False">
@@ -30,17 +32,21 @@
         <ResourceDictionary>
             <!-- Main View for Term Modification -->
             <ControlTemplate x:Key="ModifyTermsView">
-                <StackLayout BindingContext="{TemplateBinding BindingContext}" NavigationPage.HasNavigationBar="False">
+                <StackLayout BindingContext="{TemplateBinding BindingContext}" VerticalOptions="StartAndExpand">
                     <ContentPresenter VerticalOptions="FillAndExpand" />
-                    <Label Text="Test" FontSize="Large"/>
 
                     <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                         <Label Text="Term Name:" VerticalOptions="Center"/>
-                        <Entry x:Name="Name" Text="{Binding Name, Mode=TwoWay}" FontSize="Small" WidthRequest="150" VerticalOptions="Center"/>
+                        <Entry x:Name="Name" Text="{Binding Name, Mode=TwoWay}" FontSize="Small" WidthRequest="150" VerticalOptions="Center">
+                            <Entry.Behaviors>
+                                <behaviors:TextValidator/>
+                            </Entry.Behaviors>
+                        </Entry>
                     </StackLayout>
                     <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                         <Label Text="Term Start:" VerticalOptions="Center"/>
-                        <DatePicker x:Name="StartDate" Date="{Binding StartDate, Mode=TwoWay}" FontSize="Small" WidthRequest="150" VerticalOptions="Center"/>
+                        <DatePicker x:Name="StartDate" Date="{Binding StartDate, Mode=TwoWay}" FontSize="Small" WidthRequest="150" VerticalOptions="Center">
+                        </DatePicker>
                     </StackLayout>
                     <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                         <Label Text="Term End:" VerticalOptions="Center"/>
@@ -70,13 +76,10 @@
                                         <Frame CornerRadius="5" HasShadow="True" BackgroundColor="AliceBlue" Padding="2">
    
                                             <StackLayout BackgroundColor="AliceBlue" Orientation="Vertical" VerticalOptions="Start" Padding="0">
-                                                <StackLayout>
-                                                    <Label Text="{Binding Id, StringFormat='{}Id: {0}'}"/>
-                                                </StackLayout>
                                                 <Label Text="{Binding Name}" FontAttributes="Bold" Padding="0"/>
                                                 <StackLayout Padding="0">
                                                     <Label Text="{Binding StartDate, StringFormat='{}{0:MM/dd/yyyy} - '}"
-                                                            HorizontalOptions="Start" FontSize="Small" />
+                                                            HorizontalOptions="Start" FontSize="Small"/>
                                                 </StackLayout>
                                                 <StackLayout Padding="0">
                                                     <Label Text="{Binding EndDate, StringFormat='{}{0:MM/dd/yyyy}'}"

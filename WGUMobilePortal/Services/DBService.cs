@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 using SQLite;
@@ -71,8 +72,13 @@ namespace WGUMobilePortal.Services
         {
             await InitDB();
 
-            var term = await db.GetAsync<Term>(id);
-            return term;
+            try {
+                var term = await db.GetAsync<Term>(id);
+                return term;
+            } catch {
+                return null;
+            }
+
         }
         public static async Task<IEnumerable<Term>> GetAllTerm()
         {
@@ -90,7 +96,9 @@ namespace WGUMobilePortal.Services
                 EndDate = enddate
             };
 
+            await PropagateTermIdToCourse(term);
             await db.InsertAsync(term);
+
             return term.Id;
         }
 
@@ -98,7 +106,9 @@ namespace WGUMobilePortal.Services
         {
             await InitDB();
 
+            await PropagateTermIdToCourse(term);
             await db.InsertAsync(term);
+
             return term.Id;
         }
         public static async Task EditTerm(int id, string name, DateTime startdate, DateTime enddate)
@@ -111,19 +121,72 @@ namespace WGUMobilePortal.Services
             term.StartDate = startdate;
             term.EndDate = enddate;
 
+            await PropagateTermIdToCourse(term);
             await db.UpdateAsync(term);
+
         }
         public static async Task EditTerm(Term term)
         {
             await InitDB();
 
+            await PropagateTermIdToCourse(term);
             await db.UpdateAsync(term);
         }
         public static async Task RemoveTerm(int id)
         {
             await InitDB();
 
+            await RemoveTermIdFromAllCourse(await GetTerm(id));
             await db.DeleteAsync<Term>(id);
+        }
+
+        private static async Task PropagateTermIdToCourse(Term term)
+        {
+            if (await GetTerm(term.Id) != null)
+            {
+                Term dbTerm = await GetTerm(term.Id);
+                if (dbTerm.CourseId != null && dbTerm.CourseId != term.CourseId)
+                {
+                    List<int> inDbOnly = dbTerm.CourseId.Except(term.CourseId).ToList();
+                    List<int> inLocalOnly = term.CourseId.Except(dbTerm.CourseId).ToList();
+
+                    inDbOnly.ForEach(
+                        async course => await RemoveTermIdFromCourse(course));
+                }
+            }
+            
+            
+            if (term.CourseId != null)
+            {
+                foreach (int courseId in term.CourseId)
+                {
+                    await AddTermIdToCourse(term.Id, courseId);
+                }
+            }
+        }
+        private static async Task AddTermIdToCourse(int termId, int courseId)
+        {
+            Course course = await GetCourse(courseId);
+            course.TermId = termId;
+            await EditCourse(course);
+        }
+        private static async Task RemoveTermIdFromCourse(int courseId)
+        {
+            Course course = await GetCourse(courseId);
+            course.TermId = null;
+            await EditCourse(course);
+        }
+        private static async Task RemoveTermIdFromAllCourse(Term term)
+        {
+            if (term.CourseId != null)
+            {
+                foreach (int id in term.CourseId)
+                {
+                    Course course = await GetCourse(id);
+                    course.TermId = null;
+                    await EditCourse(course);
+                }
+            }
         }
 
         // Course Tasks
@@ -152,9 +215,11 @@ namespace WGUMobilePortal.Services
             await db.InsertAsync(course);
             return course.Id;
         }
-        public static async Task EditCourse()
+        public static async Task EditCourse(Course course)
         {
             await InitDB();
+
+            await db.UpdateAsync(course);
         }
         public static async Task RemoveCourse(int id)
         {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 using WGUMobilePortal.Models;
@@ -15,8 +16,8 @@ namespace WGUMobilePortal.ViewModels
     {
         public Command AddCommand { get; }
         public Command ModifyCommand { get; }
-        public Command<Models.Term> SaveCommand { get; }
-        public Command<Models.Term> DeleteCommand { get; }
+        public Command<Term> SaveCommand { get; }
+        public Command<Term> DeleteCommand { get; }
         public Command RemoveCourseCommand { get; }
         public Command OpenCourseSelectionCommand { get; }
         public Command CancelCourseSelectionCommand { get; }
@@ -32,7 +33,11 @@ namespace WGUMobilePortal.ViewModels
                 OnPropertyChanged(nameof(Name));
             }
         }
-        public int Id { get => _id; set => SetProperty(ref _id, value); }
+        public int Id
+        { 
+            get => _id;
+            set => SetProperty(ref _id, value);
+        }
         public bool IsCourseSelection
         {
             get => _isCourseSelection;
@@ -108,12 +113,12 @@ namespace WGUMobilePortal.ViewModels
         public ModifyTermsViewModel()
         {
             Title = "Add/Modify Terms Page";
-            DeleteCommand = new Command<Models.Term>(Delete);
-            SaveCommand = new Command<Models.Term>(Save);
-            RemoveCourseCommand = new Command(RemoveCourse);
-            OpenCourseSelectionCommand = new Command(OpenCourseSelection);
-            CancelCourseSelectionCommand = new Command(CancelCourseSelection);
-            SelectCourseCommand = new Command(SelectCourse);
+            DeleteCommand = new Command<Term>(Delete);
+            SaveCommand = new Command<Term>(Save);
+            RemoveCourseCommand = new Command(async () => await RemoveCourse());
+            OpenCourseSelectionCommand = new Command(async () => await OpenCourseSelection());
+            CancelCourseSelectionCommand = new Command(async () => await CancelCourseSelection());
+            SelectCourseCommand = new Command(async () => await SelectCourse());
             IsModifyTerm = true;
             IsCourseSelection = false;
         }
@@ -136,7 +141,7 @@ namespace WGUMobilePortal.ViewModels
 
         }
 
-        async void Save(Models.Term term)
+        public async void Save(Term term)
         {
 
             term.Name = Name;
@@ -159,7 +164,7 @@ namespace WGUMobilePortal.ViewModels
             await Shell.Current.Navigation.PopAsync();
             //await Shell.Current.GoToAsync("..");
         }
-        async void Delete(Models.Term term)
+        async void Delete(Term term)
         {
             if (await Shell.Current.DisplayAlert("Confirm Deletion", $"Are you sure you want to delete {term.Name}?", "Delete", "Cancel"))
             {
@@ -168,43 +173,48 @@ namespace WGUMobilePortal.ViewModels
             }
         }
 
-        void SelectCourse()
+        async Task SelectCourse()
         {
             AttachedCourses.Add(SelectedAttachCourse);
             CloseCourseSelection();
         }
-        void RemoveCourse()
+        async Task RemoveCourse()
         {
             AttachedCourses.Remove(SelectedCourse);
         }
-        async void OpenCourseSelection()
+        async Task OpenCourseSelection()
         {
+            if (AttachedCourses.Count >= 7)
+            {
+                return;
+            }
             IsModifyTerm = false;
             IsCourseSelection = true;
 
             List<Course> courseList = (List<Course>)await DBService.GetAllCourse();
 
-            if (Term.CourseId != null)
-            {
-                Term.CourseId.ForEach(
-                currentTermCourseID => courseList.RemoveAt(
-                    courseList.FindIndex(
-                        course => course.Id == currentTermCourseID)));
-            }
+            //if (Term.CourseId != null)
+            //{
+            //Term.CourseId.ForEach(
+            //currentTermCourseID => courseList.RemoveAt(
+            //courseList.FindIndex(
+            //course => course.Id == currentTermCourseID)));
+            //}
+            courseList = courseList.Where(course => course.TermId is null).ToList();
 
             CourseSelectionList = new ObservableCollection<Course>(courseList);
         }
-        void CloseCourseSelection()
+        async Task CloseCourseSelection()
         {
             IsCourseSelection = false;
             IsModifyTerm = true;
             CourseSelectionList = null;
         }
-        void CancelCourseSelection()
+        async Task CancelCourseSelection()
         {
             CloseCourseSelection();
         }
-        async void Load(int Id)
+        async Task Load(int Id)
         {
             Term = await DBService.GetTerm(Id);
 
@@ -222,7 +232,7 @@ namespace WGUMobilePortal.ViewModels
             }
 
         }
-        void LoadNew()
+        async Task LoadNew()
         {
             Term = new Term();
             AttachedCourses = new ObservableCollection<Course>();

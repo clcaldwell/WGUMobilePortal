@@ -11,27 +11,27 @@ namespace WGUMobilePortal.ViewModels
 {
     public class TermsViewModel : BaseViewModel
     {
-        public ObservableCollection<Models.Term> Terms { get; set; }
-        public Command RefreshCommand { get; }
-        public Command AddCommand { get; }
-        public Command<Models.Term> RemoveCommand { get; }
-        public Command ModifyCommand { get; }
         public TermsViewModel()
         {
             Title = "Terms View";
 
             Terms = new ObservableCollection<Models.Term>();
 
-            RefreshCommand = new Command(Refresh);
-            AddCommand = new Command(Add);
+            RefreshCommand = new Command(async () => await Refresh());
+            AddCommand = new Command(async () => await Add());
             RemoveCommand = new Command<Models.Term>(Remove);
             ModifyCommand = new Command<Models.Term>(Modify);
 
             Load();
         }
 
+        public ObservableCollection<Models.Term> Terms { get; set; }
+        public Command RefreshCommand { get; }
+        public Command AddCommand { get; }
+        public Command<Models.Term> RemoveCommand { get; }
+        public Command ModifyCommand { get; }
 
-        async void Add()
+        async Task Add()
         {
             await AppShell.Current.GoToAsync($"{nameof(ModifyTermsPage)}?id={null}");
             
@@ -49,11 +49,11 @@ namespace WGUMobilePortal.ViewModels
         {
             await AppShell.Current.GoToAsync($"{nameof(ModifyTermsPage)}?id={term.Id}&name={term.Name}&startDate={term.StartDate}&endDate={term.EndDate}");
         }
-        public void Load()
+        public async Task Load()
         {
-            Refresh();
+            await Task.Factory.StartNew(() => Refresh());
         }
-        async void Refresh()
+        async Task Refresh()
         {
             IsBusy = true;
             Terms.Clear();

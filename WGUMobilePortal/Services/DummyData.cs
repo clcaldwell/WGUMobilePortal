@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using WGUMobilePortal.Models;
 
@@ -8,7 +9,7 @@ namespace WGUMobilePortal.Services
 {
     public class DummyData
     {
-        public static async void Main()
+        public static async Task Main()
         {
             await DBService.ResetAll(); // Delete all existing items
 
@@ -26,8 +27,6 @@ namespace WGUMobilePortal.Services
             var course61 = await DBService.GetCourse(await DBService.AddCourse("Course 6", DateTime.Today.AddMonths(5), DateTime.Today.AddMonths(6), CourseStatus.Planned));
             term1.CourseId = new List<int>() { course11.Id, course21.Id, course31.Id, course41.Id, course51.Id, course61.Id };
             await DBService.EditTerm(term1);
-            var term1_test = await DBService.GetTerm(term1.Id);
-            var term1_test2 = term1_test;
 
             var course12 = await DBService.GetCourse(await DBService.AddCourse("Course 7", DateTime.Today.AddMonths(6), DateTime.Today.AddMonths(7), CourseStatus.Started));
             var course22 = await DBService.GetCourse(await DBService.AddCourse("Course 8", DateTime.Today.AddMonths(7), DateTime.Today.AddMonths(8), CourseStatus.Planned));
@@ -51,7 +50,7 @@ namespace WGUMobilePortal.Services
             await DBService.AddInstructor("Harper", "Setton", "111-222-1234", "test@gmail.com");
 
             // Add Note
-            int noteid = await DBService.AddNote("This is a test of notes");
+            await DBService.AddNote("This is a test of notes");
 
             // Add Assessment
             await DBService.AddAssessment("Objective Assessment 1", DateTime.Today, DateTime.Today.AddMonths(1), AssessmentStyle.Objective);

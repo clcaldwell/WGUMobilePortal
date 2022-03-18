@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 using WGUMobilePortal.Services;
 
@@ -22,15 +23,15 @@ namespace WGUMobilePortal.ViewModels
 
             Assessment = new ObservableCollection<Models.Assessment>();
 
-            RefreshCommand = new Command(Refresh);
-            AddCommand = new Command(Add);
+            RefreshCommand = new Command(async () => await Refresh());
+            AddCommand = new Command(async () => await Add());
             RemoveCommand = new Command<Models.Assessment>(Remove);
             //ModifyCommand = new Command<Models.Assessment>();
 
-            Load();
+            _ = Load();
         }
 
-        async void Add()
+        async Task Add()
         {
 
             string name = await App.Current.MainPage.DisplayPromptAsync("Name", "Name of Assessment");
@@ -40,24 +41,16 @@ namespace WGUMobilePortal.ViewModels
             Models.AssessmentStyle style = Models.AssessmentStyle.Objective;
 
             await DBService.AddAssessment(name, startdate, enddate, style);
-            Refresh();
+            await Task.Factory.StartNew(() => Refresh());
         }
 
         async void Remove(Models.Assessment assessment)
         {
             await DBService.RemoveAssessment(assessment.Id);
-            Refresh();
+            await Task.Factory.StartNew(() => Refresh());
         }
 
-        //aysnc async void Modify(Models.Assessment assessment)
-        //{
-            //NavigateToTerms = new Command(async () =>
-            //await var termsPage = new Views.TermsPage();
-            //await AppShell.Current.Navigation.PushAsync(new Views.TermsPage()));
-
-        //}
-
-        async void Refresh()
+        async Task Refresh()
         {
             IsBusy = true;
 
@@ -73,7 +66,7 @@ namespace WGUMobilePortal.ViewModels
             IsBusy = false;
         }
 
-        async void Load()
+        async Task Load()
         {
             IsBusy = true;
             Assessment.Clear();

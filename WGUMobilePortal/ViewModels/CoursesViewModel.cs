@@ -23,14 +23,14 @@ namespace WGUMobilePortal.ViewModels
 
             Course = new ObservableCollection<Course>();
 
-            RefreshCommand = new Command(Refresh);
-            AddCommand = new Command(Add);
+            RefreshCommand = new Command(async () => await Refresh());
+            AddCommand = new Command(async () => await Add());
             RemoveCommand = new Command<Course>(Remove);
 
             Load();
         }
 
-        async void Add()
+        async Task Add()
         {
 
             string name = await App.Current.MainPage.DisplayPromptAsync("Name", "Name of Course");
@@ -45,16 +45,16 @@ namespace WGUMobilePortal.ViewModels
             CourseStatus status = CourseStatus.Started;
 
             await DBService.AddCourse(name, startdate, enddate, status);
-            Refresh();
+            await Task.Factory.StartNew(() => Refresh());
         }
 
         async void Remove(Course course)
         {
             await DBService.RemoveCourse(course.Id);
-            Refresh();
+            await Task.Factory.StartNew(() => Refresh());
         }
 
-        async void Refresh()
+        async Task Refresh()
         {
             IsBusy = true;
             Course.Clear();
@@ -62,12 +62,9 @@ namespace WGUMobilePortal.ViewModels
             IsBusy = false;
         }
 
-        async void Load()
+        async Task Load()
         {
-            IsBusy = true;
-            Course.Clear();
-            await ReloadCourses();
-            IsBusy = false;
+            await Task.Factory.StartNew(() => Refresh());
         }
 
         async Task ReloadCourses()
