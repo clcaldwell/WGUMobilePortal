@@ -155,7 +155,7 @@ namespace WGUMobilePortal.ViewModels
         {
             if (string.IsNullOrWhiteSpace(query["id"])) // Will be null for new Term requests
             {
-                LoadNew();
+                Task.Run(async () => await LoadNew());
             }
             else
             {
@@ -163,10 +163,8 @@ namespace WGUMobilePortal.ViewModels
                 StartDate = DateTime.Parse(HttpUtility.UrlDecode(query["startDate"]));
                 EndDate = DateTime.Parse(HttpUtility.UrlDecode(query["endDate"]));
                 Id = int.Parse(HttpUtility.UrlDecode(query["id"]));
-                //_ = StartDateMinimum;
-                //_ = EndDateMinimum;
 
-                Load(Id);
+                Task.Run(async () => await Load(Id));
             }
         }
 
@@ -205,12 +203,12 @@ namespace WGUMobilePortal.ViewModels
         private async Task SelectCourse()
         {
             AttachedCourses.Add(SelectedAttachCourse);
-            CloseCourseSelection();
+            await CloseCourseSelection();
         }
 
         private async Task RemoveCourse()
         {
-            AttachedCourses.Remove(SelectedCourse);
+            await Task.Run(() => AttachedCourses.Remove(SelectedCourse));
         }
 
         private async Task OpenCourseSelection()
@@ -245,7 +243,7 @@ namespace WGUMobilePortal.ViewModels
 
         private async Task CancelCourseSelection()
         {
-            CloseCourseSelection();
+            await CloseCourseSelection();
         }
 
         private async Task Load(int Id)
@@ -269,7 +267,7 @@ namespace WGUMobilePortal.ViewModels
         private async Task LoadNew()
         {
             Term = new Term();
-            AttachedCourses = new ObservableCollection<Course>();
+            await Task.Run(() => AttachedCourses = new ObservableCollection<Course>());
         }
     }
 }

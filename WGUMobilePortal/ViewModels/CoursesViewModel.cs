@@ -26,7 +26,7 @@ namespace WGUMobilePortal.ViewModels
             AddCommand = new Command(async () => await Add());
             RemoveCommand = new Command<Course>(Remove);
 
-            Load();
+            Task.Run(async () => await Load());
         }
 
         public async Task OnAppearing()
@@ -48,13 +48,13 @@ namespace WGUMobilePortal.ViewModels
             const CourseStatus status = CourseStatus.Started;
 
             await DBService.AddCourse(name, startdate, enddate, status);
-            await Task.Factory.StartNew(() => Refresh());
+            await Task.Run(() => Refresh());
         }
 
         private async void Remove(Course course)
         {
             await DBService.RemoveCourse(course.Id);
-            await Task.Factory.StartNew(() => Refresh());
+            await Task.Run(() => Refresh());
         }
 
         private async Task Refresh()
@@ -67,7 +67,7 @@ namespace WGUMobilePortal.ViewModels
 
         private async Task Load()
         {
-            await Task.Factory.StartNew(() => Refresh());
+            await Task.Run(() => Refresh());
         }
 
         private async Task ReloadCourses()

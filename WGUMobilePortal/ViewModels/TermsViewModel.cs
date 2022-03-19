@@ -47,7 +47,7 @@ namespace WGUMobilePortal.ViewModels
             if (await Shell.Current.DisplayAlert("Confirm Deletion", $"Are you sure you want to delete {term.Name}", "Delete", "Cancel"))
             {
                 await DBService.RemoveTerm(term.Id);
-                await Refresh();
+                Terms.Remove(term);
             }
         }
 
@@ -58,7 +58,7 @@ namespace WGUMobilePortal.ViewModels
 
         public async Task Load()
         {
-            await Task.Factory.StartNew(() => Refresh());
+            await Task.Run(() => Refresh());
         }
 
         private async Task Refresh()

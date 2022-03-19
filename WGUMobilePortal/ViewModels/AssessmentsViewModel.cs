@@ -44,13 +44,13 @@ namespace WGUMobilePortal.ViewModels
             const Models.AssessmentStyle style = Models.AssessmentStyle.Objective;
 
             await DBService.AddAssessment(name, startdate, enddate, style);
-            await Task.Factory.StartNew(() => Refresh());
+            await Task.Run(() => Refresh());
         }
 
         private async void Remove(Models.Assessment assessment)
         {
             await DBService.RemoveAssessment(assessment.Id);
-            await Task.Factory.StartNew(() => Refresh());
+            await Task.Run(() => Refresh());
         }
 
         private async Task Refresh()

@@ -200,7 +200,7 @@
                                 </CollectionView.ItemsLayout>
                                 <CollectionView.EmptyView>
                                     <StackLayout Padding="12">
-                                        <Label HorizontalOptions="Center" Text="No courses available for attachment.&#x0a;Go to Courses page to create a new course.&#x0a;You cannot attach a course that is already assigned to a Term,&#x0a;you must remove that course from the term first." />
+                                        <Label HorizontalOptions="Center" Text="No courses available for attachment. Go to Courses page to create a new course, or go back to the Terms page to remove this course from the term it is currently attached to." />
                                     </StackLayout>
                                 </CollectionView.EmptyView>
                                 <CollectionView.ItemTemplate>
