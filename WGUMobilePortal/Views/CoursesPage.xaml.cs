@@ -11,8 +11,15 @@ namespace WGUMobilePortal.Views
         public CoursesPage()
         {
             InitializeComponent();
-
             this.BindingContext = new CoursesViewModel();
+        }
+
+        protected override async void OnAppearing()
+        {
+            if (BindingContext is CoursesViewModel viewModel)
+            {
+                await viewModel.OnAppearing();
+            }
         }
     }
 }

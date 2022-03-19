@@ -17,11 +17,11 @@ namespace WGUMobilePortal.Views
             this.BindingContext = new TermsViewModel();
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             if (BindingContext is TermsViewModel viewModel)
             {
-                _ = viewModel.OnAppearing();
+                await viewModel.OnAppearing();
             }
         }
 

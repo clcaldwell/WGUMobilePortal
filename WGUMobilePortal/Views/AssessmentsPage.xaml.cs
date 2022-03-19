@@ -11,8 +11,14 @@ namespace WGUMobilePortal.Views
         public AssessmentsPage()
         {
             InitializeComponent();
-
             this.BindingContext = new AssessmentsViewModel();
+        }
+        protected override async void OnAppearing()
+        {
+            if (BindingContext is AssessmentsViewModel viewModel)
+            {
+                await viewModel.OnAppearing();
+            }
         }
     }
 }

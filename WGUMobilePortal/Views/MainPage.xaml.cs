@@ -9,15 +9,13 @@ namespace WGUMobilePortal.Views
         public MainPage()
         {
             InitializeComponent();
-
             this.BindingContext = new MainViewModel();
         }
 
         async void Button_Clicked(object sender, System.EventArgs e)
         {
-            //Routing.RegisterRoute
-
             await Shell.Current.GoToAsync(nameof(sender));
         }
+
     }
 }

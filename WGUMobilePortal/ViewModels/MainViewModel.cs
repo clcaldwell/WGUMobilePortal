@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Threading.Tasks;
+using System.Windows.Input;
 
 using WGUMobilePortal.Services;
 using WGUMobilePortal.Views;
@@ -21,7 +22,6 @@ namespace WGUMobilePortal.ViewModels
             //NavigateToAssessments = new Command(async () => await AppShell.Current.GoToAsync("///AssessmentsPage"));
             GenerateDummyData = new Command(() => DummyData.Main());
         }
-
 
         public ICommand NavigateToTerms { get; }
         public ICommand NavigateToCourses { get; }

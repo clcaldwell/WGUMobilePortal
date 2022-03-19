@@ -30,6 +30,10 @@ namespace WGUMobilePortal.ViewModels
 
             _ = Load();
         }
+        public async Task OnAppearing()
+        {
+            await Load();
+        }
 
         async Task Add()
         {

@@ -11,8 +11,15 @@ namespace WGUMobilePortal.Views
         public ModifyTermsPage()
         {              
             InitializeComponent();
-            BindingContext = this;
             this.BindingContext = new ModifyTermsViewModel();
+        }
+
+        protected override async void OnAppearing()
+        {
+            if (BindingContext is ModifyTermsViewModel viewModel)
+            {
+                await viewModel.OnAppearing();
+            }
         }
     }
 }

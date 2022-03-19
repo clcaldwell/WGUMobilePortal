@@ -136,6 +136,9 @@ namespace WGUMobilePortal.ViewModels
             OpenCourseSelectionCommand = new Command(async () => await OpenCourseSelection());
             CancelCourseSelectionCommand = new Command(async () => await CancelCourseSelection());
             SelectCourseCommand = new Command(async () => await SelectCourse());
+        }
+        public async Task OnAppearing() 
+        {
             IsModifyTerm = true;
             IsCourseSelection = false;
         }

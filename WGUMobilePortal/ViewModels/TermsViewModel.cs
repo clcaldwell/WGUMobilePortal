@@ -40,14 +40,14 @@ namespace WGUMobilePortal.ViewModels
         {
             await AppShell.Current.GoToAsync($"{nameof(ModifyTermsPage)}?id={null}");
             
-            Refresh();
+            await Refresh();
         }
         async void Remove(Models.Term term)
         {
             if (await Shell.Current.DisplayAlert("Confirm Deletion", $"Are you sure you want to delete {term.Name}", "Delete", "Cancel"))
             {
                 await DBService.RemoveTerm(term.Id);
-                Refresh();
+                await Refresh();
             }
         }
         async void Modify(Models.Term term)
