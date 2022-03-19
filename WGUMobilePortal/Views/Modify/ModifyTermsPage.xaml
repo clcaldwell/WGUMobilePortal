@@ -46,12 +46,12 @@
                     <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                         <Label Text="Term Start:" VerticalOptions="Center"/>
                         <DatePicker x:Name="StartDate" x:DataType="viewmodels:ModifyTermsViewModel" Date="{Binding StartDate, Mode=TwoWay}" MinimumDate="{Binding StartDateMinimum}"
-                                    FontSize="Small" WidthRequest="150" VerticalOptions="Center" />
+                                    FontSize="Small" WidthRequest="150" VerticalOptions="Center" /> 
                     </StackLayout>
                     <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                         <Label Text="Term End:" VerticalOptions="Center"/>
                         <DatePicker x:Name="EndDate" x:DataType="viewmodels:ModifyTermsViewModel" Date="{Binding EndDate, Mode=TwoWay}" MinimumDate="{Binding EndDateMinimum}"
-                            FontSize="Small" WidthRequest="150" VerticalOptions="Center" />
+                            FontSize="Small" WidthRequest="150" VerticalOptions="Center" /> 
                     </StackLayout>
                     <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                         <Label Text="Test" VerticalOptions="Center"/>
@@ -65,9 +65,9 @@
                     <!--<StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                         <Label Text="{Binding Source={x:RelativeSource}, Path=EndDateMinimum}" VerticalOptions="Center"/>
                     </StackLayout>-->
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                    <!--<StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                         <Label Text="{Binding EndDateMinimum}" VerticalOptions="Center" x:DataType="viewmodels:ModifyTermsViewModel"/>
-                    </StackLayout>
+                    </StackLayout>-->
                     <!--<StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                         <Label Text="{Binding EndDateMinimum}" VerticalOptions="Center" BindingContext="{Binding Source=BindingContext}"/>
                     </StackLayout>-->

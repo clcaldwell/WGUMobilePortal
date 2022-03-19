@@ -60,27 +60,20 @@ namespace WGUMobilePortal.ViewModels
         //        OnPropertyChanged(nameof(StartDate));
         //    }
         //}
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        //public DateTime EndDate
-        //{
-        //    get => _endDate;
-        //    set
-        //    {
-        //        SetProperty(ref _endDate, value);
-        //        OnPropertyChanged(nameof(EndDate));
-        //    }
-        //}
+        public DateTime StartDate
+        {
+            get => _startDate; set
+            {
+                SetProperty(ref _startDate, value);
+                EndDateMinimum = value.AddDays(1);
+            }
+        }
+        public DateTime EndDate { get => _endDate; set => SetProperty(ref _endDate, value); }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Marking as static causes program to crash," +
+            " presumably because the UI requires INotifyPropertyChanged")]
         public DateTime StartDateMinimum => DateTime.Today.AddDays(-60).Date;
-        public DateTime EndDateMinimum => StartDate.AddDays(1).Date;   
-        //{
-        //    get => _endDateMinimum;
-        //    set
-        //    {
-        //        SetProperty(ref _endDateMinimum, value);
-        //        OnPropertyChanged(nameof(EndDateMinimum));
-        //    }
-        //}
+        public DateTime EndDateMinimum { get => _endDateMinimum; set => SetProperty(ref _endDateMinimum, value); }
         public Term Term { get => _term; set => SetProperty(ref _term, value); }
         public Course SelectedCourse
         {
@@ -126,7 +119,7 @@ namespace WGUMobilePortal.ViewModels
         private bool _isModifyTerm;
         private DateTime _startDate;
         private DateTime _endDate;
-        //private DateTime _endDateMinimum;  
+        private DateTime _endDateMinimum;  
         private Term _term;
         private Course _selectedAttachCourse;
         private Course _selectedCourse;

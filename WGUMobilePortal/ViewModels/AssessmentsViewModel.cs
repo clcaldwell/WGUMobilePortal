@@ -36,8 +36,8 @@ namespace WGUMobilePortal.ViewModels
 
             string name = await App.Current.MainPage.DisplayPromptAsync("Name", "Name of Assessment");
 
-            DateTime startdate = new DateTime(2020, 01, 01);
-            DateTime enddate = new DateTime(2020, 06, 30);
+            DateTime startdate = new DateTime(2022, 06, 01);
+            DateTime enddate = new DateTime(2022, 12, 30);
             Models.AssessmentStyle style = Models.AssessmentStyle.Objective;
 
             await DBService.AddAssessment(name, startdate, enddate, style);

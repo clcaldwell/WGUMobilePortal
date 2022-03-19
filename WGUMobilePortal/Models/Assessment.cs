@@ -12,7 +12,7 @@ namespace WGUMobilePortal.Models
         public string Name { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public AssessmentStyle Style { get; set; } 
+        public AssessmentStyle Style { get; set; }
         public int CourseId { get; set; }
     }
 

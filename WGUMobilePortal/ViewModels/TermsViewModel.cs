@@ -22,7 +22,7 @@ namespace WGUMobilePortal.ViewModels
             RemoveCommand = new Command<Models.Term>(Remove);
             ModifyCommand = new Command<Models.Term>(Modify);
 
-            Task.Factory.StartNew(() => Load());
+            Load();
         }
 
         public ObservableCollection<Models.Term> Terms { get; set; }
@@ -51,7 +51,10 @@ namespace WGUMobilePortal.ViewModels
         }
         public async Task Load()
         {
+            IsBusy = true;
+            Terms.Clear();
             await Task.Factory.StartNew(() => Refresh());
+            IsBusy = false;
         }
         async Task Refresh()
         {
