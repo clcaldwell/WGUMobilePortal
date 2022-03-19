@@ -22,7 +22,7 @@ namespace WGUMobilePortal.ViewModels
             RemoveCommand = new Command<Models.Term>(Remove);
             ModifyCommand = new Command<Models.Term>(Modify);
 
-            Load();
+            Task.Factory.StartNew(() => Load());
         }
 
         public ObservableCollection<Models.Term> Terms { get; set; }

@@ -45,13 +45,32 @@
                     </StackLayout>
                     <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                         <Label Text="Term Start:" VerticalOptions="Center"/>
-                        <DatePicker x:Name="StartDate" Date="{Binding StartDate, Mode=TwoWay}" FontSize="Small" WidthRequest="150" VerticalOptions="Center">
-                        </DatePicker>
+                        <DatePicker x:Name="StartDate" x:DataType="viewmodels:ModifyTermsViewModel" Date="{Binding StartDate, Mode=TwoWay}" MinimumDate="{Binding StartDateMinimum}"
+                                    FontSize="Small" WidthRequest="150" VerticalOptions="Center" />
                     </StackLayout>
                     <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                         <Label Text="Term End:" VerticalOptions="Center"/>
-                        <DatePicker x:Name="EndDate" Date="{Binding EndDate, Mode=TwoWay}" FontSize="Small" WidthRequest="150" VerticalOptions="Center"/>
+                        <DatePicker x:Name="EndDate" x:DataType="viewmodels:ModifyTermsViewModel" Date="{Binding EndDate, Mode=TwoWay}" MinimumDate="{Binding EndDateMinimum}"
+                            FontSize="Small" WidthRequest="150" VerticalOptions="Center" />
                     </StackLayout>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                        <Label Text="Test" VerticalOptions="Center"/>
+                    </StackLayout>
+                    <!--<StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                        <Label Text="{Binding Source={x:RelativeSource viewmodels:ModifyTermsViewModel}, Path=EndDateMinimum}" VerticalOptions="Center"/>
+                    </StackLayout>-->  
+                    <!--<StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                        <Label Text="{Binding Source={x:Type viewmodels:ModifyTermsViewModel}, Path=EndDateMinimum}" VerticalOptions="Center"/>
+                    </StackLayout>-->
+                    <!--<StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                        <Label Text="{Binding Source={x:RelativeSource}, Path=EndDateMinimum}" VerticalOptions="Center"/>
+                    </StackLayout>-->
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                        <Label Text="{Binding EndDateMinimum}" VerticalOptions="Center" x:DataType="viewmodels:ModifyTermsViewModel"/>
+                    </StackLayout>
+                    <!--<StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                        <Label Text="{Binding EndDateMinimum}" VerticalOptions="Center" BindingContext="{Binding Source=BindingContext}"/>
+                    </StackLayout>-->
 
                     <StackLayout HeightRequest="400">
                         <Label Text="Attached Courses" HorizontalOptions="Center" VerticalOptions="Center" FontAttributes="Bold"/>

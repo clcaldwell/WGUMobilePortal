@@ -56,8 +56,31 @@ namespace WGUMobilePortal.ViewModels
                 OnPropertyChanged(nameof(IsModifyTerm));
             }
         }
-        public DateTime StartDate { get => _startDate; set => SetProperty(ref _startDate, value); }
-        public DateTime EndDate { get => _endDate; set => SetProperty(ref _endDate, value); }
+        //public DateTime StartDate { get => _startDate; set =>  SetProperty(ref _startDate, value);
+        //        OnPropertyChanged(nameof(StartDate));
+        //    }
+        //}
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        //public DateTime EndDate
+        //{
+        //    get => _endDate;
+        //    set
+        //    {
+        //        SetProperty(ref _endDate, value);
+        //        OnPropertyChanged(nameof(EndDate));
+        //    }
+        //}
+        public DateTime StartDateMinimum => DateTime.Today.AddDays(-60).Date;
+        public DateTime EndDateMinimum => StartDate.AddDays(1).Date;   
+        //{
+        //    get => _endDateMinimum;
+        //    set
+        //    {
+        //        SetProperty(ref _endDateMinimum, value);
+        //        OnPropertyChanged(nameof(EndDateMinimum));
+        //    }
+        //}
         public Term Term { get => _term; set => SetProperty(ref _term, value); }
         public Course SelectedCourse
         {
@@ -103,6 +126,7 @@ namespace WGUMobilePortal.ViewModels
         private bool _isModifyTerm;
         private DateTime _startDate;
         private DateTime _endDate;
+        //private DateTime _endDateMinimum;  
         private Term _term;
         private Course _selectedAttachCourse;
         private Course _selectedCourse;
@@ -135,6 +159,8 @@ namespace WGUMobilePortal.ViewModels
                 StartDate = DateTime.Parse(HttpUtility.UrlDecode(query["startDate"]));
                 EndDate = DateTime.Parse(HttpUtility.UrlDecode(query["endDate"]));
                 Id = int.Parse(HttpUtility.UrlDecode(query["id"]));
+                //_ = StartDateMinimum;
+                //_ = EndDateMinimum;
 
                 Load(Id);
             }
