@@ -1,8 +1,8 @@
 {
-  "profiles": {
-    "WGUMobilePortal": {
-      "commandName": "Project",
-      "nativeDebugging": false
+    "profiles": {
+        "WGUMobilePortal": {
+            "commandName": "Project",
+            "nativeDebugging": false
+        }
     }
-  }
 }

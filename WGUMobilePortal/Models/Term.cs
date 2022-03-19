@@ -10,9 +10,11 @@ namespace WGUMobilePortal.Models
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
+
         public string Name { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+
         public string StrCourseId
         {
             get
@@ -24,7 +26,7 @@ namespace WGUMobilePortal.Models
                 else if (_courseId != null)
                 {
                     _courseId.Sort();
-                    List<string> strList = _courseId.Select(x => x.ToString()).ToList();
+                    List<string> strList = _courseId.ConvertAll(x => x.ToString());
                     return string.Join(",", strList);
                 }
                 else
@@ -43,7 +45,7 @@ namespace WGUMobilePortal.Models
                 if (_courseId == null && !string.IsNullOrEmpty(_strCourseId))
                 {
                     List<string> strCourseList = _strCourseId.Split(',').ToList();
-                    List<int> intList = strCourseList.Select(x => int.Parse(x)).ToList();
+                    List<int> intList = strCourseList.ConvertAll(x => int.Parse(x));
                     intList.Sort();
                     _courseId = intList;
                     return _courseId;
@@ -69,11 +71,8 @@ namespace WGUMobilePortal.Models
         //[SQLite.Ignore]
         //public List<int> intCourseId
         //{
-
         //}
         //private string _strCourseId;
         //private List<int> _intCourseId;
-
-
     }
 }

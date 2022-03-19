@@ -1,5 +1,4 @@
-﻿
-using SQLite;
+﻿using SQLite;
 
 namespace WGUMobilePortal.Models
 {
@@ -7,11 +6,10 @@ namespace WGUMobilePortal.Models
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
-        
+
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
         public string EmailAddress { get; set; }
     }
-
 }

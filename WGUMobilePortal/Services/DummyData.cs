@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 
 using WGUMobilePortal.Models;
 
-
 namespace WGUMobilePortal.Services
 {
     public class DummyData
@@ -77,6 +76,5 @@ namespace WGUMobilePortal.Services
             //await DBService.GetAllNote();
             //await DBService.GetAllTerm();
         }
-
     }
 }

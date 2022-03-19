@@ -2,8 +2,6 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-using Xamarin.Forms;
-
 namespace WGUMobilePortal.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged, IDataErrorInfo
@@ -32,20 +30,20 @@ namespace WGUMobilePortal.ViewModels
 
         //public DBService<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
 
-        bool isBusy = false;
+        private bool isBusy = false;
+
         public bool IsBusy
         {
             get => isBusy;
             set => SetProperty(ref isBusy, value);
         }
 
-        string title = string.Empty;
+        private string title = string.Empty;
+
         public string Title
         {
             get => title;
             set => SetProperty(ref title, value);
         }
-
     }
-
 }

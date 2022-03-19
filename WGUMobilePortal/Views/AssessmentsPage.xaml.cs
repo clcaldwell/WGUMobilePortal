@@ -13,6 +13,7 @@ namespace WGUMobilePortal.Views
             InitializeComponent();
             this.BindingContext = new AssessmentsViewModel();
         }
+
         protected override async void OnAppearing()
         {
             if (BindingContext is AssessmentsViewModel viewModel)

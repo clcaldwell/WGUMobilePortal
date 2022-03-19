@@ -1,13 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Shell xmlns="http://xamarin.com/schemas/2014/forms" 
-       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-       xmlns:local="clr-namespace:WGUMobilePortal.Views"
-       Title="WGUMobilePortal"
-       x:Class="WGUMobilePortal.AppShell">
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="WGUMobilePortal.AppShell"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:WGUMobilePortal.Views"
+    Title="WGUMobilePortal">
 
     <!--
         The overall app visual hierarchy is defined here, along with navigation.
-    
+
         https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/
     -->
 
@@ -20,21 +21,24 @@
                 <Setter Property="Shell.DisabledColor" Value="#B4FFFFFF" />
                 <Setter Property="Shell.UnselectedColor" Value="#95FFFFFF" />
                 <Setter Property="Shell.TabBarBackgroundColor" Value="{StaticResource Primary}" />
-                <Setter Property="Shell.TabBarForegroundColor" Value="White"/>
-                <Setter Property="Shell.TabBarUnselectedColor" Value="#95FFFFFF"/>
-                <Setter Property="Shell.TabBarTitleColor" Value="White"/>
+                <Setter Property="Shell.TabBarForegroundColor" Value="White" />
+                <Setter Property="Shell.TabBarUnselectedColor" Value="#95FFFFFF" />
+                <Setter Property="Shell.TabBarTitleColor" Value="White" />
             </Style>
-            <Style TargetType="TabBar" BasedOn="{StaticResource BaseStyle}" />
-            <Style TargetType="FlyoutItem" BasedOn="{StaticResource BaseStyle}" />
+            <Style BasedOn="{StaticResource BaseStyle}" TargetType="TabBar" />
+            <Style BasedOn="{StaticResource BaseStyle}" TargetType="FlyoutItem" />
 
             <!--
-            Default Styles for all Flyout Items
-            https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/flyout#flyoutitem-and-menuitem-style-classes
+                Default Styles for all Flyout Items
+                https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/flyout#flyoutitem-and-menuitem-style-classes
             -->
             <Style Class="FlyoutItemLabelStyle" TargetType="Label">
-                <Setter Property="TextColor" Value="White"></Setter>
+                <Setter Property="TextColor" Value="White" />
             </Style>
-            <Style Class="FlyoutItemLayoutStyle" TargetType="Layout" ApplyToDerivedTypes="True">
+            <Style
+                ApplyToDerivedTypes="True"
+                Class="FlyoutItemLayoutStyle"
+                TargetType="Layout">
                 <Setter Property="VisualStateManager.VisualStateGroups">
                     <VisualStateGroupList>
                         <VisualStateGroup x:Name="CommonStates">
@@ -55,9 +59,12 @@
             </Style>
 
             <!--
-            Custom Style you can apply to any Flyout Item
+                Custom Style you can apply to any Flyout Item
             -->
-            <Style Class="MenuItemLayoutStyle" TargetType="Layout" ApplyToDerivedTypes="True">
+            <Style
+                ApplyToDerivedTypes="True"
+                Class="MenuItemLayoutStyle"
+                TargetType="Layout">
                 <Setter Property="VisualStateManager.VisualStateGroups">
                     <VisualStateGroupList>
                         <VisualStateGroup x:Name="CommonStates">
@@ -73,33 +80,41 @@
         </ResourceDictionary>
     </Shell.Resources>
 
-    <!-- 
+    <!--
         When the Flyout is visible this defines the content to display in the flyout.
-        FlyoutDisplayOptions="AsMultipleItems" will create a separate flyout item for each child element    
+        FlyoutDisplayOptions="AsMultipleItems" will create a separate flyout item for each child element
         https://docs.microsoft.com/dotnet/api/xamarin.forms.shellgroupitem.flyoutdisplayoptions?view=xamarin-forms
     -->
     <Shell.FlyoutHeader>
         <StackLayout>
             <Label Padding="0,0,0,0" />
-            <Image Source="wgu_logo.png" Aspect="AspectFill" HeightRequest="70" />
-            <Label Text="Mobile Student Portal" FontSize="Large" TextColor="{StaticResource Secondary}" HorizontalOptions="CenterAndExpand" Padding="0,0,0,20"/>
+            <Image
+                Aspect="AspectFill"
+                HeightRequest="70"
+                Source="wgu_logo.png" />
+            <Label
+                Padding="0,0,0,20"
+                FontSize="Large"
+                HorizontalOptions="CenterAndExpand"
+                Text="Mobile Student Portal"
+                TextColor="{StaticResource Secondary}" />
             <Label Padding="0,0,0,0" />
         </StackLayout>
     </Shell.FlyoutHeader>
-    <FlyoutItem Title="Main" >
-        <ShellContent Route="MainPage" ContentTemplate="{DataTemplate local:MainPage}" />
+    <FlyoutItem Title="Main">
+        <ShellContent ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" />
     </FlyoutItem>
     <FlyoutItem Title="Terms">
-        <ShellContent Route="TermsPage" ContentTemplate="{DataTemplate local:TermsPage}" />
+        <ShellContent ContentTemplate="{DataTemplate local:TermsPage}" Route="TermsPage" />
     </FlyoutItem>
     <FlyoutItem Title="Courses">
-        <ShellContent Route="CoursesPage" ContentTemplate="{DataTemplate local:CoursesPage}" />
+        <ShellContent ContentTemplate="{DataTemplate local:CoursesPage}" Route="CoursesPage" />
     </FlyoutItem>
     <FlyoutItem Title="Assessments">
-        <ShellContent Route="AssessmentsPage" ContentTemplate="{DataTemplate local:AssessmentsPage}" />
+        <ShellContent ContentTemplate="{DataTemplate local:AssessmentsPage}" Route="AssessmentsPage" />
     </FlyoutItem>
 
-    <!-- Optional Templates 
+    <!-- Optional Templates
     // These may be provided inline as below or as separate classes.
 
     // This header appears at the top of the Flyout.
@@ -131,5 +146,4 @@
     </Shell.MenuItemTemplate>
 
     -->
-
 </Shell>

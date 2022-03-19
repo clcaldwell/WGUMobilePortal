@@ -6,21 +6,15 @@
     xmlns:model="clr-namespace:WGUMobilePortal.Models;assembly=WGUMobilePortal"
     xmlns:viewmodels="clr-namespace:WGUMobilePortal.ViewModels"
     x:Name="MyCoursesPage"
+    Title="{Binding Title}"
     x:DataType="viewmodels:CoursesViewModel"
-    BackgroundColor="White"
-    Title="{Binding Title}">
+    BackgroundColor="White">
     <ContentPage.BindingContext>
         <viewmodels:CoursesViewModel />
     </ContentPage.BindingContext>
 
-    <!--<ContentPage.Resources>
-        <ResourceDictionary>
-            <xct:ItemSelectedEventArgsConverter x:Key="ItemSelectedEventArgsConverter" />
-        </ResourceDictionary>
-    </ContentPage.Resources>-->
-
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add" Command="{Binding AddCommand}"/>
+        <ToolbarItem Command="{Binding AddCommand}" Text="Add" />
     </ContentPage.ToolbarItems>
 
     <Grid>
@@ -28,91 +22,90 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackLayout BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
+        <StackLayout
+            BackgroundColor="White"
+            HorizontalOptions="Fill"
+            VerticalOptions="FillAndExpand">
+            <StackLayout
+                HorizontalOptions="Center"
+                Orientation="Horizontal"
+                VerticalOptions="Center">
                 <ContentView Padding="0,0,0,5" VerticalOptions="FillAndExpand">
-                    <Image Source="wgu_logo.png" VerticalOptions="Center" HeightRequest="64" />
+                    <Image
+                        HeightRequest="64"
+                        Source="wgu_logo.png"
+                        VerticalOptions="Center" />
                 </ContentView>
             </StackLayout>
         </StackLayout>
         <ScrollView Grid.Row="1">
-            <StackLayout Orientation="Vertical" Padding="30,24,30,24" Spacing="10">
-                <Label Text="Courses Page"
-                       FontSize="Title"
-                       HorizontalTextAlignment="Center"/>
+            <StackLayout
+                Padding="30,24,30,24"
+                Orientation="Vertical"
+                Spacing="10">
+                <Label
+                    FontSize="Title"
+                    HorizontalTextAlignment="Center"
+                    Text="Courses Page" />
             </StackLayout>
         </ScrollView>
 
-        <RefreshView Command="{Binding RefreshCommand}"
-                     IsRefreshing="True"
-                     RefreshColor="Red"
-                     Grid.Row="1"
-                     HorizontalOptions="Center">
-        </RefreshView>
+        <RefreshView
+            Grid.Row="1"
+            Command="{Binding RefreshCommand}"
+            HorizontalOptions="Center"
+            IsRefreshing="{Binding IsBusy}"
+            RefreshColor="Red" />
 
-        <CollectionView 
+        <CollectionView
+            Grid.Row="1"
             BackgroundColor="Transparent"
-            ItemsSource="{Binding Course}"
             ItemsLayout="VerticalList"
-            SelectionMode="Single"
-            Grid.Row="1">
+            ItemsSource="{Binding Course}"
+            SelectionMode="Single">
             <CollectionView.EmptyView>
                 <StackLayout Padding="10">
-                    <Label HorizontalOptions="Center"
-                           Text="No courses exist" />
+                    <Label HorizontalOptions="Center" Text="No courses exist" />
                 </StackLayout>
             </CollectionView.EmptyView>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:Course">
                     <Grid Padding="10">
                         <Frame CornerRadius="20" HasShadow="True">
-                            <!--<xct:Expander>
-                                <xct:Expander.Header>-->
-                                    <!--<Label FontSize="Large"
-                                        Text="{Binding Name}"
-                                        VerticalOptions="Center" />-->
-                                <!--</xct:Expander.Header>
-                                <xct1:Expander.Content>-->
-                                    <StackLayout>
-                                        <Label HorizontalOptions="Center"
-                                            VerticalOptions="Center"
-                                            TextColor="{StaticResource Primary}">
-                                            <Label.Text>
-                                                <MultiBinding StringFormat="{}
-                                                              Name: {0}
-                                                              Dates: {1:MM/dd/yyyy} - {2:MM/dd/yyyy}">
-                                                    <Binding Path="Name"/>
-                                                    <Binding Path="StartDate" />
-                                                    <Binding Path="EndDate" />
+                            <StackLayout>
+                                <Label
+                                    HorizontalOptions="Center"
+                                    TextColor="{StaticResource Primary}"
+                                    VerticalOptions="Center">
+                                    <Label.Text>
+                                        <MultiBinding StringFormat="{}Name: {0}&#x0a;Dates: {1:MM/dd/yyyy} - {2:MM/dd/yyyy}">
+                                            <Binding Path="Name" />
+                                            <Binding Path="StartDate" />
+                                            <Binding Path="EndDate" />
                                         </MultiBinding>
-                                            </Label.Text>
-                                        </Label>
-                                        <Label HorizontalOptions="Center"
-                                            VerticalOptions="Center"
-                                            TextColor="{StaticResource Primary}">
-                                            <Label.Text>
-                                                <MultiBinding StringFormat="{}
-                                                              Note: {0},
-                                                              FirstName: {1},
-                                                              LastName: {2},
-                                                              Phone: {3},
-                                                              Email: {4}">
-                                                    <Binding Path="NoteContent" />
-                                                    <Binding Path="InstructorFirstName" />
-                                                    <Binding Path="InstructorLastName" />
-                                                    <Binding Path="InstructorPhoneNumber" />
-                                                    <Binding Path="InstructorEmailAddress" />
-                                                </MultiBinding>
-                                            </Label.Text>
-                                        </Label>
-                                        <Button Text="Delete"
-                                        VerticalOptions="CenterAndExpand"
-                                        HorizontalOptions="Center"
-                                        Command="{Binding Source={x:Reference MyCoursesPage}, Path=BindingContext.RemoveCommand}"
-                                        CommandParameter="{Binding .}"/>
-                                    </StackLayout>
-                                <!--</xct1:Expander.Content>
-                            </xct:Expander>-->
+                                    </Label.Text>
+                                </Label>
+                                <Label
+                                    HorizontalOptions="Center"
+                                    TextColor="{StaticResource Primary}"
+                                    VerticalOptions="Center">
+                                    <Label.Text>
+                                        <MultiBinding StringFormat="{}Note: {0}&#x0a;FirstName: {1}&#x0a;LastName: {2}&#x0a;Phone: {3}&#x0a;Email: {4}">
+                                            <Binding Path="NoteContent" />
+                                            <Binding Path="InstructorFirstName" />
+                                            <Binding Path="InstructorLastName" />
+                                            <Binding Path="InstructorPhoneNumber" />
+                                            <Binding Path="InstructorEmailAddress" />
+                                        </MultiBinding>
+                                    </Label.Text>
+                                </Label>
+                                <Button
+                                    Command="{Binding Source={x:Reference MyCoursesPage}, Path=BindingContext.RemoveCommand}"
+                                    CommandParameter="{Binding .}"
+                                    HorizontalOptions="Center"
+                                    Text="Delete"
+                                    VerticalOptions="CenterAndExpand" />
+                            </StackLayout>
                         </Frame>
                     </Grid>
                 </DataTemplate>

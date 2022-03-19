@@ -6,15 +6,15 @@
     xmlns:model="clr-namespace:WGUMobilePortal.Models;assembly=WGUMobilePortal"
     xmlns:viewmodels="clr-namespace:WGUMobilePortal.ViewModels"
     x:Name="MyTermsPage"
+    Title="{Binding Title}"
     x:DataType="viewmodels:TermsViewModel"
-    BackgroundColor="White"
-    Title="{Binding Title}">
+    BackgroundColor="White">
     <ContentPage.BindingContext>
         <viewmodels:TermsViewModel />
     </ContentPage.BindingContext>
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add" Command="{Binding AddCommand}"/>
+        <ToolbarItem Command="{Binding AddCommand}" Text="Add" />
     </ContentPage.ToolbarItems>
 
     <Grid>
@@ -22,69 +22,87 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackLayout BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
+        <StackLayout
+            BackgroundColor="White"
+            HorizontalOptions="Fill"
+            VerticalOptions="FillAndExpand">
+            <StackLayout
+                HorizontalOptions="Center"
+                Orientation="Horizontal"
+                VerticalOptions="Center">
                 <ContentView Padding="0,0,0,5" VerticalOptions="FillAndExpand">
-                    <Image Source="wgu_logo.png" VerticalOptions="Center" HeightRequest="64" />
+                    <Image
+                        HeightRequest="64"
+                        Source="wgu_logo.png"
+                        VerticalOptions="Center" />
                 </ContentView>
             </StackLayout>
         </StackLayout>
         <ScrollView Grid.Row="1">
-            <StackLayout Orientation="Vertical" Padding="30,24,30,24" Spacing="10">
-                <Label Text="Terms Page"
-                       FontSize="Title"
-                       HorizontalTextAlignment="Center"/>
+            <StackLayout
+                Padding="30,24,30,24"
+                Orientation="Vertical"
+                Spacing="10">
+                <Label
+                    FontSize="Title"
+                    HorizontalTextAlignment="Center"
+                    Text="Terms Page" />
             </StackLayout>
         </ScrollView>
 
-        <RefreshView Command="{Binding RefreshCommand}"
-                    IsRefreshing="{Binding IsBusy}"
-                    RefreshColor="Red"
-                    Grid.Row="1"
-                    HorizontalOptions="Center">
-    
-        <CollectionView 
-            BackgroundColor="Transparent"
-            ItemsSource="{Binding Terms}"
-            ItemsLayout="VerticalList"
-            SelectionMode="Single"
-            Grid.Row="1">
-            <CollectionView.EmptyView>
-                <StackLayout Padding="10">
-                    <Label HorizontalOptions="Center"
-                           Text="No terms exist" />
-                </StackLayout>
-            </CollectionView.EmptyView>
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="model:Term">
-                            <Grid Padding="10">
+        <RefreshView
+            Grid.Row="1"
+            Command="{Binding RefreshCommand}"
+            HorizontalOptions="Center"
+            IsRefreshing="{Binding IsBusy}"
+            RefreshColor="Red">
+
+            <CollectionView
+                Grid.Row="1"
+                BackgroundColor="Transparent"
+                ItemsLayout="VerticalList"
+                ItemsSource="{Binding Terms}"
+                SelectionMode="Single">
+                <CollectionView.EmptyView>
+                    <StackLayout Padding="10">
+                        <Label HorizontalOptions="Center" Text="No terms exist" />
+                    </StackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Term">
+                        <Grid Padding="10">
                             <Frame CornerRadius="20" HasShadow="True">
                                 <StackLayout>
-                                    <Label HorizontalOptions="Start"
-                                VerticalOptions="Center"
-                                TextColor="{StaticResource Primary}">
+                                    <Label
+                                        HorizontalOptions="Start"
+                                        TextColor="{StaticResource Primary}"
+                                        VerticalOptions="Center">
                                         <Label.Text>
-                                        <MultiBinding StringFormat="{}{0}&#x0a;{1:MM/dd/yyyy} - {2:MM/dd/yyyy}">
-                                            <Binding Path="Name"/>
-                                            <Binding Path="StartDate" />
-                                            <Binding Path="EndDate" />
-                                        </MultiBinding>
-                                    </Label.Text>
+                                            <MultiBinding StringFormat="{}{0}&#x0a;{1:MM/dd/yyyy} - {2:MM/dd/yyyy}">
+                                                <Binding Path="Name" />
+                                                <Binding Path="StartDate" />
+                                                <Binding Path="EndDate" />
+                                            </MultiBinding>
+                                        </Label.Text>
                                     </Label>
-                                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                                    <Button Text="View / Modify" WidthRequest="200"
-                                        Command="{Binding Source={x:Reference MyTermsPage}, Path=BindingContext.ModifyCommand}"
-                                        CommandParameter="{Binding .}" />
-                                    <Button Text="Delete" BackgroundColor="DarkRed"
-                                        Command="{Binding Source={x:Reference MyTermsPage}, Path=BindingContext.RemoveCommand}"
-                                        CommandParameter="{Binding .}" />
+                                    <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
+                                        <Button
+                                            Command="{Binding Source={x:Reference MyTermsPage}, Path=BindingContext.ModifyCommand}"
+                                            CommandParameter="{Binding .}"
+                                            Text="View / Modify"
+                                            WidthRequest="200" />
+                                        <Button
+                                            BackgroundColor="DarkRed"
+                                            Command="{Binding Source={x:Reference MyTermsPage}, Path=BindingContext.RemoveCommand}"
+                                            CommandParameter="{Binding .}"
+                                            Text="Delete" />
+                                    </StackLayout>
                                 </StackLayout>
-                            </StackLayout>
-                        </Frame>
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                            </Frame>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </RefreshView>
     </Grid>
 </ContentPage>

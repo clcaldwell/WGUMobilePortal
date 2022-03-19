@@ -1,11 +1,9 @@
-﻿
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace WGUMobilePortal
 {
     public partial class App : Application
     {
-
         public App()
         {
             InitializeComponent();

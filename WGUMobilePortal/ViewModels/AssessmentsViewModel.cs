@@ -18,7 +18,6 @@ namespace WGUMobilePortal.ViewModels
 
         public AssessmentsViewModel()
         {
-
             Title = "Assessments View";
 
             Assessment = new ObservableCollection<Models.Assessment>();
@@ -30,31 +29,31 @@ namespace WGUMobilePortal.ViewModels
 
             _ = Load();
         }
+
         public async Task OnAppearing()
         {
             await Load();
         }
 
-        async Task Add()
+        private async Task Add()
         {
-
             string name = await App.Current.MainPage.DisplayPromptAsync("Name", "Name of Assessment");
 
             DateTime startdate = new DateTime(2022, 06, 01);
             DateTime enddate = new DateTime(2022, 12, 30);
-            Models.AssessmentStyle style = Models.AssessmentStyle.Objective;
+            const Models.AssessmentStyle style = Models.AssessmentStyle.Objective;
 
             await DBService.AddAssessment(name, startdate, enddate, style);
             await Task.Factory.StartNew(() => Refresh());
         }
 
-        async void Remove(Models.Assessment assessment)
+        private async void Remove(Models.Assessment assessment)
         {
             await DBService.RemoveAssessment(assessment.Id);
             await Task.Factory.StartNew(() => Refresh());
         }
 
-        async Task Refresh()
+        private async Task Refresh()
         {
             IsBusy = true;
 
@@ -70,7 +69,7 @@ namespace WGUMobilePortal.ViewModels
             IsBusy = false;
         }
 
-        async Task Load()
+        private async Task Load()
         {
             IsBusy = true;
             Assessment.Clear();

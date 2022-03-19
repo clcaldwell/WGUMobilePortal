@@ -1,6 +1,6 @@
-﻿using System;
+﻿using SQLite;
 
-using SQLite;
+using System;
 
 namespace WGUMobilePortal.Models
 {
@@ -8,6 +8,7 @@ namespace WGUMobilePortal.Models
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
+
         public string Name { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
@@ -27,5 +28,4 @@ namespace WGUMobilePortal.Models
         Dropped,
         Planned
     }
-
 }

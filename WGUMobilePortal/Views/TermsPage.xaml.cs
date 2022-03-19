@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-
-using WGUMobilePortal.ViewModels;
+﻿using WGUMobilePortal.ViewModels;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -24,6 +21,5 @@ namespace WGUMobilePortal.Views
                 await viewModel.OnAppearing();
             }
         }
-
     }
 }

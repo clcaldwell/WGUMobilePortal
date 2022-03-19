@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 using WGUMobilePortal.Services;
@@ -36,13 +35,14 @@ namespace WGUMobilePortal.ViewModels
         public Command<Models.Term> RemoveCommand { get; }
         public Command ModifyCommand { get; }
 
-        async Task Add()
+        private async Task Add()
         {
             await AppShell.Current.GoToAsync($"{nameof(ModifyTermsPage)}?id={null}");
-            
+
             await Refresh();
         }
-        async void Remove(Models.Term term)
+
+        private async void Remove(Models.Term term)
         {
             if (await Shell.Current.DisplayAlert("Confirm Deletion", $"Are you sure you want to delete {term.Name}", "Delete", "Cancel"))
             {
@@ -50,15 +50,18 @@ namespace WGUMobilePortal.ViewModels
                 await Refresh();
             }
         }
-        async void Modify(Models.Term term)
+
+        private async void Modify(Models.Term term)
         {
             await AppShell.Current.GoToAsync($"{nameof(ModifyTermsPage)}?id={term.Id}&name={term.Name}&startDate={term.StartDate}&endDate={term.EndDate}");
         }
+
         public async Task Load()
         {
             await Task.Factory.StartNew(() => Refresh());
         }
-        async Task Refresh()
+
+        private async Task Refresh()
         {
             IsBusy = true;
             Terms.Clear();
@@ -69,6 +72,5 @@ namespace WGUMobilePortal.ViewModels
             }
             IsBusy = false;
         }
-
     }
 }

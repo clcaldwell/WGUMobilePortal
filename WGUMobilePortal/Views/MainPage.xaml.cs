@@ -12,10 +12,9 @@ namespace WGUMobilePortal.Views
             this.BindingContext = new MainViewModel();
         }
 
-        async void Button_Clicked(object sender, System.EventArgs e)
+        private async void Button_Clicked(object sender, System.EventArgs e)
         {
             await Shell.Current.GoToAsync(nameof(sender));
         }
-
     }
 }

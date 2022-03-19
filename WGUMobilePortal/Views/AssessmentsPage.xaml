@@ -5,23 +5,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:model="clr-namespace:WGUMobilePortal.Models;assembly=WGUMobilePortal"
     xmlns:viewmodels="clr-namespace:WGUMobilePortal.ViewModels"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:Name="MyAssessmentsPage"
+    Title="{Binding Title}"
     x:DataType="viewmodels:AssessmentsViewModel"
-    BackgroundColor="White"
-    Title="{Binding Title}">
+    BackgroundColor="White">
     <ContentPage.BindingContext>
         <viewmodels:AssessmentsViewModel />
     </ContentPage.BindingContext>
 
-    <!--<ContentPage.Resources>
-        <ResourceDictionary>
-            <xct:ItemSelectedEventArgsConverter x:Key="ItemSelectedEventArgsConverter" />
-        </ResourceDictionary>
-    </ContentPage.Resources>-->
-
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add" Command="{Binding AddCommand}"/>
+        <ToolbarItem Command="{Binding AddCommand}" Text="Add" />
     </ContentPage.ToolbarItems>
 
     <Grid>
@@ -29,38 +22,50 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackLayout BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
+        <StackLayout
+            BackgroundColor="White"
+            HorizontalOptions="Fill"
+            VerticalOptions="FillAndExpand">
+            <StackLayout
+                HorizontalOptions="Center"
+                Orientation="Horizontal"
+                VerticalOptions="Center">
                 <ContentView Padding="0,0,0,5" VerticalOptions="FillAndExpand">
-                    <Image Source="wgu_logo.png" VerticalOptions="Center" HeightRequest="64" />
+                    <Image
+                        HeightRequest="64"
+                        Source="wgu_logo.png"
+                        VerticalOptions="Center" />
                 </ContentView>
             </StackLayout>
         </StackLayout>
         <ScrollView Grid.Row="1">
-            <StackLayout Orientation="Vertical" Padding="30,24,30,24" Spacing="10">
-                <Label Text="Assessments Page"
-                       FontSize="Title"
-                       HorizontalTextAlignment="Center"/>
+            <StackLayout
+                Padding="30,24,30,24"
+                Orientation="Vertical"
+                Spacing="10">
+                <Label
+                    FontSize="Title"
+                    HorizontalTextAlignment="Center"
+                    Text="Assessments Page" />
             </StackLayout>
         </ScrollView>
 
-        <RefreshView Command="{Binding RefreshCommand}"
-                     IsRefreshing="True"
-                     RefreshColor="Red"
-                     Grid.Row="1"
-                     HorizontalOptions="Center">
-        </RefreshView>
+        <RefreshView
+            Grid.Row="1"
+            Command="{Binding RefreshCommand}"
+            HorizontalOptions="Center"
+            IsRefreshing="True"
+            RefreshColor="Red" />
 
-        <CollectionView 
+        <CollectionView
+            Grid.Row="1"
             BackgroundColor="Transparent"
-            ItemsSource="{Binding Assessment}"
             ItemsLayout="VerticalList"
-            SelectionMode="Single"
-            Grid.Row="1">
+            ItemsSource="{Binding Assessment}"
+            SelectionMode="Single">
             <CollectionView.EmptyView>
                 <StackLayout Padding="10">
-                    <Label HorizontalOptions="Center"
-                           Text="No assessments exist" />
+                    <Label HorizontalOptions="Center" Text="No assessments exist" />
                 </StackLayout>
             </CollectionView.EmptyView>
             <CollectionView.ItemTemplate>
@@ -69,42 +74,45 @@
                         <Frame CornerRadius="20" HasShadow="True">
                             <!--<xct:Expander>
                                 <xct:Expander.Header>-->
-                                    <!--<Label FontSize="Large"
+                            <!--<Label FontSize="Large"
                                         Text="{Binding Name}"
                                         VerticalOptions="Center" />-->
-                                <!--</xct:Expander.Header>
+                            <!--</xct:Expander.Header>
                                 <xct:Expander.Content>-->
-                                    <StackLayout>
-                                <Label HorizontalOptions="Center"
-                                VerticalOptions="Center"
-                                TextColor="{StaticResource Primary}">
+                            <StackLayout>
+                                <Label
+                                    HorizontalOptions="Center"
+                                    TextColor="{StaticResource Primary}"
+                                    VerticalOptions="Center">
                                     <Label.Text>
-                                        <Binding Path="Name"></Binding>
+                                        <Binding Path="Name" />
                                     </Label.Text>
                                 </Label>
 
-                                <Label HorizontalOptions="Center"
-                                VerticalOptions="Center"
-                                TextColor="{StaticResource Primary}">
+                                <Label
+                                    HorizontalOptions="Center"
+                                    TextColor="{StaticResource Primary}"
+                                    VerticalOptions="Center">
                                     <Label.Text>
                                         <MultiBinding StringFormat="{}Date: {0:MM/dd/yyyy} - {1:MM/dd/yyyy}">
                                             <Binding Path="StartDate" />
-                                                <Binding Path="EndDate" />
+                                            <Binding Path="EndDate" />
                                         </MultiBinding>
                                     </Label.Text>
                                 </Label>
-                                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">      
-                                <Button Text="View / Modify" WidthRequest="200"
+                                <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
+                                    <Button
                                         Command="{Binding Source={x:Reference MyAssessmentsPage}, Path=BindingContext.RemoveCommand}"
                                         CommandParameter="{Binding .}"
-                                        />
-                                <Button Text="Delete"
+                                        Text="View / Modify"
+                                        WidthRequest="200" />
+                                    <Button
                                         Command="{Binding Source={x:Reference MyAssessmentsPage}, Path=BindingContext.RemoveCommand}"
                                         CommandParameter="{Binding .}"
-                                        />
+                                        Text="Delete" />
                                 </StackLayout>
                             </StackLayout>
-                                <!--</xct:Expander.Content>
+                            <!--</xct:Expander.Content>
                             </xct:Expander>-->
                         </Frame>
                     </Grid>
