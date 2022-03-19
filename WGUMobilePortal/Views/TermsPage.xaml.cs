@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 using WGUMobilePortal.ViewModels;
 
@@ -13,8 +14,15 @@ namespace WGUMobilePortal.Views
         public TermsPage()
         {
             InitializeComponent();
-
             this.BindingContext = new TermsViewModel();
+        }
+
+        protected override void OnAppearing()
+        {
+            if (BindingContext is TermsViewModel viewModel)
+            {
+                _ = viewModel.OnAppearing();
+            }
         }
 
     }
