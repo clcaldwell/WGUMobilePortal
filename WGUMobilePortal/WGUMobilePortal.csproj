@@ -14,14 +14,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Views\TermsPage_backup.xaml.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Remove="Views\TermsPage_backup.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="NETStandard.Library" Version="2.0.3" />
     <PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
     <PackageReference Include="Xam.Plugins.Notifier" Version="3.0.1" />
@@ -30,11 +22,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\AboutPage - Copy.xaml.cs">
-      <DependentUpon>%(Filename)</DependentUpon>
-    </Compile>
     <Compile Update="Views\AssessmentsPage.xaml.cs">
       <DependentUpon>AssessmentsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Modify\ModifyCoursesPage.xaml.cs">
+      <DependentUpon>ModifyCoursesPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Modify\ModifyTermsPage.xaml.cs">
       <DependentUpon>ModifyTermsPage.xaml</DependentUpon>
@@ -45,11 +37,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Views\Modify\ModifyTermsPage.xaml">
+    <EmbeddedResource Update="Views\Modify\ModifyCoursesPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\TermsPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Views\Modify\ModifyCoursesPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
   </ItemGroup>
 </Project>

@@ -10,12 +10,6 @@ namespace WGUMobilePortal.ViewModels
 {
     public class AssessmentsViewModel : BaseViewModel
     {
-        public ObservableCollection<Models.Assessment> Assessment { get; set; }
-        public Command RefreshCommand { get; }
-        public Command AddCommand { get; }
-        public Command<Models.Assessment> RemoveCommand { get; }
-        public Command<Models.Assessment> ModifyCommand { get; }
-
         public AssessmentsViewModel()
         {
             Title = "Assessments View";
@@ -29,6 +23,12 @@ namespace WGUMobilePortal.ViewModels
 
             _ = Load();
         }
+
+        public Command AddCommand { get; }
+        public ObservableCollection<Models.Assessment> Assessment { get; set; }
+        public Command<Models.Assessment> ModifyCommand { get; }
+        public Command RefreshCommand { get; }
+        public Command<Models.Assessment> RemoveCommand { get; }
 
         public async Task OnAppearing()
         {
@@ -47,10 +47,16 @@ namespace WGUMobilePortal.ViewModels
             await Task.Run(() => Refresh());
         }
 
-        private async void Remove(Models.Assessment assessment)
+        private async Task Load()
         {
-            await DBService.RemoveAssessment(assessment.Id);
-            await Task.Run(() => Refresh());
+            IsBusy = true;
+            Assessment.Clear();
+            var assessments = await DBService.GetAllAssessment();
+            foreach (Models.Assessment assessment in assessments)
+            {
+                Assessment.Add(assessment);
+            }
+            IsBusy = false;
         }
 
         private async Task Refresh()
@@ -69,16 +75,10 @@ namespace WGUMobilePortal.ViewModels
             IsBusy = false;
         }
 
-        private async Task Load()
+        private async void Remove(Models.Assessment assessment)
         {
-            IsBusy = true;
-            Assessment.Clear();
-            var assessments = await DBService.GetAllAssessment();
-            foreach (Models.Assessment assessment in assessments)
-            {
-                Assessment.Add(assessment);
-            }
-            IsBusy = false;
+            await DBService.RemoveAssessment(assessment.Id);
+            await Task.Run(() => Refresh());
         }
     }
 }

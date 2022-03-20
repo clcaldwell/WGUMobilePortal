@@ -1,0 +1,293 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="WGUMobilePortal.Views.ModifyCoursesPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:WGUMobilePortal.Behaviors"
+    xmlns:viewmodels="clr-namespace:WGUMobilePortal.ViewModels"
+    x:Name="MyModifyCoursesPage"
+    Title="{Binding Title}"
+    BackgroundColor="White"
+    ControlTemplate="{DynamicResource ModifyCoursesView}">
+    <ContentPage.BindingContext>
+        <viewmodels:ModifyCoursesViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Triggers>
+
+        <DataTrigger
+            Binding="{Binding CurrentView}"
+            TargetType="ContentPage"
+            Value="{x:Static viewmodels:ModifyCoursesViewModel+ViewType.CourseModification}">
+            <Setter Property="ControlTemplate" Value="{DynamicResource ModifyCourseView}" />
+            <Setter Property="Title" Value="{Binding Title}" />
+        </DataTrigger>
+        <DataTrigger
+            Binding="{Binding CurrentView}"
+            TargetType="ContentPage"
+            Value="{x:Static viewmodels:ModifyCoursesViewModel+ViewType.InstructorModification}">
+            <Setter Property="ControlTemplate" Value="{DynamicResource ModifyInstructorView}" />
+            <Setter Property="Title" Value="Add / Modify Instructor" />
+        </DataTrigger>
+        <DataTrigger
+            Binding="{Binding CurrentView}"
+            TargetType="ContentPage"
+            Value="{x:Static viewmodels:ModifyCoursesViewModel+ViewType.AssessmentModification}">
+            <Setter Property="ControlTemplate" Value="{DynamicResource ModifyAssessmentView}" />
+            <Setter Property="Title" Value="Add / Modify Assessments" />
+        </DataTrigger>
+    </ContentPage.Triggers>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <!--  Main View for Course Modification  -->
+            <ControlTemplate x:Key="ModifyCourseView">
+                <StackLayout BindingContext="{TemplateBinding BindingContext}" VerticalOptions="StartAndExpand">
+                    <ContentPresenter VerticalOptions="FillAndExpand" />
+                    <ScrollView>
+                        <StackLayout>
+                            <Frame
+                                BackgroundColor="AliceBlue"
+                                CornerRadius="20"
+                                HasShadow="True">
+                                <StackLayout>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="Center"
+                                        Text="Course Info" />
+                                    <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                                        <Label Text="Course Name:" VerticalOptions="Center" />
+                                        <Entry
+                                            x:Name="Name"
+                                            FontSize="Small"
+                                            Text="{Binding CurrentCourse.Name, Mode=TwoWay}"
+                                            VerticalOptions="Center"
+                                            WidthRequest="150" />
+                                    </StackLayout>
+
+                                    <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                                        <Label Text="Course Start:" VerticalOptions="Center" />
+                                        <DatePicker
+                                            x:Name="StartDate"
+                                            x:DataType="viewmodels:ModifyCoursesViewModel"
+                                            Date="{Binding CurrentCourse.StartDate, Mode=TwoWay}"
+                                            FontSize="Small"
+                                            MinimumDate="{Binding StartDateMinimum}"
+                                            VerticalOptions="Center"
+                                            WidthRequest="150" />
+                                    </StackLayout>
+                                    <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                                        <Label Text="Course End:" VerticalOptions="Center" />
+                                        <DatePicker
+                                            x:Name="EndDate"
+                                            x:DataType="viewmodels:ModifyCoursesViewModel"
+                                            Date="{Binding CurrentCourse.EndDate, Mode=TwoWay}"
+                                            FontSize="Small"
+                                            MinimumDate="{Binding EndDateMinimum}"
+                                            VerticalOptions="Center"
+                                            WidthRequest="150" />
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
+
+                            <Frame
+                                BackgroundColor="AliceBlue"
+                                CornerRadius="20"
+                                HasShadow="True">
+                                <StackLayout>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="Center"
+                                        Text="Course Instructor" />
+                                    <StackLayout Orientation="Vertical">
+
+                                        <!--<StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                                <Label Text="Instructor:" VerticalOptions="Center" />
+
+                                <Picker
+                                    x:Name="InstructorPicker"
+                                    x:DataType="viewmodels:ModifyCoursesViewModel"
+                                    FontSize="Small"
+                                    ItemDisplayBinding="{Binding FirstName}"
+                                    ItemsSource="{Binding Instructors}"
+                                    SelectedItem="{Binding SelectedInstructor, Mode=TwoWay}"
+                                    VerticalOptions="Center"
+                                    WidthRequest="150" />
+                            </StackLayout>-->
+                                        <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                                            <Label Text="Name:" VerticalOptions="Center" />
+                                            <Entry
+                                                x:Name="InstructorName"
+                                                x:DataType="viewmodels:ModifyCoursesViewModel"
+                                                FontSize="Small"
+                                                Text="{Binding CurrentInstructor.FullName, Mode=OneWay}"
+                                                VerticalOptions="Center"
+                                                WidthRequest="150" />
+                                        </StackLayout>
+                                        <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                                            <Label Text="Phone:" VerticalOptions="Center" />
+                                            <Entry
+                                                x:Name="InstructorPhone"
+                                                x:DataType="viewmodels:ModifyCoursesViewModel"
+                                                FontSize="Small"
+                                                Text="{Binding CurrentInstructor.PhoneNumber, Mode=OneWay}"
+                                                VerticalOptions="Center"
+                                                WidthRequest="150" />
+                                        </StackLayout>
+                                        <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                                            <Label Text="Email:" VerticalOptions="Center" />
+                                            <Entry
+                                                x:Name="InstructorEmail"
+                                                x:DataType="viewmodels:ModifyCoursesViewModel"
+                                                FontSize="Small"
+                                                Text="{Binding CurrentInstructor.EmailAddress, Mode=OneWay}"
+                                                VerticalOptions="Center"
+                                                WidthRequest="150" />
+                                        </StackLayout>
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
+
+                            <Frame
+                                BackgroundColor="AliceBlue"
+                                CornerRadius="20"
+                                HasShadow="True">
+                                <StackLayout>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="Center"
+                                        Text="Assessments" />
+
+                                    <StackLayout Orientation="Horizontal">
+
+                                        <!--#region Objective Assessment-->
+                                        <StackLayout>
+                                            <Frame
+                                                BackgroundColor="AliceBlue"
+                                                CornerRadius="20"
+                                                HasShadow="True">
+                                                <StackLayout>
+                                                    <StackLayout>
+                                                        <Entry
+                                                            x:Name="ObjectiveAssessmentName"
+                                                            FontSize="Small"
+                                                            Text="{Binding CurrentObjectiveAssessment.Name, Mode=TwoWay}"
+                                                            VerticalOptions="Center"
+                                                            WidthRequest="150" />
+                                                    </StackLayout>
+
+                                                    <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                                                        <Label Text="Start:" VerticalOptions="Center" />
+                                                        <DatePicker
+                                                            x:Name="ObjectiveAssessmentStartDate"
+                                                            x:DataType="viewmodels:ModifyCoursesViewModel"
+                                                            Date="{Binding CurrentObjectiveAssessment.StartDate, Mode=TwoWay}"
+                                                            FontSize="Small"
+                                                            MinimumDate="{Binding StartDateMinimum}"
+                                                            VerticalOptions="Center"
+                                                            WidthRequest="150" />
+                                                    </StackLayout>
+                                                    <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                                                        <Label Text="End:" VerticalOptions="Center" />
+                                                        <DatePicker
+                                                            x:Name="ObjectiveAssessmentEndDate"
+                                                            x:DataType="viewmodels:ModifyCoursesViewModel"
+                                                            Date="{Binding CurrentObjectiveAssessment.EndDate, Mode=TwoWay}"
+                                                            FontSize="Small"
+                                                            MinimumDate="{Binding EndDateMinimum}"
+                                                            VerticalOptions="Center"
+                                                            WidthRequest="150" />
+                                                    </StackLayout>
+                                                </StackLayout>
+                                            </Frame>
+                                        </StackLayout>
+                                        <!--#endregion-->
+
+                                        <!--#region Performance Assessment-->
+                                        <StackLayout>
+                                            <Frame
+                                                BackgroundColor="AliceBlue"
+                                                CornerRadius="20"
+                                                HasShadow="True">
+                                                <StackLayout>
+                                                    <StackLayout>
+
+                                                        <Entry
+                                                            x:Name="PerformanceAssessmentName"
+                                                            FontSize="Small"
+                                                            Text="{Binding CurrentPerformanceAssessment.Name, Mode=TwoWay}"
+                                                            VerticalOptions="Center"
+                                                            WidthRequest="150" />
+                                                    </StackLayout>
+
+                                                    <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                                                        <Label Text="Start:" VerticalOptions="Center" />
+                                                        <DatePicker
+                                                            x:Name="PerformanceAssessmentStartDate"
+                                                            x:DataType="viewmodels:ModifyCoursesViewModel"
+                                                            Date="{Binding CurrentPerformanceAssessment.StartDate, Mode=TwoWay}"
+                                                            FontSize="Small"
+                                                            MinimumDate="{Binding StartDateMinimum}"
+                                                            VerticalOptions="Center"
+                                                            WidthRequest="150" />
+                                                    </StackLayout>
+                                                    <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                                                        <Label Text="End:" VerticalOptions="Center" />
+                                                        <DatePicker
+                                                            x:Name="PerformanceAssessmentEndDate"
+                                                            x:DataType="viewmodels:ModifyCoursesViewModel"
+                                                            Date="{Binding CurrentPerformanceAssessment.EndDate, Mode=TwoWay}"
+                                                            FontSize="Small"
+                                                            MinimumDate="{Binding EndDateMinimum}"
+                                                            VerticalOptions="Center"
+                                                            WidthRequest="150" />
+                                                    </StackLayout>
+                                                </StackLayout>
+                                            </Frame>
+                                        </StackLayout>
+                                        <!--#endregion-->
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+                    </ScrollView>
+                </StackLayout>
+            </ControlTemplate>
+            <!--  Instructor Modification View  -->
+            <ControlTemplate x:Key="ModifyInstructorView">
+                <StackLayout BindingContext="{TemplateBinding BindingContext}" VerticalOptions="StartAndExpand">
+                    <ContentPresenter VerticalOptions="FillAndExpand" />
+                    <Label Text="Modify Instructor View" />
+                </StackLayout>
+            </ControlTemplate>
+            <!--  Assessment Modification View  -->
+            <ControlTemplate x:Key="ModifyAssessmentView">
+                <StackLayout BindingContext="{TemplateBinding BindingContext}" VerticalOptions="StartAndExpand">
+                    <StackLayout>
+                        <ContentPresenter VerticalOptions="FillAndExpand" />
+                        <Label Text="Modify Assessment View" />
+                    </StackLayout>
+                </StackLayout>
+            </ControlTemplate>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <StackLayout
+        BindingContext="{Binding .}"
+        HorizontalOptions="CenterAndExpand"
+        Orientation="Horizontal"
+        VerticalOptions="End">
+        <Button
+            Command="{Binding BackToMainModifyCommand}"
+            FontSize="Small"
+            Scale=".75"
+            Text="Main" />
+        <Button
+            Command="{Binding NewInstructorCommand}"
+            FontSize="Small"
+            Scale=".75"
+            Text="Instructor" />
+        <Button
+            Command="{Binding NewAssessmentCommand}"
+            FontSize="Small"
+            Scale=".75"
+            Text="Assessment" />
+    </StackLayout>
+</ContentPage>

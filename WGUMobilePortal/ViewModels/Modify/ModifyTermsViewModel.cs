@@ -14,24 +14,57 @@ namespace WGUMobilePortal.ViewModels
 {
     public class ModifyTermsViewModel : BaseViewModel, IQueryAttributable
     {
-        public Command AddCommand { get; }
-        public Command ModifyCommand { get; }
-        public Command<Term> SaveCommand { get; }
-        public Command<Term> DeleteCommand { get; }
-        public Command RemoveCourseCommand { get; }
-        public Command OpenCourseSelectionCommand { get; }
-        public Command CancelCourseSelectionCommand { get; }
-        public Command SelectCourseCommand { get; }
+        private ObservableCollection<Course> _attachedCourses;
+        private ObservableCollection<Course> _courseSelectionList;
+        private DateTime _endDate;
+        private DateTime _endDateMinimum;
+        private int _id;
+        private bool _isCourseSelection;
+        private bool _isModifyTerm;
+        private string _name;
+        private Course _selectedAttachCourse;
+        private Course _selectedCourse;
+        private DateTime _startDate;
+        private Term _term;
 
-        public string Name
+        public ModifyTermsViewModel()
         {
-            get => _name;
+            Title = "Add/Modify Terms Page";
+            DeleteCommand = new Command<Term>(Delete);
+            SaveCommand = new Command<Term>(Save);
+            RemoveCourseCommand = new Command(async () => await RemoveCourse());
+            OpenCourseSelectionCommand = new Command(async () => await OpenCourseSelection());
+            CancelCourseSelectionCommand = new Command(async () => await CancelCourseSelection());
+            SelectCourseCommand = new Command(async () => await SelectCourse());
+        }
+
+        public Command AddCommand { get; }
+
+        public ObservableCollection<Course> AttachedCourses
+        {
+            get => _attachedCourses;
             set
             {
-                SetProperty(ref _name, value);
-                OnPropertyChanged(nameof(Name));
+                SetProperty(ref _attachedCourses, value);
+                OnPropertyChanged(nameof(AttachedCourses));
             }
         }
+
+        public Command CancelCourseSelectionCommand { get; }
+
+        public ObservableCollection<Course> CourseSelectionList
+        {
+            get => _courseSelectionList;
+            set
+            {
+                SetProperty(ref _courseSelectionList, value);
+                OnPropertyChanged(nameof(CourseSelectionList));
+            }
+        }
+
+        public Command<Term> DeleteCommand { get; }
+        public DateTime EndDate { get => _endDate; set => SetProperty(ref _endDate, value); }
+        public DateTime EndDateMinimum { get => _endDateMinimum; set => SetProperty(ref _endDateMinimum, value); }
 
         public int Id
         {
@@ -59,6 +92,43 @@ namespace WGUMobilePortal.ViewModels
             }
         }
 
+        public Command ModifyCommand { get; }
+
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                SetProperty(ref _name, value);
+                OnPropertyChanged(nameof(Name));
+            }
+        }
+
+        public Command OpenCourseSelectionCommand { get; }
+        public Command RemoveCourseCommand { get; }
+        public Command<Term> SaveCommand { get; }
+        public Command SelectCourseCommand { get; }
+
+        public Course SelectedAttachCourse
+        {
+            get => _selectedAttachCourse;
+            set
+            {
+                SetProperty(ref _selectedAttachCourse, value);
+                OnPropertyChanged(nameof(SelectedAttachCourse));
+            }
+        }
+
+        public Course SelectedCourse
+        {
+            get => _selectedCourse;
+            set
+            {
+                SetProperty(ref _selectedCourse, value);
+                OnPropertyChanged(nameof(SelectedCourse));
+            }
+        }
+
         //public DateTime StartDate { get => _startDate; set =>  SetProperty(ref _startDate, value);
         //        OnPropertyChanged(nameof(StartDate));
         //    }
@@ -72,84 +142,11 @@ namespace WGUMobilePortal.ViewModels
             }
         }
 
-        public DateTime EndDate { get => _endDate; set => SetProperty(ref _endDate, value); }
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Marking as static causes program to crash," +
             " presumably because the UI requires INotifyPropertyChanged")]
         public DateTime StartDateMinimum => DateTime.Today.AddDays(-60).Date;
 
-        public DateTime EndDateMinimum { get => _endDateMinimum; set => SetProperty(ref _endDateMinimum, value); }
         public Term Term { get => _term; set => SetProperty(ref _term, value); }
-
-        public Course SelectedCourse
-        {
-            get => _selectedCourse;
-            set
-            {
-                SetProperty(ref _selectedCourse, value);
-                OnPropertyChanged(nameof(SelectedCourse));
-            }
-        }
-
-        public Course SelectedAttachCourse
-        {
-            get => _selectedAttachCourse;
-            set
-            {
-                SetProperty(ref _selectedAttachCourse, value);
-                OnPropertyChanged(nameof(SelectedAttachCourse));
-            }
-        }
-
-        public ObservableCollection<Course> CourseSelectionList
-        {
-            get => _courseSelectionList;
-            set
-            {
-                SetProperty(ref _courseSelectionList, value);
-                OnPropertyChanged(nameof(CourseSelectionList));
-            }
-        }
-
-        public ObservableCollection<Course> AttachedCourses
-        {
-            get => _attachedCourses;
-            set
-            {
-                SetProperty(ref _attachedCourses, value);
-                OnPropertyChanged(nameof(AttachedCourses));
-            }
-        }
-
-        private string _name;
-        private int _id;
-        private bool _isCourseSelection;
-        private bool _isModifyTerm;
-        private DateTime _startDate;
-        private DateTime _endDate;
-        private DateTime _endDateMinimum;
-        private Term _term;
-        private Course _selectedAttachCourse;
-        private Course _selectedCourse;
-        private ObservableCollection<Course> _attachedCourses;
-        private ObservableCollection<Course> _courseSelectionList;
-
-        public ModifyTermsViewModel()
-        {
-            Title = "Add/Modify Terms Page";
-            DeleteCommand = new Command<Term>(Delete);
-            SaveCommand = new Command<Term>(Save);
-            RemoveCourseCommand = new Command(async () => await RemoveCourse());
-            OpenCourseSelectionCommand = new Command(async () => await OpenCourseSelection());
-            CancelCourseSelectionCommand = new Command(async () => await CancelCourseSelection());
-            SelectCourseCommand = new Command(async () => await SelectCourse());
-        }
-
-        public async Task OnAppearing()
-        {
-            IsModifyTerm = true;
-            IsCourseSelection = false;
-        }
 
         public void ApplyQueryAttributes(IDictionary<string, string> query)
         {
@@ -166,6 +163,12 @@ namespace WGUMobilePortal.ViewModels
 
                 Task.Run(async () => await Load(Id));
             }
+        }
+
+        public async Task OnAppearing()
+        {
+            IsModifyTerm = true;
+            IsCourseSelection = false;
         }
 
         public async void Save(Term term)
@@ -191,47 +194,9 @@ namespace WGUMobilePortal.ViewModels
             //await Shell.Current.GoToAsync("..");
         }
 
-        private async void Delete(Term term)
+        private async Task CancelCourseSelection()
         {
-            if (await Shell.Current.DisplayAlert("Confirm Deletion", $"Are you sure you want to delete {term.Name}?", "Delete", "Cancel"))
-            {
-                await DBService.RemoveTerm(term.Id);
-                await Shell.Current.GoToAsync("..");
-            }
-        }
-
-        private async Task SelectCourse()
-        {
-            AttachedCourses.Add(SelectedAttachCourse);
             await CloseCourseSelection();
-        }
-
-        private async Task RemoveCourse()
-        {
-            await Task.Run(() => AttachedCourses.Remove(SelectedCourse));
-        }
-
-        private async Task OpenCourseSelection()
-        {
-            if (AttachedCourses.Count >= 7)
-            {
-                return;
-            }
-            IsModifyTerm = false;
-            IsCourseSelection = true;
-
-            List<Course> courseList = (List<Course>)await DBService.GetAllCourse();
-
-            //if (Term.CourseId != null)
-            //{
-            //Term.CourseId.ForEach(
-            //currentTermCourseID => courseList.RemoveAt(
-            //courseList.FindIndex(
-            //course => course.Id == currentTermCourseID)));
-            //}
-            courseList = courseList.Where(course => course.TermId is null).ToList();
-
-            CourseSelectionList = new ObservableCollection<Course>(courseList);
         }
 
         private async Task CloseCourseSelection()
@@ -241,9 +206,13 @@ namespace WGUMobilePortal.ViewModels
             CourseSelectionList = null;
         }
 
-        private async Task CancelCourseSelection()
+        private async void Delete(Term term)
         {
-            await CloseCourseSelection();
+            if (await Shell.Current.DisplayAlert("Confirm Deletion", $"Are you sure you want to delete {term.Name}?", "Delete", "Cancel"))
+            {
+                await DBService.RemoveTerm(term.Id);
+                await Shell.Current.GoToAsync("..");
+            }
         }
 
         private async Task Load(int Id)
@@ -268,6 +237,40 @@ namespace WGUMobilePortal.ViewModels
         {
             Term = new Term();
             await Task.Run(() => AttachedCourses = new ObservableCollection<Course>());
+        }
+
+        private async Task OpenCourseSelection()
+        {
+            if (AttachedCourses.Count >= 7)
+            {
+                return;
+            }
+            IsModifyTerm = false;
+            IsCourseSelection = true;
+
+            List<Course> courseList = (List<Course>)await DBService.GetAllCourse();
+
+            //if (Term.CourseId != null)
+            //{
+            //Term.CourseId.ForEach(
+            //currentTermCourseID => courseList.RemoveAt(
+            //courseList.FindIndex(
+            //course => course.Id == currentTermCourseID)));
+            //}
+            courseList = courseList.Where(course => course.TermId == 0).ToList();
+
+            CourseSelectionList = new ObservableCollection<Course>(courseList);
+        }
+
+        private async Task RemoveCourse()
+        {
+            await Task.Run(() => AttachedCourses.Remove(SelectedCourse));
+        }
+
+        private async Task SelectCourse()
+        {
+            AttachedCourses.Add(SelectedAttachCourse);
+            await CloseCourseSelection();
         }
     }
 }

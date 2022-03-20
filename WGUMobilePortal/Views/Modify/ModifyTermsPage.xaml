@@ -71,9 +71,6 @@
                             VerticalOptions="Center"
                             WidthRequest="150" />
                     </StackLayout>
-                    <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
-                        <Label Text="Test" VerticalOptions="Center" />
-                    </StackLayout>
 
                     <StackLayout HeightRequest="400">
                         <Label
@@ -267,11 +264,4 @@
             </ControlTemplate>
         </ResourceDictionary>
     </ContentPage.Resources>
-
-    <!--   <ContentPage.Content>
-        <StackLayout
-            VerticalOptions="Start"
-            HorizontalOptions="CenterAndExpand">
-        </StackLayout>
-    </ContentPage.Content>-->
 </ContentPage>

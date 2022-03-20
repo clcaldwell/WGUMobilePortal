@@ -22,9 +22,9 @@ namespace WGUMobilePortal.ViewModels
             GenerateDummyData = new Command(async () => await DummyData.Main());
         }
 
-        public ICommand NavigateToTerms { get; }
-        public ICommand NavigateToCourses { get; }
-        public ICommand NavigateToAssessments { get; }
         public ICommand GenerateDummyData { get; }
+        public ICommand NavigateToAssessments { get; }
+        public ICommand NavigateToCourses { get; }
+        public ICommand NavigateToTerms { get; }
     }
 }

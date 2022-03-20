@@ -55,61 +55,54 @@
             Command="{Binding RefreshCommand}"
             HorizontalOptions="Center"
             IsRefreshing="{Binding IsBusy}"
-            RefreshColor="Red" />
+            RefreshColor="Red">
 
-        <CollectionView
-            Grid.Row="1"
-            BackgroundColor="Transparent"
-            ItemsLayout="VerticalList"
-            ItemsSource="{Binding Course}"
-            SelectionMode="Single">
-            <CollectionView.EmptyView>
-                <StackLayout Padding="10">
-                    <Label HorizontalOptions="Center" Text="No courses exist" />
-                </StackLayout>
-            </CollectionView.EmptyView>
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="model:Course">
-                    <Grid Padding="10">
-                        <Frame CornerRadius="20" HasShadow="True">
-                            <StackLayout>
-                                <Label
-                                    HorizontalOptions="Center"
-                                    TextColor="{StaticResource Primary}"
-                                    VerticalOptions="Center">
-                                    <Label.Text>
-                                        <MultiBinding StringFormat="{}Name: {0}&#x0a;Dates: {1:MM/dd/yyyy} - {2:MM/dd/yyyy}">
-                                            <Binding Path="Name" />
-                                            <Binding Path="StartDate" />
-                                            <Binding Path="EndDate" />
-                                        </MultiBinding>
-                                    </Label.Text>
-                                </Label>
-                                <Label
-                                    HorizontalOptions="Center"
-                                    TextColor="{StaticResource Primary}"
-                                    VerticalOptions="Center">
-                                    <Label.Text>
-                                        <MultiBinding StringFormat="{}Note: {0}&#x0a;FirstName: {1}&#x0a;LastName: {2}&#x0a;Phone: {3}&#x0a;Email: {4}">
-                                            <Binding Path="NoteContent" />
-                                            <Binding Path="InstructorFirstName" />
-                                            <Binding Path="InstructorLastName" />
-                                            <Binding Path="InstructorPhoneNumber" />
-                                            <Binding Path="InstructorEmailAddress" />
-                                        </MultiBinding>
-                                    </Label.Text>
-                                </Label>
-                                <Button
-                                    Command="{Binding Source={x:Reference MyCoursesPage}, Path=BindingContext.RemoveCommand}"
-                                    CommandParameter="{Binding .}"
-                                    HorizontalOptions="Center"
-                                    Text="Delete"
-                                    VerticalOptions="CenterAndExpand" />
-                            </StackLayout>
-                        </Frame>
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+            <CollectionView
+                Grid.Row="1"
+                BackgroundColor="Transparent"
+                ItemsLayout="VerticalList"
+                ItemsSource="{Binding Courses}"
+                SelectionMode="Single">
+                <CollectionView.EmptyView>
+                    <StackLayout Padding="10">
+                        <Label HorizontalOptions="Center" Text="No courses exist" />
+                    </StackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Course">
+                        <Grid Padding="10">
+                            <Frame CornerRadius="20" HasShadow="True">
+                                <StackLayout>
+                                    <Label
+                                        HorizontalOptions="Start"
+                                        TextColor="{StaticResource Primary}"
+                                        VerticalOptions="Center">
+                                        <Label.Text>
+                                            <MultiBinding StringFormat="{}Name: {0}&#x0a;Dates: {1:MM/dd/yyyy} - {2:MM/dd/yyyy}">
+                                                <Binding Path="Name" />
+                                                <Binding Path="StartDate" />
+                                                <Binding Path="EndDate" />
+                                            </MultiBinding>
+                                        </Label.Text>
+                                    </Label>
+                                    <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
+                                        <Button
+                                            Command="{Binding Source={x:Reference MyCoursesPage}, Path=BindingContext.ModifyCommand}"
+                                            CommandParameter="{Binding .}"
+                                            Text="View / Modify"
+                                            WidthRequest="200" />
+                                        <Button
+                                            BackgroundColor="DarkRed"
+                                            Command="{Binding Source={x:Reference MyCoursesPage}, Path=BindingContext.RemoveCommand}"
+                                            CommandParameter="{Binding .}"
+                                            Text="Delete" />
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
     </Grid>
 </ContentPage>

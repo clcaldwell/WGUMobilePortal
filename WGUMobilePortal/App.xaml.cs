@@ -12,7 +12,7 @@ namespace WGUMobilePortal
             MainPage = new AppShell();
         }
 
-        protected override void OnStart()
+        protected override void OnResume()
         {
         }
 
@@ -20,7 +20,7 @@ namespace WGUMobilePortal
         {
         }
 
-        protected override void OnResume()
+        protected override void OnStart()
         {
         }
     }

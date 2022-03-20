@@ -11,17 +11,17 @@ namespace WGUMobilePortal.Behaviors
             entry.TextChanged += Entry_TextChanged;
         }
 
-        private void Entry_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            bool IsValid = !string.IsNullOrWhiteSpace(e.NewTextValue);
-            ((Entry)sender).BackgroundColor = IsValid ? Color.Default : Color.Red;
-        }
-
         protected override void OnDetachingFrom(Entry entry)
         {
             base.OnDetachingFrom(entry);
 
             entry.TextChanged -= Entry_TextChanged;
+        }
+
+        private void Entry_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            bool IsValid = !string.IsNullOrWhiteSpace(e.NewTextValue);
+            ((Entry)sender).BackgroundColor = IsValid ? Color.Default : Color.Red;
         }
     }
 }

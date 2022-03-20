@@ -8,34 +8,9 @@ namespace WGUMobilePortal.Models
 {
     public class Term
     {
-        [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
+        private List<int> _courseId;
 
-        public string Name { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-
-        public string StrCourseId
-        {
-            get
-            {
-                if (_courseId == null && !string.IsNullOrEmpty(_strCourseId))
-                {
-                    return _strCourseId;
-                }
-                else if (_courseId != null)
-                {
-                    _courseId.Sort();
-                    List<string> strList = _courseId.ConvertAll(x => x.ToString());
-                    return string.Join(",", strList);
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            set => _strCourseId = value;
-        }
+        private string _strCourseId;
 
         [SQLite.Ignore]
         public List<int> CourseId
@@ -65,8 +40,35 @@ namespace WGUMobilePortal.Models
             set => _courseId = value;
         }
 
-        private List<int> _courseId;
-        private string _strCourseId;
+        public DateTime EndDate { get; set; }
+
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+        public DateTime StartDate { get; set; }
+
+        public string StrCourseId
+        {
+            get
+            {
+                if (_courseId == null && !string.IsNullOrEmpty(_strCourseId))
+                {
+                    return _strCourseId;
+                }
+                else if (_courseId != null)
+                {
+                    _courseId.Sort();
+                    List<string> strList = _courseId.ConvertAll(x => x.ToString());
+                    return string.Join(",", strList);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            set => _strCourseId = value;
+        }
 
         //[SQLite.Ignore]
         //public List<int> intCourseId
