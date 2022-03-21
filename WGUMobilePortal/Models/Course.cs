@@ -1,4 +1,6 @@
-﻿using SQLite;
+﻿using MvvmHelpers;
+
+using SQLite;
 
 using System;
 
@@ -12,7 +14,7 @@ namespace WGUMobilePortal.Models
         Planned
     }
 
-    public class Course
+    public class Course : ObservableObject
     {
         public DateTime EndDate { get; set; }
 

@@ -23,9 +23,7 @@ namespace WGUMobilePortal.ViewModels
         private ViewType _currentView;
         private DateTime _endDate;
         private DateTime _endDateMinimum;
-
         private ObservableCollection<Instructor> _instructors;
-
         private Course _selectedCourse;
         private Instructor _selectedInstructor;
         private DateTime _startDate;
@@ -41,6 +39,9 @@ namespace WGUMobilePortal.ViewModels
             NewInstructorCommand = new Command(async () => await NewInstructor());
             ModifyInstructorCommand = new Command<Instructor>(ModifyInstructor);
             BackToMainModifyCommand = new Command(async () => await BackToModify());
+            ChangeInstructorCommand = new Command(async (obj) => await ChangeInstructor(obj));
+            SelectInstructorCommand = new Command(async () => await SelectInstructor());
+            CancelSelectInstructorCommand = new Command(async () => await CancelSelectInstructor());
 
             if (CourseAssessments == null)
             {
@@ -62,7 +63,13 @@ namespace WGUMobilePortal.ViewModels
         public Command AddCommand { get; }
 
         public Command BackToMainModifyCommand { get; }
+
         public Command CancelCourseSelectionCommand { get; }
+
+        public Command CancelSelectInstructorCommand { get; }
+
+        public Command ChangeInstructorCommand { get; }
+
         public ObservableCollection<Assessment> CourseAssessments { get => _courseAssessments; set => SetProperty(ref _courseAssessments, value); }
 
         public Course CurrentCourse
@@ -75,26 +82,57 @@ namespace WGUMobilePortal.ViewModels
             }
         }
 
-        public Instructor CurrentInstructor { get => _currentInstructor; set => SetProperty(ref _currentInstructor, value); }
+        public Instructor CurrentInstructor
+        {
+            get => _currentInstructor;
+            set
+            {
+                SetProperty(ref _currentInstructor, value);
+                OnPropertyChanged(nameof(CurrentInstructor));
+                var name = nameof(CurrentInstructor);
+                _ = name;
+                _ = ref _currentInstructor;
+            }
+        }
+
         public Note CurrentNote { get => _currentNote; set => SetProperty(ref _currentNote, value); }
+
         public Assessment CurrentObjectiveAssessment { get => _currentObjectiveAssessment; set => SetProperty(ref _currentObjectiveAssessment, value); }
+
         public Assessment CurrentPerformanceAssessment { get => _currentPerformanceAssessment; set => SetProperty(ref _currentPerformanceAssessment, value); }
+
         public ViewType CurrentView { get => _currentView; set => SetProperty(ref _currentView, value); }
+
         public Command<Course> DeleteCommand { get; }
+
         public DateTime EndDate { get => _endDate; set => SetProperty(ref _endDate, value); }
+
         public DateTime EndDateMinimum { get => _endDateMinimum; set => SetProperty(ref _endDateMinimum, value); }
 
         public ObservableCollection<Instructor> Instructors { get => _instructors; set => SetProperty(ref _instructors, value); }
+
+        public bool IsInstructorSelection { get; set; }
+
+        public bool IsInstructorView { get; set; }
+
         public Command<Assessment> ModifyAssessmentCommand { get; }
+
         public Command ModifyCommand { get; }
+
         public Command<Instructor> ModifyInstructorCommand { get; }
 
         public Command NewAssessmentCommand { get; }
+
         public Command NewInstructorCommand { get; }
+
         public Command OpenCourseSelectionCommand { get; }
+
         public Command<Assessment> RemoveAssessmentCommand { get; }
+
         public Command RemoveCourseCommand { get; }
+
         public Command<Course> SaveCommand { get; }
+
         public Command SelectCourseCommand { get; }
 
         public Course SelectedCourse
@@ -108,6 +146,8 @@ namespace WGUMobilePortal.ViewModels
         }
 
         public Instructor SelectedInstructor { get => _selectedInstructor; set => SetProperty(ref _selectedInstructor, value); }
+
+        public Command SelectInstructorCommand { get; }
 
         public DateTime StartDate
         {
@@ -173,6 +213,12 @@ namespace WGUMobilePortal.ViewModels
             CurrentView = ViewType.CourseModification;
         }
 
+        private async Task CancelSelectInstructor()
+        {
+            IsInstructorView = true;
+            IsInstructorSelection = false;
+        }
+
         private async void ChangeCurrent()
         {
             CurrentInstructor = await DBService.GetInstructor(CurrentCourse.InstructorId);
@@ -195,6 +241,21 @@ namespace WGUMobilePortal.ViewModels
                 CourseAssessments.Add(assessment);
                 CurrentPerformanceAssessment = assessment;
             }
+        }
+
+        private async Task ChangeInstructor(Object obj)
+        {
+            var picker = obj as Picker;
+
+            picker.IsEnabled = true;
+            picker.IsVisible = true;
+            Device.BeginInvokeOnMainThread(() => picker.Focus());
+            //picker.Focus();
+            _ = picker.SelectedItem;
+
+            //SelectedInstructor = CurrentInstructor;
+            //IsInstructorView = false;
+            //IsInstructorSelection = true;
         }
 
         private async void Delete(Course course)
@@ -271,6 +332,14 @@ namespace WGUMobilePortal.ViewModels
         private async void RemoveAssessment(Assessment assessment)
         {
             throw new NotImplementedException();
+        }
+
+        private async Task SelectInstructor()
+        {
+            CurrentInstructor = SelectedInstructor;
+            SelectedInstructor = CurrentInstructor;
+            IsInstructorView = true;
+            IsInstructorSelection = false;
         }
     }
 }

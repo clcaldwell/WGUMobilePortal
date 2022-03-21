@@ -1,48 +1,49 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace WGUMobilePortal.ViewModels
 {
-    public class BaseViewModel : INotifyPropertyChanged, IDataErrorInfo
+    public class BaseViewModel : MvvmHelpers.BaseViewModel, IDataErrorInfo
     {
-        private bool isBusy = false;
+        //private bool isBusy = false;
 
-        private string title = string.Empty;
+        //private string title = string.Empty;
 
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+        //public event PropertyChangedEventHandler? PropertyChanged;
 
         string IDataErrorInfo.Error => throw new NotImplementedException();
 
-        //public DBService<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
-        public bool IsBusy
-        {
-            get => isBusy;
-            set => SetProperty(ref isBusy, value);
-        }
+        //public bool IsBusy
+        //{
+        //    get => isBusy;
+        //    set => SetProperty(ref isBusy, value);
+        //}
 
-        public string Title
-        {
-            get => title;
-            set => SetProperty(ref title, value);
-        }
+        //public string Title
+        //{
+        //    get => title;
+        //    set => SetProperty(ref title, value);
+        //}
 
         string IDataErrorInfo.this[string columnName] => throw new NotImplementedException();
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        //protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        //{
+        //    PropertyChanged?.Invoke(this,
+        //        new PropertyChangedEventArgs(propertyName));
+        //}
 
-        {
-            PropertyChanged?.Invoke(this,
-                new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected virtual void SetProperty<T>(ref T member, T val,
-                                                    [CallerMemberName] string propertyName = null)
-        {
-            if (object.Equals(member, val)) return;
-
-            member = val;
-            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
+        //protected virtual void SetProperty<T>(ref T member, T val, [CallerMemberName] string propertyName = "")
+        //{
+        //    if (object.Equals(member, val)) return;
+        //    member = val;
+        //    OnPropertyChanged(propertyName);
+        //    OnPropertyChanged(nameof(member));
+        //    var nameOf = nameof(member);
+        //    _ = propertyName;
+        //    _ = nameOf;
+        //}
     }
 }

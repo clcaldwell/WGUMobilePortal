@@ -43,106 +43,84 @@
                 <StackLayout BindingContext="{TemplateBinding BindingContext}" VerticalOptions="StartAndExpand">
                     <ContentPresenter VerticalOptions="FillAndExpand" />
                     <ScrollView>
-                        <StackLayout>
+                        <StackLayout x:DataType="viewmodels:ModifyCoursesViewModel">
                             <Frame
                                 BackgroundColor="AliceBlue"
                                 CornerRadius="20"
-                                HasShadow="True">
+                                HasShadow="True"
+                                HeightRequest="180">
                                 <StackLayout>
                                     <Label
                                         FontAttributes="Bold"
                                         HorizontalOptions="Center"
                                         Text="Course Info" />
-                                    <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
-                                        <Label Text="Course Name:" VerticalOptions="Center" />
-                                        <Entry
-                                            x:Name="Name"
-                                            FontSize="Small"
-                                            Text="{Binding CurrentCourse.Name, Mode=TwoWay}"
-                                            VerticalOptions="Center"
-                                            WidthRequest="150" />
-                                    </StackLayout>
-
-                                    <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
-                                        <Label Text="Course Start:" VerticalOptions="Center" />
-                                        <DatePicker
-                                            x:Name="StartDate"
-                                            x:DataType="viewmodels:ModifyCoursesViewModel"
-                                            Date="{Binding CurrentCourse.StartDate, Mode=TwoWay}"
-                                            FontSize="Small"
-                                            MinimumDate="{Binding StartDateMinimum}"
-                                            VerticalOptions="Center"
-                                            WidthRequest="150" />
-                                    </StackLayout>
-                                    <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
-                                        <Label Text="Course End:" VerticalOptions="Center" />
-                                        <DatePicker
-                                            x:Name="EndDate"
-                                            x:DataType="viewmodels:ModifyCoursesViewModel"
-                                            Date="{Binding CurrentCourse.EndDate, Mode=TwoWay}"
-                                            FontSize="Small"
-                                            MinimumDate="{Binding EndDateMinimum}"
-                                            VerticalOptions="Center"
-                                            WidthRequest="150" />
-                                    </StackLayout>
+                                    <TableView RowHeight="-1">
+                                        <TableSection>
+                                            <EntryCell Label="Course Name:" Text="{Binding CurrentCourse.Name, Mode=OneWay}" />
+                                            <ViewCell>
+                                                <ViewCell.View>
+                                                    <StackLayout Padding="15,0" Orientation="Horizontal">
+                                                        <Label Text="Course Start:" VerticalOptions="Center" />
+                                                        <DatePicker
+                                                            Date="{Binding CurrentCourse.StartDate, Mode=TwoWay}"
+                                                            HorizontalOptions="FillAndExpand"
+                                                            MinimumDate="{Binding StartDateMinimum}"
+                                                            VerticalOptions="Center"
+                                                            WidthRequest="125" />
+                                                    </StackLayout>
+                                                </ViewCell.View>
+                                            </ViewCell>
+                                            <ViewCell>
+                                                <ViewCell.View>
+                                                    <StackLayout Padding="15,0" Orientation="Horizontal">
+                                                        <Label Text="Course End:" VerticalOptions="Center" />
+                                                        <DatePicker
+                                                            Date="{Binding CurrentCourse.EndDate, Mode=TwoWay}"
+                                                            HorizontalOptions="FillAndExpand"
+                                                            MinimumDate="{Binding EndDateMinimum}"
+                                                            VerticalOptions="Center"
+                                                            WidthRequest="125" />
+                                                    </StackLayout>
+                                                </ViewCell.View>
+                                            </ViewCell>
+                                        </TableSection>
+                                    </TableView>
                                 </StackLayout>
                             </Frame>
 
                             <Frame
                                 BackgroundColor="AliceBlue"
                                 CornerRadius="20"
-                                HasShadow="True">
+                                HasShadow="True"
+                                HeightRequest="260">
                                 <StackLayout>
                                     <Label
                                         FontAttributes="Bold"
                                         HorizontalOptions="Center"
-                                        Text="Course Instructor" />
-                                    <StackLayout Orientation="Vertical">
-
-                                        <!--<StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
-                                <Label Text="Instructor:" VerticalOptions="Center" />
-
-                                <Picker
-                                    x:Name="InstructorPicker"
-                                    x:DataType="viewmodels:ModifyCoursesViewModel"
-                                    FontSize="Small"
-                                    ItemDisplayBinding="{Binding FirstName}"
-                                    ItemsSource="{Binding Instructors}"
-                                    SelectedItem="{Binding SelectedInstructor, Mode=TwoWay}"
-                                    VerticalOptions="Center"
-                                    WidthRequest="150" />
-                            </StackLayout>-->
-                                        <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
-                                            <Label Text="Name:" VerticalOptions="Center" />
-                                            <Entry
-                                                x:Name="InstructorName"
-                                                x:DataType="viewmodels:ModifyCoursesViewModel"
-                                                FontSize="Small"
-                                                Text="{Binding CurrentInstructor.FullName, Mode=OneWay}"
-                                                VerticalOptions="Center"
-                                                WidthRequest="150" />
-                                        </StackLayout>
-                                        <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
-                                            <Label Text="Phone:" VerticalOptions="Center" />
-                                            <Entry
-                                                x:Name="InstructorPhone"
-                                                x:DataType="viewmodels:ModifyCoursesViewModel"
-                                                FontSize="Small"
-                                                Text="{Binding CurrentInstructor.PhoneNumber, Mode=OneWay}"
-                                                VerticalOptions="Center"
-                                                WidthRequest="150" />
-                                        </StackLayout>
-                                        <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
-                                            <Label Text="Email:" VerticalOptions="Center" />
-                                            <Entry
-                                                x:Name="InstructorEmail"
-                                                x:DataType="viewmodels:ModifyCoursesViewModel"
-                                                FontSize="Small"
-                                                Text="{Binding CurrentInstructor.EmailAddress, Mode=OneWay}"
-                                                VerticalOptions="Center"
-                                                WidthRequest="150" />
-                                        </StackLayout>
-                                    </StackLayout>
+                                        Text="Instructor" />
+                                    <TableView RowHeight="-1">
+                                        <TableSection>
+                                            <EntryCell Label="Name" Text="{Binding CurrentInstructor.FullName, Mode=OneWay}" />
+                                            <EntryCell Label="Phone" Text="{Binding CurrentInstructor.PhoneNumber, Mode=OneWay}" />
+                                            <EntryCell Label="Email" Text="{Binding CurrentInstructor.EmailAddress, Mode=OneWay}" />
+                                            <ViewCell>
+                                                <ViewCell.View>
+                                                    <StackLayout>
+                                                        <Button
+                                                            Command="{Binding ChangeInstructorCommand}"
+                                                            CommandParameter="{Binding Source={x:Reference Instructor_Picker}, Path=.}"
+                                                            Text="Change Instructor" />
+                                                        <Picker
+                                                            x:Name="Instructor_Picker"
+                                                            IsVisible="False"
+                                                            ItemDisplayBinding="{Binding FullName}"
+                                                            ItemsSource="{Binding Instructors}"
+                                                            SelectedItem="{Binding CurrentInstructor, Mode=TwoWay}" />
+                                                    </StackLayout>
+                                                </ViewCell.View>
+                                            </ViewCell>
+                                        </TableSection>
+                                    </TableView>
                                 </StackLayout>
                             </Frame>
 
@@ -250,6 +228,23 @@
                         </StackLayout>
                     </ScrollView>
                 </StackLayout>
+
+                <!--<StackLayout IsVisible="{Binding IsInstructorSelection}">
+                                    <Picker
+                                                ItemDisplayBinding="{Binding FullName}"
+                                                ItemsSource="{Binding Instructors}"
+                                                SelectedItem="{Binding CurrentInstructor, Mode=TwoWay}" />
+                                    <Button
+                                                Command="{Binding SelectInstructorCommand}"
+                                                IsVisible="{Binding IsInstructorSelection}"
+                                                Text="Select" />
+                                    <Button
+                                                Command="{Binding CancelSelectInstructorCommand}"
+                                                IsVisible="{Binding IsInstructorSelection}"
+                                                Text="Cancel" />
+                                </StackLayout>
+                            </StackLayout>
+                        </StackLayout>-->
             </ControlTemplate>
             <!--  Instructor Modification View  -->
             <ControlTemplate x:Key="ModifyInstructorView">
@@ -269,7 +264,7 @@
             </ControlTemplate>
         </ResourceDictionary>
     </ContentPage.Resources>
-    <StackLayout
+    <!--<StackLayout
         BindingContext="{Binding .}"
         HorizontalOptions="CenterAndExpand"
         Orientation="Horizontal"
@@ -289,5 +284,5 @@
             FontSize="Small"
             Scale=".75"
             Text="Assessment" />
-    </StackLayout>
+    </StackLayout>-->
 </ContentPage>

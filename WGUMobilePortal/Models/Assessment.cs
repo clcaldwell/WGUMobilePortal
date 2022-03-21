@@ -1,6 +1,7 @@
 ﻿using SQLite;
 
 using System;
+using MvvmHelpers;
 
 namespace WGUMobilePortal.Models
 {
@@ -10,7 +11,7 @@ namespace WGUMobilePortal.Models
         Performance
     }
 
-    public class Assessment
+    public class Assessment : ObservableObject
     {
         public int CourseId { get; set; }
 

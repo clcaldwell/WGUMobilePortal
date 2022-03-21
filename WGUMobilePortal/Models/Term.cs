@@ -1,4 +1,6 @@
-﻿using SQLite;
+﻿using MvvmHelpers;
+
+using SQLite;
 
 using System;
 using System.Collections.Generic;
@@ -6,7 +8,7 @@ using System.Linq;
 
 namespace WGUMobilePortal.Models
 {
-    public class Term
+    public class Term : ObservableObject
     {
         private List<int> _courseId;
 

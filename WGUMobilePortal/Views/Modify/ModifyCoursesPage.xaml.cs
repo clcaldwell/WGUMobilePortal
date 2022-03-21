@@ -21,5 +21,15 @@ namespace WGUMobilePortal.Views
                 await viewModel.OnAppearing();
             }
         }
+
+        //ChangeInstructorCommand = new Command(async () => await ChangeInstructor());
+        //DateSelectionCommand = new Command((arg)=> {
+        //    var picker = arg as DatePicker;
+
+        //    picker.IsEnabled = true;
+        //    picker.IsVisible = true;
+        //    picker.Focus();
+
+        //});
     }
 }
