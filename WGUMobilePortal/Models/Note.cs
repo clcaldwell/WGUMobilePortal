@@ -1,10 +1,12 @@
-﻿using SQLite;
+﻿using MvvmHelpers;
+
+using SQLite;
 
 using System;
 
 namespace WGUMobilePortal.Models
 {
-    public class Note
+    public class Note : ObservableObject
     {
         public string Contents { get; set; }
 

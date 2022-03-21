@@ -15,17 +15,31 @@ namespace WGUMobilePortal.ViewModels
     public class ModifyCoursesViewModel : BaseViewModel, IQueryAttributable
     {
         private ObservableCollection<Assessment> _courseAssessments;
+
         private Course _currentCourse;
+
         private Instructor _currentInstructor;
+
         private Note _currentNote;
+
         private Assessment _currentObjectiveAssessment;
+
         private Assessment _currentPerformanceAssessment;
+
         private ViewType _currentView;
+
         private DateTime _endDate;
+
         private DateTime _endDateMinimum;
+
         private ObservableCollection<Instructor> _instructors;
+
         private Course _selectedCourse;
+
+        private CourseStatus _selectedCourseStatus;
+
         private Instructor _selectedInstructor;
+
         private DateTime _startDate;
 
         public ModifyCoursesViewModel()
@@ -70,7 +84,23 @@ namespace WGUMobilePortal.ViewModels
 
         public Command ChangeInstructorCommand { get; }
 
-        public ObservableCollection<Assessment> CourseAssessments { get => _courseAssessments; set => SetProperty(ref _courseAssessments, value); }
+        public ObservableCollection<Assessment> CourseAssessments
+        {
+            get => _courseAssessments; set
+            {
+                SetProperty(ref _courseAssessments, value);
+                OnPropertyChanged(nameof(CourseAssessments));
+            }
+        }
+
+        public IEnumerable<CourseStatus> CourseStatus
+        {
+            get
+            {
+                return Enum.GetValues(typeof(CourseStatus))
+                    .Cast<CourseStatus>();
+            }
+        }
 
         public Course CurrentCourse
         {
@@ -78,6 +108,7 @@ namespace WGUMobilePortal.ViewModels
             set
             {
                 SetProperty(ref _currentCourse, value);
+                OnPropertyChanged(nameof(CurrentCourse));
                 ChangeCurrent();
             }
         }
@@ -89,27 +120,80 @@ namespace WGUMobilePortal.ViewModels
             {
                 SetProperty(ref _currentInstructor, value);
                 OnPropertyChanged(nameof(CurrentInstructor));
-                var name = nameof(CurrentInstructor);
-                _ = name;
-                _ = ref _currentInstructor;
             }
         }
 
-        public Note CurrentNote { get => _currentNote; set => SetProperty(ref _currentNote, value); }
+        public Note CurrentNote
+        {
+            get => _currentNote;
+            set
+            {
+                SetProperty(ref _currentNote, value);
+                OnPropertyChanged(nameof(CurrentNote));
+            }
+        }
 
-        public Assessment CurrentObjectiveAssessment { get => _currentObjectiveAssessment; set => SetProperty(ref _currentObjectiveAssessment, value); }
+        public Assessment CurrentObjectiveAssessment
+        {
+            get => _currentObjectiveAssessment;
+            set
+            {
+                SetProperty(ref _currentObjectiveAssessment, value);
+                OnPropertyChanged(nameof(CurrentObjectiveAssessment));
+            }
+        }
 
-        public Assessment CurrentPerformanceAssessment { get => _currentPerformanceAssessment; set => SetProperty(ref _currentPerformanceAssessment, value); }
+        public Assessment CurrentPerformanceAssessment
+        {
+            get => _currentPerformanceAssessment;
+            set
+            {
+                SetProperty(ref _currentPerformanceAssessment, value);
+                OnPropertyChanged(nameof(CurrentPerformanceAssessment));
+            }
+        }
 
-        public ViewType CurrentView { get => _currentView; set => SetProperty(ref _currentView, value); }
+        public ViewType CurrentView
+        {
+            get => _currentView;
+            set
+            {
+                SetProperty(ref _currentView, value);
+                OnPropertyChanged(nameof(CurrentView));
+            }
+        }
 
         public Command<Course> DeleteCommand { get; }
 
-        public DateTime EndDate { get => _endDate; set => SetProperty(ref _endDate, value); }
+        public DateTime EndDate
+        {
+            get => _endDate;
+            set
+            {
+                SetProperty(ref _endDate, value);
+                OnPropertyChanged(nameof(EndDate));
+            }
+        }
 
-        public DateTime EndDateMinimum { get => _endDateMinimum; set => SetProperty(ref _endDateMinimum, value); }
+        public DateTime EndDateMinimum
+        {
+            get => _endDateMinimum;
+            set
+            {
+                SetProperty(ref _endDateMinimum, value);
+                OnPropertyChanged(nameof(EndDateMinimum));
+            }
+        }
 
-        public ObservableCollection<Instructor> Instructors { get => _instructors; set => SetProperty(ref _instructors, value); }
+        public ObservableCollection<Instructor> Instructors
+        {
+            get => _instructors;
+            set
+            {
+                SetProperty(ref _instructors, value);
+                OnPropertyChanged(nameof(Instructors));
+            }
+        }
 
         public bool IsInstructorSelection { get; set; }
 
@@ -145,13 +229,32 @@ namespace WGUMobilePortal.ViewModels
             }
         }
 
-        public Instructor SelectedInstructor { get => _selectedInstructor; set => SetProperty(ref _selectedInstructor, value); }
+        public CourseStatus SelectedCourseStatus
+        {
+            get => _selectedCourseStatus;
+            set
+            {
+                SetProperty(ref _selectedCourseStatus, value);
+                OnPropertyChanged(nameof(SelectedCourseStatus));
+            }
+        }
+
+        public Instructor SelectedInstructor
+        {
+            get => _selectedInstructor;
+            set
+            {
+                SetProperty(ref _selectedInstructor, value);
+                OnPropertyChanged(nameof(_selectedInstructor));
+            }
+        }
 
         public Command SelectInstructorCommand { get; }
 
         public DateTime StartDate
         {
-            get => _startDate; set
+            get => _startDate;
+            set
             {
                 SetProperty(ref _startDate, value);
                 EndDateMinimum = value.AddDays(1);

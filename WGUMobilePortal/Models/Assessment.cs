@@ -1,7 +1,8 @@
-﻿using SQLite;
+﻿using MvvmHelpers;
+
+using SQLite;
 
 using System;
-using MvvmHelpers;
 
 namespace WGUMobilePortal.Models
 {

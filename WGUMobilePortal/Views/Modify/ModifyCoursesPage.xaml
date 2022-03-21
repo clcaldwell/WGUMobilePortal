@@ -3,7 +3,7 @@
     x:Class="WGUMobilePortal.Views.ModifyCoursesPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:behaviors="clr-namespace:WGUMobilePortal.Behaviors"
+    xmlns:models="clr-namespace:WGUMobilePortal.ViewModels"
     xmlns:viewmodels="clr-namespace:WGUMobilePortal.ViewModels"
     x:Name="MyModifyCoursesPage"
     Title="{Binding Title}"
@@ -12,6 +12,9 @@
     <ContentPage.BindingContext>
         <viewmodels:ModifyCoursesViewModel />
     </ContentPage.BindingContext>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding SaveCourseCommand}" Text="SAVE" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Triggers>
 
         <DataTrigger
@@ -83,6 +86,19 @@
                                                     </StackLayout>
                                                 </ViewCell.View>
                                             </ViewCell>
+                                            <ViewCell>
+                                                <ViewCell.View>
+                                                    <StackLayout Padding="15,0" Orientation="Horizontal">
+                                                        <Label Text="Course Status:" VerticalOptions="Center" />
+                                                        <Picker
+                                                            HorizontalOptions="FillAndExpand"
+                                                            ItemsSource="{Binding CourseStatus}"
+                                                            SelectedItem="{Binding CurrentCourse.Status}"
+                                                            VerticalOptions="Center"
+                                                            WidthRequest="125" />
+                                                    </StackLayout>
+                                                </ViewCell.View>
+                                            </ViewCell>
                                         </TableSection>
                                     </TableView>
                                 </StackLayout>
@@ -100,9 +116,18 @@
                                         Text="Instructor" />
                                     <TableView RowHeight="-1">
                                         <TableSection>
-                                            <EntryCell Label="Name" Text="{Binding CurrentInstructor.FullName, Mode=OneWay}" />
-                                            <EntryCell Label="Phone" Text="{Binding CurrentInstructor.PhoneNumber, Mode=OneWay}" />
-                                            <EntryCell Label="Email" Text="{Binding CurrentInstructor.EmailAddress, Mode=OneWay}" />
+                                            <EntryCell
+                                                IsEnabled="False"
+                                                Label="Name"
+                                                Text="{Binding CurrentInstructor.FullName, Mode=OneWay}" />
+                                            <EntryCell
+                                                IsEnabled="False"
+                                                Label="Phone"
+                                                Text="{Binding CurrentInstructor.PhoneNumber, Mode=OneWay}" />
+                                            <EntryCell
+                                                IsEnabled="False"
+                                                Label="Email"
+                                                Text="{Binding CurrentInstructor.EmailAddress, Mode=OneWay}" />
                                             <ViewCell>
                                                 <ViewCell.View>
                                                     <StackLayout>
@@ -134,14 +159,15 @@
                                         HorizontalOptions="Center"
                                         Text="Assessments" />
 
-                                    <StackLayout Orientation="Horizontal">
+                                    <StackLayout>
 
                                         <!--#region Objective Assessment-->
                                         <StackLayout>
                                             <Frame
-                                                BackgroundColor="AliceBlue"
+                                                BackgroundColor="White"
+                                                BorderColor="{StaticResource Secondary}"
                                                 CornerRadius="20"
-                                                HasShadow="True">
+                                                HasShadow="False">
                                                 <StackLayout>
                                                     <StackLayout>
                                                         <Entry
@@ -182,7 +208,8 @@
                                         <!--#region Performance Assessment-->
                                         <StackLayout>
                                             <Frame
-                                                BackgroundColor="AliceBlue"
+                                                BackgroundColor="White"
+                                                BorderColor="{StaticResource Secondary}"
                                                 CornerRadius="20"
                                                 HasShadow="True">
                                                 <StackLayout>
@@ -199,8 +226,6 @@
                                                     <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
                                                         <Label Text="Start:" VerticalOptions="Center" />
                                                         <DatePicker
-                                                            x:Name="PerformanceAssessmentStartDate"
-                                                            x:DataType="viewmodels:ModifyCoursesViewModel"
                                                             Date="{Binding CurrentPerformanceAssessment.StartDate, Mode=TwoWay}"
                                                             FontSize="Small"
                                                             MinimumDate="{Binding StartDateMinimum}"
@@ -210,8 +235,6 @@
                                                     <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
                                                         <Label Text="End:" VerticalOptions="Center" />
                                                         <DatePicker
-                                                            x:Name="PerformanceAssessmentEndDate"
-                                                            x:DataType="viewmodels:ModifyCoursesViewModel"
                                                             Date="{Binding CurrentPerformanceAssessment.EndDate, Mode=TwoWay}"
                                                             FontSize="Small"
                                                             MinimumDate="{Binding EndDateMinimum}"
@@ -223,6 +246,25 @@
                                         </StackLayout>
                                         <!--#endregion-->
                                     </StackLayout>
+                                </StackLayout>
+                            </Frame>
+
+                            <Frame
+                                Padding="5,5,5,5"
+                                BackgroundColor="AliceBlue"
+                                CornerRadius="20"
+                                HasShadow="True"
+                                HeightRequest="100">
+
+                                <StackLayout>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="Center"
+                                        Text="Notes" />
+                                    <Editor
+                                        AutoSize="TextChanges"
+                                        Keyboard="Chat"
+                                        Text="{Binding CurrentNote.Contents}" />
                                 </StackLayout>
                             </Frame>
                         </StackLayout>

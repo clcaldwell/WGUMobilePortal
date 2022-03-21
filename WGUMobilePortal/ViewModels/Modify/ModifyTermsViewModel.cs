@@ -63,13 +63,35 @@ namespace WGUMobilePortal.ViewModels
         }
 
         public Command<Term> DeleteCommand { get; }
-        public DateTime EndDate { get => _endDate; set => SetProperty(ref _endDate, value); }
-        public DateTime EndDateMinimum { get => _endDateMinimum; set => SetProperty(ref _endDateMinimum, value); }
+
+        public DateTime EndDate
+        {
+            get => _endDate;
+            set
+            {
+                SetProperty(ref _endDate, value);
+                OnPropertyChanged(nameof(EndDate));
+            }
+        }
+
+        public DateTime EndDateMinimum
+        {
+            get => _endDateMinimum;
+            set
+            {
+                SetProperty(ref _endDateMinimum, value);
+                OnPropertyChanged(nameof(EndDateMinimum));
+            }
+        }
 
         public int Id
         {
             get => _id;
-            set => SetProperty(ref _id, value);
+            set
+            {
+                SetProperty(ref _id, value);
+                OnPropertyChanged(nameof(Id));
+            }
         }
 
         public bool IsCourseSelection
@@ -138,6 +160,7 @@ namespace WGUMobilePortal.ViewModels
             get => _startDate; set
             {
                 SetProperty(ref _startDate, value);
+                OnPropertyChanged(nameof(StartDate));
                 EndDateMinimum = value.AddDays(1);
             }
         }
@@ -146,7 +169,15 @@ namespace WGUMobilePortal.ViewModels
             " presumably because the UI requires INotifyPropertyChanged")]
         public DateTime StartDateMinimum => DateTime.Today.AddDays(-60).Date;
 
-        public Term Term { get => _term; set => SetProperty(ref _term, value); }
+        public Term Term
+        {
+            get => _term;
+            set
+            {
+                SetProperty(ref _term, value);
+                OnPropertyChanged(nameof(Term));
+            }
+        }
 
         public void ApplyQueryAttributes(IDictionary<string, string> query)
         {
