@@ -1,4 +1,7 @@
-﻿using WGUMobilePortal.ViewModels;
+﻿using System.Threading.Tasks;
+
+using WGUMobilePortal.ViewModels;
+using WGUMobilePortal.Services;
 
 using Xamarin.Forms;
 
@@ -10,6 +13,9 @@ namespace WGUMobilePortal.Views
         {
             InitializeComponent();
             this.BindingContext = new MainViewModel();
+
+            var Notify = new Notifier();
+            Task.Run(async () => await Notify.OnStartNotifications());
         }
 
         private async void Button_Clicked(object sender, System.EventArgs e)

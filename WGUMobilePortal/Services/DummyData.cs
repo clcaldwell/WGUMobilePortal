@@ -45,10 +45,10 @@ namespace WGUMobilePortal.Services
                         DateTime.Today.AddMonths(i + 1),
                         AssessmentStyle.Objective),
                     PerformanceAssessmentId = await DBService.AddAssessment(
-                        $"Objective Assessment {i}",
+                        $"Performance Assessment {i}",
                         DateTime.Today.AddMonths(i),
                         DateTime.Today.AddMonths(i + 1),
-                        AssessmentStyle.Objective),
+                        AssessmentStyle.Performance),
                     NoteId = await DBService.AddNote($"This is a test of notes, for Course: {i}")
                 };
                 var created = await DBService.AddCourse(course);

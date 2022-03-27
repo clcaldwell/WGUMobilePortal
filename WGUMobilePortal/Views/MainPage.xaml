@@ -4,7 +4,8 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vm="clr-namespace:WGUMobilePortal.ViewModels"
-    Title="{Binding Title}">
+    Title="{Binding Title}"
+    IsBusy="{Binding IsBusy}">
 
     <ContentPage.BindingContext>
         <vm:MainViewModel />
@@ -69,6 +70,7 @@
                     Command="{Binding GenerateDummyData}"
                     Text="Generate dummy Data"
                     TextColor="White" />
+                <ActivityIndicator IsRunning="{Binding IsBusy}" />
             </StackLayout>
         </ScrollView>
     </Grid>

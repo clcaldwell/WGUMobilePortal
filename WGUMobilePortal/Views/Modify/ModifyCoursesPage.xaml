@@ -51,7 +51,7 @@
                                 BackgroundColor="AliceBlue"
                                 CornerRadius="20"
                                 HasShadow="True"
-                                HeightRequest="180">
+                                HeightRequest="225">
                                 <StackLayout>
                                     <Label
                                         FontAttributes="Bold"
@@ -185,7 +185,7 @@
                                                             x:DataType="viewmodels:ModifyCoursesViewModel"
                                                             Date="{Binding CurrentObjectiveAssessment.StartDate, Mode=TwoWay}"
                                                             FontSize="Small"
-                                                            MinimumDate="{Binding StartDateMinimum}"
+                                                            MinimumDate="{Binding CurrentObjectiveAssessment.MinimumStartDate}"
                                                             VerticalOptions="Center"
                                                             WidthRequest="150" />
                                                     </StackLayout>
@@ -196,9 +196,13 @@
                                                             x:DataType="viewmodels:ModifyCoursesViewModel"
                                                             Date="{Binding CurrentObjectiveAssessment.EndDate, Mode=TwoWay}"
                                                             FontSize="Small"
-                                                            MinimumDate="{Binding EndDateMinimum}"
+                                                            MinimumDate="{Binding CurrentObjectiveAssessment.MinimumEndDate}"
                                                             VerticalOptions="Center"
                                                             WidthRequest="150" />
+                                                    </StackLayout>
+                                                    <StackLayout Orientation="Horizontal">
+                                                        <Label Text="Notify" />
+                                                        <Switch IsToggled="{Binding CurrentObjectiveAssessment.ShouldNotify}" />
                                                     </StackLayout>
                                                 </StackLayout>
                                             </Frame>
@@ -228,7 +232,7 @@
                                                         <DatePicker
                                                             Date="{Binding CurrentPerformanceAssessment.StartDate, Mode=TwoWay}"
                                                             FontSize="Small"
-                                                            MinimumDate="{Binding StartDateMinimum}"
+                                                            MinimumDate="{Binding CurrentPerformanceAssessment.MinimumStartDate}"
                                                             VerticalOptions="Center"
                                                             WidthRequest="150" />
                                                     </StackLayout>
@@ -237,9 +241,13 @@
                                                         <DatePicker
                                                             Date="{Binding CurrentPerformanceAssessment.EndDate, Mode=TwoWay}"
                                                             FontSize="Small"
-                                                            MinimumDate="{Binding EndDateMinimum}"
+                                                            MinimumDate="{Binding CurrentPerformanceAssessment.MinimumEndDate}"
                                                             VerticalOptions="Center"
                                                             WidthRequest="150" />
+                                                    </StackLayout>
+                                                    <StackLayout Orientation="Horizontal">
+                                                        <Label Text="Notify" />
+                                                        <Switch IsToggled="{Binding CurrentPerformanceAssessment.ShouldNotify}" />
                                                     </StackLayout>
                                                 </StackLayout>
                                             </Frame>

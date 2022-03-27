@@ -16,6 +16,8 @@ namespace WGUMobilePortal.ViewModels
     {
         private ObservableCollection<Assessment> _courseAssessments;
 
+        private DateTime _courseEndDateMinimum;
+        private DateTime _courseStartDate;
         private Course _currentCourse;
 
         private Instructor _currentInstructor;
@@ -29,8 +31,6 @@ namespace WGUMobilePortal.ViewModels
         private ViewType _currentView;
 
         private DateTime _endDate;
-
-        private DateTime _endDateMinimum;
 
         private ObservableCollection<Instructor> _instructors;
 
@@ -46,7 +46,7 @@ namespace WGUMobilePortal.ViewModels
         {
             Title = "Add/Modify Courses Page";
             DeleteCommand = new Command<Course>(Delete);
-            SaveCommand = new Command<Course>(Save);
+            SaveCommand = new Command(async () => await Save());
             NewAssessmentCommand = new Command(async () => await NewAssessment());
             ModifyAssessmentCommand = new Command<Assessment>(ModifyAssessment);
             RemoveAssessmentCommand = new Command<Assessment>(RemoveAssessment);
@@ -86,7 +86,8 @@ namespace WGUMobilePortal.ViewModels
 
         public ObservableCollection<Assessment> CourseAssessments
         {
-            get => _courseAssessments; set
+            get => _courseAssessments;
+            set
             {
                 SetProperty(ref _courseAssessments, value);
                 OnPropertyChanged(nameof(CourseAssessments));
@@ -177,10 +178,10 @@ namespace WGUMobilePortal.ViewModels
 
         public DateTime EndDateMinimum
         {
-            get => _endDateMinimum;
+            get => _courseEndDateMinimum;
             set
             {
-                SetProperty(ref _endDateMinimum, value);
+                SetProperty(ref _courseEndDateMinimum, value);
                 OnPropertyChanged(nameof(EndDateMinimum));
             }
         }
@@ -253,10 +254,10 @@ namespace WGUMobilePortal.ViewModels
 
         public DateTime StartDate
         {
-            get => _startDate;
+            get => _courseStartDate;
             set
             {
-                SetProperty(ref _startDate, value);
+                SetProperty(ref _courseStartDate, value);
                 EndDateMinimum = value.AddDays(1);
             }
         }
@@ -288,27 +289,28 @@ namespace WGUMobilePortal.ViewModels
             CurrentView = ViewType.CourseModification;
         }
 
-        public async void Save(Course course)
+        public async Task Save()
         {
-            //course.Name = CurrentCourse.Name;
-            //course.StartDate = StartDate;
-            //course.EndDate = EndDate;
+            Course course = CurrentCourse;
 
-            //List<int> Courses = AttachedCourses.Select(x => x.Id).ToList();
-            //Courses.Sort();
-            //course.CourseId = Courses;
+            course.InstructorId = SelectedInstructor.Id;
+            course.NoteId = CurrentNote.Id;
+            course.ObjectiveAssessmentId = CurrentObjectiveAssessment.Id;
+            course.PerformanceAssessmentId = CurrentPerformanceAssessment.Id;
 
-            //if (course.Id == 0)
-            //{
-            //    await DBService.AddCourse(course);
-            //}
-            //else
-            //{
-            //    await DBService.EditCourse(course);
-            //}
+            await DBService.EditAssessment(CurrentPerformanceAssessment);
+            await DBService.EditAssessment(CurrentObjectiveAssessment);
+            await DBService.EditNote(CurrentNote);
+            await DBService.EditCourse(course);
 
-            //await Shell.Current.Navigation.PopAsync();
-            //await Shell.Current.GoToAsync("..");
+            if (course.Id == 0)
+            {
+                await DBService.AddCourse(course);
+            }
+            else
+            {
+                await DBService.EditCourse(course);
+            }
         }
 
         private async Task BackToModify()
@@ -334,15 +336,22 @@ namespace WGUMobilePortal.ViewModels
 
             if (CurrentCourse.ObjectiveAssessmentId > 0)
             {
-                Assessment assessment = await DBService.GetAssessment(CurrentCourse.ObjectiveAssessmentId);
-                CourseAssessments.Add(assessment);
-                CurrentObjectiveAssessment = assessment;
+                Assessment objectiveAssessment = await DBService.GetAssessment(CurrentCourse.ObjectiveAssessmentId);
+                if (objectiveAssessment.Style == AssessmentStyle.Objective)
+                {
+                    CourseAssessments.Add(objectiveAssessment);
+                    CurrentObjectiveAssessment = objectiveAssessment;
+                }
             }
+
             if (CurrentCourse.PerformanceAssessmentId > 0)
             {
-                Assessment assessment = await DBService.GetAssessment(CurrentCourse.PerformanceAssessmentId);
-                CourseAssessments.Add(assessment);
-                CurrentPerformanceAssessment = assessment;
+                Assessment performanceAssessment = await DBService.GetAssessment(CurrentCourse.PerformanceAssessmentId);
+                if (performanceAssessment.Style == AssessmentStyle.Performance)
+                {
+                    CourseAssessments.Add(performanceAssessment);
+                    CurrentPerformanceAssessment = performanceAssessment;
+                }
             }
         }
 

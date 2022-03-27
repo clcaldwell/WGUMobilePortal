@@ -148,10 +148,15 @@ namespace WGUMobilePortal.Services
             await InitDB();
         }
 
+        public static async Task EditAssessment(Assessment assessment)
+        {
+            await InitDB();
+            await db.UpdateAsync(assessment);
+        }
+
         public static async Task EditCourse(Course course)
         {
             await InitDB();
-
             await db.UpdateAsync(course);
         }
 
@@ -163,6 +168,12 @@ namespace WGUMobilePortal.Services
         public static async Task EditNote()
         {
             await InitDB();
+        }
+
+        public static async Task EditNote(Note note)
+        {
+            await InitDB();
+            await db.UpdateAsync(note);
         }
 
         public static async Task EditTerm(int id, string name, DateTime startdate, DateTime enddate)
