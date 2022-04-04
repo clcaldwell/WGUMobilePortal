@@ -14,57 +14,22 @@ namespace WGUMobilePortal.ViewModels
 {
     public class ModifyCoursesViewModel : BaseViewModel, IQueryAttributable
     {
-        private ObservableCollection<Assessment> _courseAssessments;
         private ObservableCollection<Assessment> _assessmentSelectionList;
-
-        public Command CancelAssessmentSelectionCommand { get; }
-
-        public ObservableCollection<Assessment> AssessmentSelectionList
-        {
-            get => _assessmentSelectionList;
-            set
-            {
-                SetProperty(ref _assessmentSelectionList, value);
-                OnPropertyChanged(nameof(AssessmentSelectionList));
-            }
-        }
-
-        public Assessment SelectedAttachAssessment
-        {
-            get => _selectedAttachAssessment;
-            set
-            {
-                SetProperty(ref _selectedAttachAssessment, value);
-                OnPropertyChanged(nameof(SelectedAttachAssessment));
-            }
-        }
-
+        private ObservableCollection<Assessment> _courseAssessments;
         private DateTime _courseEndDateMinimum;
         private DateTime _courseStartDate;
         private Course _currentCourse;
-
         private Instructor _currentInstructor;
-
         private Note _currentNote;
-
-        private Assessment _currentObjectiveAssessment;
-
-        private Assessment _currentPerformanceAssessment;
-
         private ViewType _currentView;
-
         private DateTime _endDate;
-
         private ObservableCollection<Instructor> _instructors;
-
-        private Course _selectedCourse;
-
-        private CourseStatus _selectedCourseStatus;
-
-        private Instructor _selectedInstructor;
-
-        private DateTime _startDate;
+        private Assessment _selectedAssessment;
         private Assessment _selectedAttachAssessment;
+        private Course _selectedCourse;
+        private CourseStatus _selectedCourseStatus;
+        private Instructor _selectedInstructor;
+        private DateTime _startDate;
 
         public ModifyCoursesViewModel()
         {
@@ -73,14 +38,12 @@ namespace WGUMobilePortal.ViewModels
             SaveCommand = new Command(async () => await Save());
             NewAssessmentCommand = new Command(async () => await NewAssessment());
             ModifyAssessmentCommand = new Command(async () => await ModifyAssessment());
-            RemoveObjectiveAssessmentCommand = new Command(async () => await RemoveObjectiveAssessment());
-            RemovePerformanceAssessmentCommand = new Command(async () => await RemovePerformanceAssessment());
-            NewInstructorCommand = new Command(async () => await NewInstructor());
-            ModifyInstructorCommand = new Command<Instructor>(ModifyInstructor);
-            BackToMainModifyCommand = new Command(async () => await BackToModify());
+            RemoveAssessmentCommand = new Command(async () => await RemoveAssessment());
+            AttachAssessmentCommand = new Command(async () => await AttachAssessment());
             ChangeInstructorCommand = new Command(async (obj) => await ChangeInstructor(obj));
             SelectInstructorCommand = new Command(async () => await SelectInstructor());
-            CancelSelectInstructorCommand = new Command(async () => await CancelSelectInstructor());
+            OkAssessmentSelectionCommand = new Command(async () => await OkAssessmentSelection());
+            CancelAssessmentSelectionCommand = new Command(async () => await CancelAssessmentSelection());
 
             if (CourseAssessments == null)
             {
@@ -101,8 +64,19 @@ namespace WGUMobilePortal.ViewModels
 
         public Command AddCommand { get; }
 
-        public Command BackToMainModifyCommand { get; }
+        public ObservableCollection<Assessment> AssessmentSelectionList
+        {
+            get => _assessmentSelectionList;
+            set
+            {
+                SetProperty(ref _assessmentSelectionList, value);
+                OnPropertyChanged(nameof(AssessmentSelectionList));
+            }
+        }
 
+        public Command AttachAssessmentCommand { get; }
+        public Command BackToMainModifyCommand { get; }
+        public Command CancelAssessmentSelectionCommand { get; }
         public Command CancelCourseSelectionCommand { get; }
 
         public Command CancelSelectInstructorCommand { get; }
@@ -159,26 +133,6 @@ namespace WGUMobilePortal.ViewModels
             }
         }
 
-        public Assessment CurrentObjectiveAssessment
-        {
-            get => _currentObjectiveAssessment;
-            set
-            {
-                SetProperty(ref _currentObjectiveAssessment, value);
-                OnPropertyChanged(nameof(CurrentObjectiveAssessment));
-            }
-        }
-
-        public Assessment CurrentPerformanceAssessment
-        {
-            get => _currentPerformanceAssessment;
-            set
-            {
-                SetProperty(ref _currentPerformanceAssessment, value);
-                OnPropertyChanged(nameof(CurrentPerformanceAssessment));
-            }
-        }
-
         public ViewType CurrentView
         {
             get => _currentView;
@@ -226,8 +180,7 @@ namespace WGUMobilePortal.ViewModels
         public bool IsInstructorView { get; set; }
 
         public Command ModifyAssessmentCommand { get; }
-        public Command RemoveObjectiveAssessmentCommand { get; }
-        public Command RemovePerformanceAssessmentCommand { get; }
+
         public Command ModifyCommand { get; }
 
         public Command<Instructor> ModifyInstructorCommand { get; }
@@ -236,13 +189,41 @@ namespace WGUMobilePortal.ViewModels
 
         public Command NewInstructorCommand { get; }
 
+        public Command OkAssessmentSelectionCommand { get; }
+
         public Command OpenCourseSelectionCommand { get; }
 
+        public Command RemoveAssessmentCommand { get; }
+
         public Command RemoveCourseCommand { get; }
+
+        public Command RemoveObjectiveAssessmentCommand { get; }
+
+        public Command RemovePerformanceAssessmentCommand { get; }
 
         public Command SaveCommand { get; }
 
         public Command SelectCourseCommand { get; }
+
+        public Assessment SelectedAssessment
+        {
+            get => _selectedAssessment;
+            set
+            {
+                SetProperty(ref _selectedAssessment, value);
+                OnPropertyChanged(nameof(SelectedAssessment));
+            }
+        }
+
+        public Assessment SelectedAttachAssessment
+        {
+            get => _selectedAttachAssessment;
+            set
+            {
+                SetProperty(ref _selectedAttachAssessment, value);
+                OnPropertyChanged(nameof(SelectedAttachAssessment));
+            }
+        }
 
         public Course SelectedCourse
         {
@@ -298,34 +279,60 @@ namespace WGUMobilePortal.ViewModels
             }
             else
             {
-                //Name = HttpUtility.UrlDecode(query["name"]);
-                //StartDate = DateTime.Parse(HttpUtility.UrlDecode(query["startDate"]));
-                //EndDate = DateTime.Parse(HttpUtility.UrlDecode(query["endDate"]));
                 int id = int.Parse(HttpUtility.UrlDecode(query["id"]));
-
                 Task.Run(async () => await Load(id));
             }
         }
 
         public async Task OnAppearing()
         {
-            //Instructors = (ObservableCollection<Instructor>)await DBService.GetAllInstructor();
             CurrentView = ViewType.CourseModification;
         }
 
         public async Task Save()
         {
+            IsBusy = true;
             Course course = CurrentCourse;
 
             course.InstructorId = CurrentInstructor.Id;
-            course.NoteId = CurrentNote.Id;
-            course.ObjectiveAssessmentId = CurrentObjectiveAssessment.Id;
-            course.PerformanceAssessmentId = CurrentPerformanceAssessment.Id;
 
-            await DBService.EditAssessment(CurrentPerformanceAssessment);
-            await DBService.EditAssessment(CurrentObjectiveAssessment);
-            await DBService.EditNote(CurrentNote);
-            await DBService.EditCourse(course);
+            if (CourseAssessments.Any())
+            {
+                var objectiveAssessment = CourseAssessments.Where(x => x.Style == AssessmentStyle.Objective);
+                if (objectiveAssessment.Any())
+                {
+                    course.ObjectiveAssessmentId = objectiveAssessment.First().Id;
+                }
+                else
+                {
+                    course.ObjectiveAssessmentId = 0;
+                }
+
+                var performanceAssessment = CourseAssessments.Where(x => x.Style == AssessmentStyle.Performance);
+                if (performanceAssessment.Any())
+                {
+                    course.PerformanceAssessmentId = performanceAssessment.First().Id;
+                }
+                else
+                {
+                    course.PerformanceAssessmentId = 0;
+                }
+            }
+            else
+            {
+                course.ObjectiveAssessmentId = 0;
+                course.PerformanceAssessmentId = 0;
+            }
+
+            if (await DBService.GetNote(CurrentNote.Id) == null)
+            {
+                course.NoteId = await DBService.AddNote(CurrentNote.Contents);
+            }
+            else
+            {
+                course.NoteId = CurrentNote.Id;
+                await DBService.EditNote(CurrentNote);
+            }
 
             if (course.Id == 0)
             {
@@ -335,21 +342,45 @@ namespace WGUMobilePortal.ViewModels
             {
                 await DBService.EditCourse(course);
             }
-
+            IsBusy = false;
         }
 
-        private async Task BackToModify()
+        private async Task AttachAssessment()
         {
+            if (CourseAssessments.Any(x => x.Style == SelectedAttachAssessment.Style))
+            {
+                Assessment assessment = CourseAssessments.First(x => x.Style == SelectedAttachAssessment.Style);
+
+                // Breaking MVVM pattern here - but this is much trickier
+                // because of not being allowed to use an MVVM library
+                bool response = await Application.Current.MainPage.DisplayAlert(
+                    "Alert",
+                    "This will overwrite the existing attached course:\n" +
+                    $"{assessment.Name}\n" +
+                    $"{assessment.StartDate}\n" +
+                    $"{assessment.EndDate}\n",
+                    "Continue", "Cancel"
+                    );
+
+                if (response)
+                {
+                    CourseAssessments.Remove(assessment);
+                    CourseAssessments.Add(SelectedAttachAssessment);
+                }
+            }
+            else
+            {
+                CourseAssessments.Add(SelectedAttachAssessment);
+            }
+        }
+
+        private async Task CancelAssessmentSelection()
+        {
+            await SetCourseAssessments();
             CurrentView = ViewType.CourseModification;
         }
 
-        private async Task CancelSelectInstructor()
-        {
-            IsInstructorView = true;
-            IsInstructorSelection = false;
-        }
-
-        private async void ChangeCurrent()
+        private async Task ChangeCurrent()
         {
             CurrentInstructor = await DBService.GetInstructor(CurrentCourse.InstructorId);
             CurrentNote = await DBService.GetNote(CurrentCourse.NoteId);
@@ -357,27 +388,7 @@ namespace WGUMobilePortal.ViewModels
             StartDate = CurrentCourse.StartDate;
             EndDate = CurrentCourse.EndDate;
 
-            CourseAssessments.Clear();
-
-            if (CurrentCourse.ObjectiveAssessmentId > 0)
-            {
-                Assessment objectiveAssessment = await DBService.GetAssessment(CurrentCourse.ObjectiveAssessmentId);
-                if (objectiveAssessment.Style == AssessmentStyle.Objective)
-                {
-                    CourseAssessments.Add(objectiveAssessment);
-                    CurrentObjectiveAssessment = objectiveAssessment;
-                }
-            }
-
-            if (CurrentCourse.PerformanceAssessmentId > 0)
-            {
-                Assessment performanceAssessment = await DBService.GetAssessment(CurrentCourse.PerformanceAssessmentId);
-                if (performanceAssessment.Style == AssessmentStyle.Performance)
-                {
-                    CourseAssessments.Add(performanceAssessment);
-                    CurrentPerformanceAssessment = performanceAssessment;
-                }
-            }
+            await SetCourseAssessments();
         }
 
         private async Task ChangeInstructor(Object obj)
@@ -387,12 +398,7 @@ namespace WGUMobilePortal.ViewModels
             picker.IsEnabled = true;
             picker.IsVisible = true;
             Device.BeginInvokeOnMainThread(() => picker.Focus());
-            //picker.Focus();
             _ = picker.SelectedItem;
-
-            //SelectedInstructor = CurrentInstructor;
-            //IsInstructorView = false;
-            //IsInstructorSelection = true;
         }
 
         private async void Delete(Course course)
@@ -406,44 +412,27 @@ namespace WGUMobilePortal.ViewModels
 
         private async Task Load(int Id)
         {
-            CurrentCourse = await DBService.GetCourse(Id);
-            foreach (Instructor instructor in await DBService.GetAllInstructor())
-            {
-                Instructors.Add(instructor);
-            }
-
             if (CourseAssessments == null)
             {
                 CourseAssessments = new ObservableCollection<Assessment>();
             }
 
-            //CurrentInstructor = await DBService.GetInstructor(CurrentCourse.InstructorId);
+            CurrentCourse = await DBService.GetCourse(Id);
 
-            //if (CurrentCourse.ObjectiveAssessmentId != null)
-            //{
-            //    CourseAssessments.Insert(0,
-            //        await DBService.GetAssessment((int)CurrentCourse.ObjectiveAssessmentId));
-            //}
-            //if (CurrentCourse.PerformanceAssessmentId != null)
-            //{
-            //    CourseAssessments.Insert(1,
-            //        await DBService.GetAssessment((int)CurrentCourse.PerformanceAssessmentId));
-            //}
-
-            //if (CurrentCourse.NoteId != null)
-            //{
-            //    CurrentNote = await DBService.GetNote((int)CurrentCourse.NoteId);
-            //}
-            //else
-            //{
-            //    CurrentNote = new Note();
-            //}
+            foreach (Instructor instructor in await DBService.GetAllInstructor())
+            {
+                Instructors.Add(instructor);
+            }
         }
 
         private async Task LoadNew()
         {
             CurrentCourse = new Course();
-            //await Task.Run(() => AttachedCourses = new ObservableCollection<Course>());
+
+            foreach (Instructor instructor in await DBService.GetAllInstructor())
+            {
+                Instructors.Add(instructor);
+            }
         }
 
         private async Task ModifyAssessment()
@@ -455,29 +444,19 @@ namespace WGUMobilePortal.ViewModels
             AssessmentSelectionList = new ObservableCollection<Assessment>(assessmentList);
         }
 
-        private async void ModifyInstructor(Instructor instructor)
-        {
-            throw new NotImplementedException();
-        }
-
         private async Task NewAssessment()
         {
             CurrentView = ViewType.AssessmentModification;
         }
 
-        private async Task NewInstructor()
+        private async Task OkAssessmentSelection()
         {
-            CurrentView = ViewType.InstructorModification;
+            CurrentView = ViewType.CourseModification;
         }
 
-        private async Task RemoveObjectiveAssessment()
+        private async Task RemoveAssessment()
         {
-            CurrentObjectiveAssessment.Id = 0;
-        }
-
-        private async Task RemovePerformanceAssessment()
-        {
-            CurrentPerformanceAssessment.Id = 0;
+            CourseAssessments.Remove(SelectedAssessment);
         }
 
         private async Task SelectInstructor()
@@ -486,6 +465,29 @@ namespace WGUMobilePortal.ViewModels
             SelectedInstructor = CurrentInstructor;
             IsInstructorView = true;
             IsInstructorSelection = false;
+        }
+
+        private async Task SetCourseAssessments()
+        {
+            CourseAssessments.Clear();
+
+            if (CurrentCourse.ObjectiveAssessmentId > 0)
+            {
+                Assessment objectiveAssessment = await DBService.GetAssessment(CurrentCourse.ObjectiveAssessmentId);
+                if (objectiveAssessment.Style == AssessmentStyle.Objective)
+                {
+                    CourseAssessments.Add(objectiveAssessment);
+                }
+            }
+
+            if (CurrentCourse.PerformanceAssessmentId > 0)
+            {
+                Assessment performanceAssessment = await DBService.GetAssessment(CurrentCourse.PerformanceAssessmentId);
+                if (performanceAssessment.Style == AssessmentStyle.Performance)
+                {
+                    CourseAssessments.Add(performanceAssessment);
+                }
+            }
         }
     }
 }

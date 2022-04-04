@@ -353,11 +353,11 @@ namespace WGUMobilePortal.Services
                 AssessmentTableInfo = await db.GetTableInfoAsync("Assessment");
                 InstructorTableInfo = await db.GetTableInfoAsync("Instructor");
                 NoteTableInfo = await db.GetTableInfoAsync("Note");
-                TermTableInfo.ToString();
-                CourseTableInfo.ToString();
-                AssessmentTableInfo.ToString();
-                InstructorTableInfo.ToString();
-                NoteTableInfo.ToString();
+                //TermTableInfo.ToString();
+                //CourseTableInfo.ToString();
+                //AssessmentTableInfo.ToString();
+                //InstructorTableInfo.ToString();
+                //NoteTableInfo.ToString();
                 return;
             }
 
@@ -372,11 +372,11 @@ namespace WGUMobilePortal.Services
             AssessmentTableInfo = await db.GetTableInfoAsync("Assessment");
             InstructorTableInfo = await db.GetTableInfoAsync("Instructor");
             NoteTableInfo = await db.GetTableInfoAsync("Note");
-            TermTableInfo.ToString();
-            CourseTableInfo.ToString();
-            AssessmentTableInfo.ToString();
-            InstructorTableInfo.ToString();
-            NoteTableInfo.ToString();
+            //TermTableInfo.ToString();
+            //CourseTableInfo.ToString();
+            //AssessmentTableInfo.ToString();
+            //InstructorTableInfo.ToString();
+            //NoteTableInfo.ToString();
         }
 
         private static async Task PropagateTermIdToCourse(Term term)

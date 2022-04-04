@@ -21,22 +21,15 @@
             Binding="{Binding CurrentView}"
             TargetType="ContentPage"
             Value="{x:Static viewmodels:ModifyCoursesViewModel+ViewType.CourseModification}">
-            <Setter Property="ControlTemplate" Value="{DynamicResource ModifyCourseView}" />
-            <Setter Property="Title" Value="{Binding Title}" />
-        </DataTrigger>
-        <DataTrigger
-            Binding="{Binding CurrentView}"
-            TargetType="ContentPage"
-            Value="{x:Static viewmodels:ModifyCoursesViewModel+ViewType.InstructorModification}">
-            <Setter Property="ControlTemplate" Value="{DynamicResource ModifyInstructorView}" />
-            <Setter Property="Title" Value="Add / Modify Instructor" />
+            <Setter Property="ControlTemplate" Value="{StaticResource ModifyCourseView}" />
+            <Setter Property="Title" Value="Add / Modify Course" />
         </DataTrigger>
         <DataTrigger
             Binding="{Binding CurrentView}"
             TargetType="ContentPage"
             Value="{x:Static viewmodels:ModifyCoursesViewModel+ViewType.AssessmentModification}">
-            <Setter Property="ControlTemplate" Value="{DynamicResource ModifyAssessmentView}" />
-            <Setter Property="Title" Value="Add / Modify Assessments" />
+            <Setter Property="ControlTemplate" Value="{StaticResource ModifyAssessmentView}" />
+            <Setter Property="Title" Value="Assessment Selection" />
         </DataTrigger>
     </ContentPage.Triggers>
     <ContentPage.Resources>
@@ -46,8 +39,9 @@
                 <StackLayout BindingContext="{TemplateBinding BindingContext}" VerticalOptions="StartAndExpand">
                     <ContentPresenter VerticalOptions="FillAndExpand" />
                     <ScrollView>
-                        <StackLayout x:DataType="viewmodels:ModifyCoursesViewModel">
+                        <StackLayout>
                             <Frame
+                                x:DataType="viewmodels:ModifyCoursesViewModel"
                                 BackgroundColor="AliceBlue"
                                 CornerRadius="20"
                                 HasShadow="True"
@@ -137,6 +131,7 @@
                             </Frame>
 
                             <Frame
+                                x:DataType="viewmodels:ModifyCoursesViewModel"
                                 BackgroundColor="AliceBlue"
                                 CornerRadius="20"
                                 HasShadow="True"
@@ -191,112 +186,62 @@
                                         HorizontalOptions="Center"
                                         Text="Assessments" />
 
-                                    <StackLayout>
+                                    <StackLayout HeightRequest="300">
 
-                                        <!--#region Objective Assessment-->
-                                        <StackLayout>
-                                            <Frame
-                                                BackgroundColor="White"
-                                                BorderColor="{StaticResource Secondary}"
-                                                CornerRadius="20"
-                                                HasShadow="False">
-                                                <StackLayout>
-                                                    <StackLayout>
-                                                        <Entry
-                                                            x:Name="ObjectiveAssessmentName"
-                                                            FontSize="Small"
-                                                            Text="{Binding CurrentObjectiveAssessment.Name, Mode=TwoWay}"
-                                                            VerticalOptions="Center"
-                                                            WidthRequest="150" />
-                                                    </StackLayout>
-                                                    <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
-                                                        <Label Text="Start:" VerticalOptions="Center" />
-                                                        <DatePicker
-                                                            x:Name="ObjectiveAssessmentStartDate"
-                                                            x:DataType="viewmodels:ModifyCoursesViewModel"
-                                                            Date="{Binding CurrentObjectiveAssessment.StartDate, Mode=TwoWay}"
-                                                            FontSize="Small"
-                                                            MinimumDate="{Binding CurrentObjectiveAssessment.MinimumStartDate}"
-                                                            VerticalOptions="Center"
-                                                            WidthRequest="150" />
-                                                    </StackLayout>
-                                                    <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
-                                                        <Label Text="End:" VerticalOptions="Center" />
-                                                        <DatePicker
-                                                            x:Name="ObjectiveAssessmentEndDate"
-                                                            x:DataType="viewmodels:ModifyCoursesViewModel"
-                                                            Date="{Binding CurrentObjectiveAssessment.EndDate, Mode=TwoWay}"
-                                                            FontSize="Small"
-                                                            MinimumDate="{Binding CurrentObjectiveAssessment.MinimumEndDate}"
-                                                            VerticalOptions="Center"
-                                                            WidthRequest="150" />
-                                                    </StackLayout>
-                                                    <StackLayout Orientation="Horizontal">
-                                                        <Label Text="Notify" VerticalOptions="Center" />
-                                                        <Switch IsToggled="{Binding CurrentObjectiveAssessment.ShouldNotify}" VerticalOptions="Center" />
-                                                    </StackLayout>
+                                        <CollectionView
+                                            Grid.Row="0"
+                                            ItemsLayout="VerticalList"
+                                            ItemsSource="{Binding CourseAssessments, Mode=OneWay}">
+                                            <CollectionView.EmptyView>
+                                                <StackLayout Padding="12">
+                                                    <Label HorizontalOptions="Center" Text="No assessments are attached." />
                                                 </StackLayout>
-                                            </Frame>
-                                        </StackLayout>
-                                        <!--#endregion-->
-
-                                        <!--#region Performance Assessment-->
-                                        <StackLayout>
-                                            <Frame
-                                                BackgroundColor="White"
-                                                BorderColor="{StaticResource Secondary}"
-                                                CornerRadius="20"
-                                                HasShadow="True">
-                                                <StackLayout>
-                                                    <StackLayout>
-                                                        <Entry
-                                                            x:Name="PerformanceAssessmentName"
-                                                            FontSize="Small"
-                                                            Text="{Binding CurrentPerformanceAssessment.Name, Mode=TwoWay}"
-                                                            VerticalOptions="Center"
-                                                            WidthRequest="150" />
+                                            </CollectionView.EmptyView>
+                                            <CollectionView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackLayout Padding="10">
+                                                        <Frame
+                                                            Padding="2"
+                                                            BackgroundColor="AliceBlue"
+                                                            CornerRadius="5"
+                                                            HasShadow="True">
+                                                            <StackLayout
+                                                                Padding="0"
+                                                                BackgroundColor="AliceBlue"
+                                                                Orientation="Vertical"
+                                                                VerticalOptions="Start">
+                                                                <Label
+                                                                    Padding="0"
+                                                                    FontAttributes="Bold"
+                                                                    Text="{Binding Name}" />
+                                                                <StackLayout Padding="0">
+                                                                    <Label
+                                                                        FontSize="Small"
+                                                                        HorizontalOptions="Start"
+                                                                        Text="{Binding StartDate, StringFormat='{}{0:MM/dd/yyyy} - '}" />
+                                                                </StackLayout>
+                                                                <StackLayout Padding="0">
+                                                                    <Label
+                                                                        FontSize="Small"
+                                                                        HorizontalOptions="Start"
+                                                                        Text="{Binding EndDate, StringFormat='{}{0:MM/dd/yyyy}'}" />
+                                                                </StackLayout>
+                                                                <StackLayout>
+                                                                    <Label HorizontalOptions="Start" Text="{Binding Style}" />
+                                                                </StackLayout>
+                                                            </StackLayout>
+                                                        </Frame>
                                                     </StackLayout>
-
-                                                    <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
-                                                        <Label Text="Start:" VerticalOptions="Center" />
-                                                        <DatePicker
-                                                            Date="{Binding CurrentPerformanceAssessment.StartDate, Mode=TwoWay}"
-                                                            FontSize="Small"
-                                                            MinimumDate="{Binding CurrentPerformanceAssessment.MinimumStartDate}"
-                                                            VerticalOptions="Center"
-                                                            WidthRequest="150" />
-                                                    </StackLayout>
-                                                    <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
-                                                        <Label Text="End:" VerticalOptions="Center" />
-                                                        <DatePicker
-                                                            Date="{Binding CurrentPerformanceAssessment.EndDate, Mode=TwoWay}"
-                                                            FontSize="Small"
-                                                            MinimumDate="{Binding CurrentPerformanceAssessment.MinimumEndDate}"
-                                                            VerticalOptions="Center"
-                                                            WidthRequest="150" />
-                                                    </StackLayout>
-                                                    <StackLayout Orientation="Horizontal">
-                                                        <Label Text="Notify" VerticalOptions="Center" />
-                                                        <Switch IsToggled="{Binding CurrentPerformanceAssessment.ShouldNotify}" VerticalOptions="Center" />
-                                                    </StackLayout>
-                                                </StackLayout>
-                                            </Frame>
-                                        </StackLayout>
-                                        <!--#endregion-->
+                                                </DataTemplate>
+                                            </CollectionView.ItemTemplate>
+                                        </CollectionView>
 
                                         <StackLayout>
                                             <Button
                                                 Grid.Column="0"
-                                                BackgroundColor="LightSlateGray"
-                                                BorderColor="DarkSlateBlue"
-                                                BorderWidth="1"
                                                 Command="{Binding ModifyAssessmentCommand}"
-                                                FontAttributes="None"
-                                                FontSize="Small"
-                                                Scale=".8"
-                                                Text="Modify Assessment Selection" />
+                                                Text="Assessment Selection" />
                                         </StackLayout>
-
                                     </StackLayout>
                                 </StackLayout>
                             </Frame>
@@ -323,13 +268,6 @@
                     </ScrollView>
                 </StackLayout>
             </ControlTemplate>
-            <!--  Instructor Modification View  -->
-            <ControlTemplate x:Key="ModifyInstructorView">
-                <StackLayout BindingContext="{TemplateBinding BindingContext}" VerticalOptions="StartAndExpand">
-                    <ContentPresenter VerticalOptions="FillAndExpand" />
-                    <Label Text="Modify Instructor View" />
-                </StackLayout>
-            </ControlTemplate>
             <!--  Assessment Modification View  -->
             <ControlTemplate x:Key="ModifyAssessmentView">
                 <StackLayout BindingContext="{TemplateBinding BindingContext}" VerticalOptions="StartAndExpand">
@@ -343,108 +281,78 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
-
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-
-                                <StackLayout Grid.Row="0" Grid.Column="0">
-                                    <Label Text="Current Perf. Assessment" />
-                                    <Frame
-                                        Padding="2"
-                                        BackgroundColor="AliceBlue"
-                                        CornerRadius="5"
-                                        HasShadow="True">
-                                        <StackLayout
-                                            Padding="0"
-                                            BackgroundColor="AliceBlue"
-                                            BindingContext="{Binding CurrentPerformanceAssessment}"
-                                            Orientation="Vertical"
-                                            VerticalOptions="Start">
-                                            <Label
-                                                Padding="0"
-                                                FontAttributes="Bold"
-                                                Text="{Binding Name}" />
-                                            <StackLayout Padding="0">
-                                                <Label
-                                                    FontSize="Small"
-                                                    HorizontalOptions="Start"
-                                                    Text="{Binding StartDate, StringFormat='{}{0:MM/dd/yyyy} - '}" />
-                                            </StackLayout>
-                                            <StackLayout Padding="0">
-                                                <Label
-                                                    FontSize="Small"
-                                                    HorizontalOptions="Start"
-                                                    Text="{Binding EndDate, StringFormat='{}{0:MM/dd/yyyy}'}" />
-                                            </StackLayout>
-                                            <StackLayout>
-                                                <Label HorizontalOptions="Start" Text="{Binding Status, StringFormat='{}Status: {0}'}" />
-                                            </StackLayout>
+                            <StackLayout Grid.Row="0">
+                                <Label
+                                    FontAttributes="Bold"
+                                    HorizontalOptions="Center"
+                                    Text="Selected Assessments" />
+                                <CollectionView
+                                    Grid.Row="0"
+                                    ItemsLayout="HorizontalList"
+                                    ItemsSource="{Binding CourseAssessments, Mode=OneWay}"
+                                    SelectedItem="{Binding SelectedAssessment, Mode=OneWayToSource}"
+                                    SelectionMode="Single">
+                                    <CollectionView.EmptyView>
+                                        <StackLayout Padding="12">
+                                            <Label HorizontalOptions="Center" Text="No assessments are attached." />
                                         </StackLayout>
-                                    </Frame>
-                                    <Button
-                                        BackgroundColor="LightSlateGray"
-                                        BorderColor="DarkSlateBlue"
-                                        BorderWidth="1"
-                                        Command="{Binding RemovePerformanceAssessmentCommand}"
-                                        FontAttributes="None"
-                                        FontSize="Small"
-                                        Scale=".8"
-                                        Text="Remove Perf. Assessment"
-                                        TextColor="Black" />
-                                </StackLayout>
+                                    </CollectionView.EmptyView>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackLayout Padding="10">
+                                                <Frame
+                                                    Padding="2"
+                                                    BackgroundColor="AliceBlue"
+                                                    CornerRadius="5"
+                                                    HasShadow="True">
+                                                    <StackLayout
+                                                        Padding="0"
+                                                        BackgroundColor="AliceBlue"
+                                                        Orientation="Vertical"
+                                                        VerticalOptions="Start">
+                                                        <Label
+                                                            Padding="0"
+                                                            FontAttributes="Bold"
+                                                            Text="{Binding Name}" />
+                                                        <StackLayout Padding="0">
+                                                            <Label
+                                                                FontSize="Small"
+                                                                HorizontalOptions="Start"
+                                                                Text="{Binding StartDate, StringFormat='{}{0:MM/dd/yyyy} - '}" />
+                                                        </StackLayout>
+                                                        <StackLayout Padding="0">
+                                                            <Label
+                                                                FontSize="Small"
+                                                                HorizontalOptions="Start"
+                                                                Text="{Binding EndDate, StringFormat='{}{0:MM/dd/yyyy}'}" />
+                                                        </StackLayout>
+                                                        <StackLayout>
+                                                            <Label HorizontalOptions="Start" Text="{Binding Style}" />
+                                                        </StackLayout>
+                                                    </StackLayout>
+                                                </Frame>
+                                            </StackLayout>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
 
-                                <StackLayout Grid.Row="0" Grid.Column="1">
-                                    <Label Text="Current Obj. Assessment" />
-                                    <Frame
-                                        Padding="2"
-                                        BackgroundColor="AliceBlue"
-                                        CornerRadius="5"
-                                        HasShadow="True">
-                                        <StackLayout
-                                            Padding="0"
-                                            BackgroundColor="AliceBlue"
-                                            BindingContext="{Binding CurrentObjectiveAssessment}"
-                                            Orientation="Vertical"
-                                            VerticalOptions="Start">
-                                            <Label
-                                                Padding="0"
-                                                FontAttributes="Bold"
-                                                Text="{Binding Name}" />
-                                            <StackLayout Padding="0">
-                                                <Label
-                                                    FontSize="Small"
-                                                    HorizontalOptions="Start"
-                                                    Text="{Binding StartDate, StringFormat='{}{0:MM/dd/yyyy} - '}" />
-                                            </StackLayout>
-                                            <StackLayout Padding="0">
-                                                <Label
-                                                    FontSize="Small"
-                                                    HorizontalOptions="Start"
-                                                    Text="{Binding EndDate, StringFormat='{}{0:MM/dd/yyyy}'}" />
-                                            </StackLayout>
-                                            <StackLayout>
-                                                <Label HorizontalOptions="Start" Text="{Binding Status, StringFormat='{}Status: {0}'}" />
-                                            </StackLayout>
-                                        </StackLayout>
-                                    </Frame>
-                                    <Button
-                                        BackgroundColor="LightSlateGray"
-                                        BorderColor="DarkSlateBlue"
-                                        BorderWidth="1"
-                                        Command="{Binding RemoveObjectiveAssessmentCommand}"
-                                        FontAttributes="None"
-                                        FontSize="Small"
-                                        Scale=".8"
-                                        Text="Remove Obj. Assessment"
-                                        TextColor="Black" />
-                                </StackLayout>
-                            </Grid>
+                                <Button
+                                    BackgroundColor="LightSlateGray"
+                                    BorderColor="DarkSlateBlue"
+                                    BorderWidth="1"
+                                    Command="{Binding RemoveAssessmentCommand}"
+                                    FontAttributes="None"
+                                    FontSize="Small"
+                                    Scale=".8"
+                                    Text="Remove Assessment"
+                                    TextColor="Black" />
+                            </StackLayout>
 
                             <StackLayout Grid.Row="1">
-                                <Label HorizontalOptions="Center" Text="Available Assessments" />
+                                <Label
+                                    FontAttributes="Bold"
+                                    HorizontalOptions="Center"
+                                    Text="Available Assessments" />
                                 <CollectionView
                                     HeightRequest="500"
                                     ItemsSource="{Binding AssessmentSelectionList, Mode=OneWay}"
@@ -499,7 +407,7 @@
                                 </CollectionView>
                             </StackLayout>
 
-                            <!--#region Attach / Remove Course Buttons-->
+                            <!--#region Attach Assessment Button-->
                             <StackLayout
                                 Grid.Row="2"
                                 Padding="0,0,0,15"
@@ -519,51 +427,28 @@
                                     TextColor="Black" />
                             </StackLayout>
 
-
-
-                            <!--#region  Assessment Selection Buttons-->
+                            <!--#region  Assessment OK / Cancel Buttons-->
                             <StackLayout
                                 Grid.Row="3"
                                 HorizontalOptions="Center"
                                 Orientation="Horizontal"
                                 VerticalOptions="End">
                                 <Button
+                                    BackgroundColor="Green"
+                                    Command="{Binding OkAssessmentSelectionCommand}"
+                                    Text="OK"
+                                    WidthRequest="100" />
+                                <Button
                                     BackgroundColor="DarkRed"
                                     Command="{Binding CancelAssessmentSelectionCommand}"
-                                    CommandParameter="{Binding .}"
                                     Text="Cancel"
                                     WidthRequest="100" />
                             </StackLayout>
                             <!--#endregion-->
                         </Grid>
                     </StackLayout>
-
-
-
                 </StackLayout>
-
             </ControlTemplate>
         </ResourceDictionary>
     </ContentPage.Resources>
-    <!--<StackLayout
-        BindingContext="{Binding .}"
-        HorizontalOptions="CenterAndExpand"
-        Orientation="Horizontal"
-        VerticalOptions="End">
-        <Button
-            Command="{Binding BackToMainModifyCommand}"
-            FontSize="Small"
-            Scale=".75"
-            Text="Main" />
-        <Button
-            Command="{Binding NewInstructorCommand}"
-            FontSize="Small"
-            Scale=".75"
-            Text="Instructor" />
-        <Button
-            Command="{Binding NewAssessmentCommand}"
-            FontSize="Small"
-            Scale=".75"
-            Text="Assessment" />
-    </StackLayout>-->
 </ContentPage>

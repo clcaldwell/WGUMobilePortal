@@ -71,7 +71,6 @@ namespace WGUMobilePortal.Services
             Notify.Current.Show(
                 x.Title, x.Message, x.Id, x.Time)
             );
-            //return;
         }
     }
 }
