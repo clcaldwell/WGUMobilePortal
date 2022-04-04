@@ -232,10 +232,28 @@
                                                             VerticalOptions="Center"
                                                             WidthRequest="150" />
                                                     </StackLayout>
-                                                    <StackLayout Orientation="Horizontal">
-                                                        <Label Text="Notify" />
-                                                        <Switch IsToggled="{Binding CurrentObjectiveAssessment.ShouldNotify}" />
-                                                    </StackLayout>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <StackLayout Grid.Column="0" Orientation="Horizontal">
+                                                            <Label Text="Notify" VerticalOptions="Center" />
+                                                            <Switch IsToggled="{Binding CurrentObjectiveAssessment.ShouldNotify}" VerticalOptions="Center" />
+                                                        </StackLayout>
+                                                        <Button
+                                                            Grid.Column="1"
+                                                            BackgroundColor="LightSlateGray"
+                                                            BorderColor="DarkSlateBlue"
+                                                            BorderWidth="1"
+                                                            Command="{Binding RemoveObjectiveAssessmentCommand}"
+                                                            FontAttributes="None"
+                                                            FontSize="Small"
+                                                            Scale=".8"
+                                                            Text="Remove Assessment"
+                                                            TextColor="Black" />
+                                                    </Grid>
+
                                                 </StackLayout>
                                             </Frame>
                                         </StackLayout>
@@ -277,10 +295,27 @@
                                                             VerticalOptions="Center"
                                                             WidthRequest="150" />
                                                     </StackLayout>
-                                                    <StackLayout Orientation="Horizontal">
-                                                        <Label Text="Notify" />
-                                                        <Switch IsToggled="{Binding CurrentPerformanceAssessment.ShouldNotify}" />
-                                                    </StackLayout>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <StackLayout Grid.Column="0" Orientation="Horizontal">
+                                                            <Label Text="Notify" VerticalOptions="Center" />
+                                                            <Switch IsToggled="{Binding CurrentPerformanceAssessment.ShouldNotify}" VerticalOptions="Center" />
+                                                        </StackLayout>
+                                                        <Button
+                                                            Grid.Column="1"
+                                                            BackgroundColor="LightSlateGray"
+                                                            BorderColor="DarkSlateBlue"
+                                                            BorderWidth="1"
+                                                            Command="{Binding RemovePerformanceAssessmentCommand}"
+                                                            FontAttributes="None"
+                                                            FontSize="Small"
+                                                            Scale=".8"
+                                                            Text="Remove Assessment"
+                                                            TextColor="Black" />
+                                                    </Grid>
                                                 </StackLayout>
                                             </Frame>
                                         </StackLayout>

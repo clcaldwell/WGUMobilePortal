@@ -49,7 +49,8 @@ namespace WGUMobilePortal.ViewModels
             SaveCommand = new Command(async () => await Save());
             NewAssessmentCommand = new Command(async () => await NewAssessment());
             ModifyAssessmentCommand = new Command<Assessment>(ModifyAssessment);
-            RemoveAssessmentCommand = new Command<Assessment>(RemoveAssessment);
+            RemoveObjectiveAssessmentCommand = new Command(async () => await RemoveObjectiveAssessment());
+            RemovePerformanceAssessmentCommand = new Command(async () => await RemovePerformanceAssessment());
             NewInstructorCommand = new Command(async () => await NewInstructor());
             ModifyInstructorCommand = new Command<Instructor>(ModifyInstructor);
             BackToMainModifyCommand = new Command(async () => await BackToModify());
@@ -201,7 +202,8 @@ namespace WGUMobilePortal.ViewModels
         public bool IsInstructorView { get; set; }
 
         public Command<Assessment> ModifyAssessmentCommand { get; }
-
+        public Command RemoveObjectiveAssessmentCommand { get; }
+        public Command RemovePerformanceAssessmentCommand { get; }
         public Command ModifyCommand { get; }
 
         public Command<Instructor> ModifyInstructorCommand { get; }
@@ -211,8 +213,6 @@ namespace WGUMobilePortal.ViewModels
         public Command NewInstructorCommand { get; }
 
         public Command OpenCourseSelectionCommand { get; }
-
-        public Command<Assessment> RemoveAssessmentCommand { get; }
 
         public Command RemoveCourseCommand { get; }
 
@@ -442,9 +442,14 @@ namespace WGUMobilePortal.ViewModels
             CurrentView = ViewType.InstructorModification;
         }
 
-        private async void RemoveAssessment(Assessment assessment)
+        private async Task RemoveObjectiveAssessment()
         {
-            throw new NotImplementedException();
+            CurrentObjectiveAssessment.Id = 0;
+        }
+
+        private async Task RemovePerformanceAssessment()
+        {
+            CurrentPerformanceAssessment.Id = 0;
         }
 
         private async Task SelectInstructor()
