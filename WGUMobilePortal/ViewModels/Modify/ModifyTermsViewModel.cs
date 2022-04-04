@@ -280,16 +280,7 @@ namespace WGUMobilePortal.ViewModels
             IsCourseSelection = true;
 
             List<Course> courseList = (List<Course>)await DBService.GetAllCourse();
-
-            //if (Term.CourseId != null)
-            //{
-            //Term.CourseId.ForEach(
-            //currentTermCourseID => courseList.RemoveAt(
-            //courseList.FindIndex(
-            //course => course.Id == currentTermCourseID)));
-            //}
             courseList = courseList.Where(course => course.TermId == 0).ToList();
-
             CourseSelectionList = new ObservableCollection<Course>(courseList);
         }
 

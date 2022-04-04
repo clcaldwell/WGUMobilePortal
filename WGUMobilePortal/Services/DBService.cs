@@ -38,6 +38,15 @@ namespace WGUMobilePortal.Services
             return assessment.Id;
         }
 
+        public static async Task<int> AddAssessment(Assessment assessment)
+        {
+            await InitDB();
+
+            await db.InsertAsync(assessment);
+
+            return assessment.Id;
+        }
+
         public static async Task<int> AddCourse(string name, DateTime startdate, DateTime enddate, CourseStatus status, int instructorId)
         {
             await InitDB();
@@ -59,7 +68,6 @@ namespace WGUMobilePortal.Services
         {
             await InitDB();
 
-            //await PropagateTermIdToCourse(term);
             await db.InsertAsync(course);
 
             return course.Id;
@@ -69,7 +77,6 @@ namespace WGUMobilePortal.Services
         {
             await InitDB();
 
-            //await db.UpdateAsync(note);
             course.NoteId = note.Id;
             await db.UpdateAsync(course);
         }

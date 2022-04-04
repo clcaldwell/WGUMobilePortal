@@ -67,6 +67,22 @@ namespace WGUMobilePortal.Services
                 }
             }
 
+
+            // Add Some more assessments for selection list
+            var assessmentStyleEnum = Enum.GetValues(typeof(AssessmentStyle));
+            for (int i = 0; i < 6; i++)
+            {
+                var assessment = new Assessment()
+                {
+                    Name = $"Random Assessment {i}",
+                    StartDate = DateTime.Today.AddMonths(i),
+                    EndDate = DateTime.Today.AddMonths(i + 1),
+                    Style = (AssessmentStyle)assessmentStyleEnum.GetValue(rand.Next(assessmentStyleEnum.Length))
+                };
+
+                await DBService.AddAssessment(assessment);
+            }
+
             //var course11 = await DBService.GetCourse(await DBService.AddCourse("Course 1", DateTime.Today.AddMonths(0), DateTime.Today.AddMonths(1), CourseStatus.Started, instructors[rand.Next(instructors.Count)]));
             //var course21 = await DBService.GetCourse(await DBService.AddCourse("Course 2", DateTime.Today.AddMonths(1), DateTime.Today.AddMonths(2), CourseStatus.Planned, instructors[rand.Next(instructors.Count)]));
             //var course31 = await DBService.GetCourse(await DBService.AddCourse("Course 3", DateTime.Today.AddMonths(2), DateTime.Today.AddMonths(3), CourseStatus.Started, instructors[rand.Next(instructors.Count)]));

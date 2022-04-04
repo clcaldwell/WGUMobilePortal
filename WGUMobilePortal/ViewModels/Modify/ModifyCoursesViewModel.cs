@@ -15,6 +15,29 @@ namespace WGUMobilePortal.ViewModels
     public class ModifyCoursesViewModel : BaseViewModel, IQueryAttributable
     {
         private ObservableCollection<Assessment> _courseAssessments;
+        private ObservableCollection<Assessment> _assessmentSelectionList;
+
+        public Command CancelAssessmentSelectionCommand { get; }
+
+        public ObservableCollection<Assessment> AssessmentSelectionList
+        {
+            get => _assessmentSelectionList;
+            set
+            {
+                SetProperty(ref _assessmentSelectionList, value);
+                OnPropertyChanged(nameof(AssessmentSelectionList));
+            }
+        }
+
+        public Assessment SelectedAttachAssessment
+        {
+            get => _selectedAttachAssessment;
+            set
+            {
+                SetProperty(ref _selectedAttachAssessment, value);
+                OnPropertyChanged(nameof(SelectedAttachAssessment));
+            }
+        }
 
         private DateTime _courseEndDateMinimum;
         private DateTime _courseStartDate;
@@ -41,6 +64,7 @@ namespace WGUMobilePortal.ViewModels
         private Instructor _selectedInstructor;
 
         private DateTime _startDate;
+        private Assessment _selectedAttachAssessment;
 
         public ModifyCoursesViewModel()
         {
@@ -48,7 +72,7 @@ namespace WGUMobilePortal.ViewModels
             DeleteCommand = new Command<Course>(Delete);
             SaveCommand = new Command(async () => await Save());
             NewAssessmentCommand = new Command(async () => await NewAssessment());
-            ModifyAssessmentCommand = new Command<Assessment>(ModifyAssessment);
+            ModifyAssessmentCommand = new Command(async () => await ModifyAssessment());
             RemoveObjectiveAssessmentCommand = new Command(async () => await RemoveObjectiveAssessment());
             RemovePerformanceAssessmentCommand = new Command(async () => await RemovePerformanceAssessment());
             NewInstructorCommand = new Command(async () => await NewInstructor());
@@ -201,7 +225,7 @@ namespace WGUMobilePortal.ViewModels
 
         public bool IsInstructorView { get; set; }
 
-        public Command<Assessment> ModifyAssessmentCommand { get; }
+        public Command ModifyAssessmentCommand { get; }
         public Command RemoveObjectiveAssessmentCommand { get; }
         public Command RemovePerformanceAssessmentCommand { get; }
         public Command ModifyCommand { get; }
@@ -422,9 +446,13 @@ namespace WGUMobilePortal.ViewModels
             //await Task.Run(() => AttachedCourses = new ObservableCollection<Course>());
         }
 
-        private async void ModifyAssessment(Assessment assessment)
+        private async Task ModifyAssessment()
         {
-            throw new NotImplementedException();
+            CurrentView = ViewType.AssessmentModification;
+
+            List<Assessment> assessmentList = (List<Assessment>)await DBService.GetAllAssessment();
+            assessmentList = assessmentList.Where(assessment => assessment.CourseId == 0).ToList();
+            AssessmentSelectionList = new ObservableCollection<Assessment>(assessmentList);
         }
 
         private async void ModifyInstructor(Instructor instructor)
