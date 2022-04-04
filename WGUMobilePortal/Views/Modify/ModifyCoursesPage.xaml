@@ -13,7 +13,7 @@
         <viewmodels:ModifyCoursesViewModel />
     </ContentPage.BindingContext>
     <ContentPage.ToolbarItems>
-        <ToolbarItem Command="{Binding SaveCourseCommand}" Text="SAVE" />
+        <ToolbarItem Command="{Binding SaveCommand}" Text="SAVE" />
     </ContentPage.ToolbarItems>
     <ContentPage.Triggers>
 
@@ -62,28 +62,60 @@
                                             <EntryCell Label="Course Name:" Text="{Binding CurrentCourse.Name, Mode=OneWay}" />
                                             <ViewCell>
                                                 <ViewCell.View>
-                                                    <StackLayout Padding="15,0" Orientation="Horizontal">
-                                                        <Label Text="Course Start:" VerticalOptions="Center" />
-                                                        <DatePicker
-                                                            Date="{Binding CurrentCourse.StartDate, Mode=TwoWay}"
-                                                            HorizontalOptions="FillAndExpand"
-                                                            MinimumDate="{Binding StartDateMinimum}"
-                                                            VerticalOptions="Center"
-                                                            WidthRequest="125" />
-                                                    </StackLayout>
+                                                    <Grid VerticalOptions="CenterAndExpand">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <StackLayout
+                                                            Grid.Column="0"
+                                                            Padding="15,0"
+                                                            HorizontalOptions="Start"
+                                                            Orientation="Horizontal">
+                                                            <Label Text="Course Start:" VerticalOptions="Center" />
+                                                            <DatePicker
+                                                                Date="{Binding CurrentCourse.StartDate, Mode=TwoWay}"
+                                                                HorizontalOptions="FillAndExpand"
+                                                                MinimumDate="{Binding StartDateMinimum}"
+                                                                VerticalOptions="Center"
+                                                                WidthRequest="125" />
+                                                        </StackLayout>
+                                                        <StackLayout
+                                                            Grid.Column="1"
+                                                            Padding="15,0"
+                                                            HorizontalOptions="End"
+                                                            Orientation="Horizontal">
+                                                            <Label Text="Notify" VerticalOptions="Center" />
+                                                            <Switch IsToggled="{Binding CurrentCourse.StartDateShouldNotify}" />
+                                                        </StackLayout>
+                                                    </Grid>
                                                 </ViewCell.View>
                                             </ViewCell>
                                             <ViewCell>
                                                 <ViewCell.View>
-                                                    <StackLayout Padding="15,0" Orientation="Horizontal">
-                                                        <Label Text="Course End:" VerticalOptions="Center" />
-                                                        <DatePicker
-                                                            Date="{Binding CurrentCourse.EndDate, Mode=TwoWay}"
-                                                            HorizontalOptions="FillAndExpand"
-                                                            MinimumDate="{Binding EndDateMinimum}"
-                                                            VerticalOptions="Center"
-                                                            WidthRequest="125" />
-                                                    </StackLayout>
+                                                    <Grid VerticalOptions="CenterAndExpand">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <StackLayout Padding="15,0" Orientation="Horizontal">
+                                                            <Label Text="Course End:" VerticalOptions="Center" />
+                                                            <DatePicker
+                                                                Date="{Binding CurrentCourse.EndDate, Mode=TwoWay}"
+                                                                HorizontalOptions="FillAndExpand"
+                                                                MinimumDate="{Binding EndDateMinimum}"
+                                                                VerticalOptions="Center"
+                                                                WidthRequest="125" />
+                                                        </StackLayout>
+                                                        <StackLayout
+                                                            Grid.Column="1"
+                                                            Padding="15,0"
+                                                            HorizontalOptions="End"
+                                                            Orientation="Horizontal">
+                                                            <Label Text="Notify" VerticalOptions="Center" />
+                                                            <Switch IsToggled="{Binding CurrentCourse.EndDateShouldNotify}" />
+                                                        </StackLayout>
+                                                    </Grid>
                                                 </ViewCell.View>
                                             </ViewCell>
                                             <ViewCell>

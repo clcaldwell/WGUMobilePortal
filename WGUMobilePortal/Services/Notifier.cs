@@ -27,7 +27,7 @@ namespace WGUMobilePortal.Services
 
         public async Task EvaluateNotifications()
         {
-            Notifications.Clear();
+            Notifications = new List<NotificationObject>();
 
             IEnumerable<Assessment> Assessments = await DBService.GetAllAssessment();
             Assessments.Where(x => x.ShouldNotify).ToList().ForEach(assessment =>
@@ -42,13 +42,23 @@ namespace WGUMobilePortal.Services
             });
 
             IEnumerable<Course> Courses = await DBService.GetAllCourse();
-            Courses.Where(x => x.ShouldNotify).ToList().ForEach(course =>
+            Courses.Where(x => x.StartDateShouldNotify).ToList().ForEach(course =>
             {
                 Notifications.Add(
                     new NotificationObject
                     {
                         Title = $"Course: {course.Name}",
                         Message = $"Course '{course.Name}' starts {course.StartDate}",
+                        Time = DateTime.Now
+                    });
+            });
+            Courses.Where(x => x.EndDateShouldNotify).ToList().ForEach(course =>
+            {
+                Notifications.Add(
+                    new NotificationObject
+                    {
+                        Title = $"Course: {course.Name}",
+                        Message = $"Course '{course.Name}' ends {course.StartDate}",
                         Time = DateTime.Now
                     });
             });
@@ -61,7 +71,7 @@ namespace WGUMobilePortal.Services
             Notify.Current.Show(
                 x.Title, x.Message, x.Id, x.Time)
             );
-            return;
+            //return;
         }
     }
 }

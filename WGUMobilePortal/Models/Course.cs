@@ -24,12 +24,13 @@ namespace WGUMobilePortal.Models
         public int InstructorId { get; set; }
         public string Name { get; set; }
         public int NoteId { get; set; }
-        public bool Notify { get; set; }
         public int ObjectiveAssessmentId { get; set; }
         public int PerformanceAssessmentId { get; set; }
-        public bool ShouldNotify { get; set; }
         public DateTime StartDate { get; set; }
         public CourseStatus Status { get; set; }
         public int TermId { get; set; }
+
+        public bool EndDateShouldNotify { get; set; }
+        public bool StartDateShouldNotify { get; set; }
     }
 }

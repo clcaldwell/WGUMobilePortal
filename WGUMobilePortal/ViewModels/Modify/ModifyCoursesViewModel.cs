@@ -216,7 +216,7 @@ namespace WGUMobilePortal.ViewModels
 
         public Command RemoveCourseCommand { get; }
 
-        public Command<Course> SaveCommand { get; }
+        public Command SaveCommand { get; }
 
         public Command SelectCourseCommand { get; }
 
@@ -293,7 +293,7 @@ namespace WGUMobilePortal.ViewModels
         {
             Course course = CurrentCourse;
 
-            course.InstructorId = SelectedInstructor.Id;
+            course.InstructorId = CurrentInstructor.Id;
             course.NoteId = CurrentNote.Id;
             course.ObjectiveAssessmentId = CurrentObjectiveAssessment.Id;
             course.PerformanceAssessmentId = CurrentPerformanceAssessment.Id;
@@ -311,6 +311,7 @@ namespace WGUMobilePortal.ViewModels
             {
                 await DBService.EditCourse(course);
             }
+
         }
 
         private async Task BackToModify()
