@@ -16,13 +16,12 @@ namespace WGUMobilePortal.ViewModels
     {
         private ObservableCollection<Assessment> _assessmentSelectionList;
         private ObservableCollection<Assessment> _courseAssessments;
-        private DateTime _courseEndDateMinimum;
-        private DateTime _courseStartDate;
         private Course _currentCourse;
         private Instructor _currentInstructor;
         private Note _currentNote;
         private ViewType _currentView;
         private DateTime _endDate;
+        private DateTime _endDateMinimum;
         private ObservableCollection<Instructor> _instructors;
         private Assessment _selectedAssessment;
         private Assessment _selectedAttachAssessment;
@@ -34,7 +33,7 @@ namespace WGUMobilePortal.ViewModels
         public ModifyCoursesViewModel()
         {
             Title = "Add/Modify Courses Page";
-            DeleteCommand = new Command<Course>(Delete);
+            DeleteCommand = new Command(async () => await Delete());
             SaveCommand = new Command(async () => await Save());
             NewAssessmentCommand = new Command(async () => await NewAssessment());
             ModifyAssessmentCommand = new Command(async () => await ModifyAssessment());
@@ -78,9 +77,7 @@ namespace WGUMobilePortal.ViewModels
         public Command BackToMainModifyCommand { get; }
         public Command CancelAssessmentSelectionCommand { get; }
         public Command CancelCourseSelectionCommand { get; }
-
         public Command CancelSelectInstructorCommand { get; }
-
         public Command ChangeInstructorCommand { get; }
 
         public ObservableCollection<Assessment> CourseAssessments
@@ -109,7 +106,7 @@ namespace WGUMobilePortal.ViewModels
             {
                 SetProperty(ref _currentCourse, value);
                 OnPropertyChanged(nameof(CurrentCourse));
-                ChangeCurrent();
+                _ = ChangeCurrent();
             }
         }
 
@@ -143,7 +140,7 @@ namespace WGUMobilePortal.ViewModels
             }
         }
 
-        public Command<Course> DeleteCommand { get; }
+        public Command DeleteCommand { get; }
 
         public DateTime EndDate
         {
@@ -157,10 +154,10 @@ namespace WGUMobilePortal.ViewModels
 
         public DateTime EndDateMinimum
         {
-            get => _courseEndDateMinimum;
+            get => _endDateMinimum;
             set
             {
-                SetProperty(ref _courseEndDateMinimum, value);
+                SetProperty(ref _endDateMinimum, value);
                 OnPropertyChanged(nameof(EndDateMinimum));
             }
         }
@@ -251,7 +248,7 @@ namespace WGUMobilePortal.ViewModels
             set
             {
                 SetProperty(ref _selectedInstructor, value);
-                OnPropertyChanged(nameof(_selectedInstructor));
+                OnPropertyChanged(nameof(SelectedInstructor));
             }
         }
 
@@ -259,10 +256,11 @@ namespace WGUMobilePortal.ViewModels
 
         public DateTime StartDate
         {
-            get => _courseStartDate;
+            get => _startDate;
             set
             {
-                SetProperty(ref _courseStartDate, value);
+                SetProperty(ref _startDate, value);
+                OnPropertyChanged(nameof(StartDate));
                 EndDateMinimum = value.AddDays(1);
             }
         }
@@ -280,6 +278,8 @@ namespace WGUMobilePortal.ViewModels
             else
             {
                 int id = int.Parse(HttpUtility.UrlDecode(query["id"]));
+                StartDate = DateTime.Parse(HttpUtility.UrlDecode(query["startDate"]));
+                EndDate = DateTime.Parse(HttpUtility.UrlDecode(query["endDate"]));
                 Task.Run(async () => await Load(id));
             }
         }
@@ -294,7 +294,35 @@ namespace WGUMobilePortal.ViewModels
             IsBusy = true;
             Course course = CurrentCourse;
 
-            course.InstructorId = CurrentInstructor.Id;
+            CurrentCourse.StartDate = StartDate;
+            CurrentCourse.EndDate = EndDate;
+
+            if (CurrentInstructor == null)
+            {
+                await Shell.Current.DisplayAlert("Alert", "Unable to save, must select an Instructor", "OK");
+                return;
+            }
+            else
+            {
+                course.InstructorId = CurrentInstructor.Id;
+            }
+
+            if (string.IsNullOrWhiteSpace(course.Name))
+            {
+                await Shell.Current.DisplayAlert("Alert", "Unable to save, must specify a Course Name", "OK");
+                return;
+            }
+            if (course.InstructorId == 0)
+            {
+                await Shell.Current.DisplayAlert("Alert", "Unable to save, must select an Instructor", "OK");
+                return;
+            }
+
+            if (course.StartDate.Date >= course.EndDate.Date)
+            {
+                await Shell.Current.DisplayAlert("Alert", "Unable to save, End date must be after Start date", "OK");
+                return;
+            }
 
             if (CourseAssessments.Any())
             {
@@ -324,7 +352,21 @@ namespace WGUMobilePortal.ViewModels
                 course.PerformanceAssessmentId = 0;
             }
 
-            if (await DBService.GetNote(CurrentNote.Id) == null)
+            if (course.ObjectiveAssessmentId == 0 && !await Shell.Current.DisplayAlert("Alert",
+                "You do not have an Objective Assessment assigned for this course. Are you sure you want to continue?",
+                "Continue", "Cancel"))
+            {
+                return;
+            }
+
+            if (course.PerformanceAssessmentId == 0 && !await Shell.Current.DisplayAlert("Alert",
+                "You do not have an Performance Assessment assigned for this course. Are you sure you want to continue?",
+                "Continue", "Cancel"))
+            {
+                return;
+            }
+
+            if (CurrentNote == null || CurrentNote.Id == 0)
             {
                 course.NoteId = await DBService.AddNote(CurrentNote.Contents);
             }
@@ -343,6 +385,7 @@ namespace WGUMobilePortal.ViewModels
                 await DBService.EditCourse(course);
             }
             IsBusy = false;
+            await Shell.Current.GoToAsync("..");
         }
 
         private async Task AttachAssessment()
@@ -357,8 +400,7 @@ namespace WGUMobilePortal.ViewModels
                     "Alert",
                     "This will overwrite the existing attached course:\n" +
                     $"{assessment.Name}\n" +
-                    $"{assessment.StartDate}\n" +
-                    $"{assessment.EndDate}\n",
+                    $"{assessment.DueDate}\n",
                     "Continue", "Cancel"
                     );
 
@@ -385,9 +427,6 @@ namespace WGUMobilePortal.ViewModels
             CurrentInstructor = await DBService.GetInstructor(CurrentCourse.InstructorId);
             CurrentNote = await DBService.GetNote(CurrentCourse.NoteId);
 
-            StartDate = CurrentCourse.StartDate;
-            EndDate = CurrentCourse.EndDate;
-
             await SetCourseAssessments();
         }
 
@@ -401,11 +440,11 @@ namespace WGUMobilePortal.ViewModels
             _ = picker.SelectedItem;
         }
 
-        private async void Delete(Course course)
+        private async Task Delete()
         {
-            if (await Shell.Current.DisplayAlert("Confirm Deletion", $"Are you sure you want to delete {course.Name}?", "Delete", "Cancel"))
+            if (await Shell.Current.DisplayAlert("Confirm Deletion", $"Are you sure you want to delete {CurrentCourse.Name}?", "Delete", "Cancel"))
             {
-                await DBService.RemoveCourse(course.Id);
+                await DBService.RemoveCourse(CurrentCourse.Id);
                 await Shell.Current.GoToAsync("..");
             }
         }
@@ -423,6 +462,9 @@ namespace WGUMobilePortal.ViewModels
             {
                 Instructors.Add(instructor);
             }
+
+            //StartDate = CurrentCourse.StartDate;
+            //EndDate = CurrentCourse.EndDate;
         }
 
         private async Task LoadNew()
@@ -433,6 +475,8 @@ namespace WGUMobilePortal.ViewModels
             {
                 Instructors.Add(instructor);
             }
+
+            EndDateMinimum = CurrentCourse.StartDate.AddDays(1).Date;
         }
 
         private async Task ModifyAssessment()

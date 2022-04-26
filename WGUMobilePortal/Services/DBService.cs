@@ -22,15 +22,15 @@ namespace WGUMobilePortal.Services
         public static List<SQLiteConnection.ColumnInfo> NoteTableInfo { get; private set; }
         public static List<SQLiteConnection.ColumnInfo> TermTableInfo { get; private set; }
 
-        public static async Task<int> AddAssessment(string name, DateTime startdate, DateTime enddate, AssessmentStyle style)
+        public static async Task<int> AddAssessment(string name, DateTime dueDate, bool dueDateShouldNotify, AssessmentStyle style)
         {
             await InitDB();
 
             var assessment = new Assessment
             {
                 Name = name,
-                StartDate = startdate,
-                EndDate = enddate,
+                DueDate = dueDate,
+                DueDateShouldNotify = dueDateShouldNotify,
                 Style = style
             };
 

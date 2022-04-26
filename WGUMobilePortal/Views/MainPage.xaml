@@ -66,9 +66,9 @@
                     TextColor="White" />
                 <Button
                     Margin="0,10,0,0"
-                    BackgroundColor="{StaticResource Primary}"
+                    BackgroundColor="DarkBlue"
                     Command="{Binding GenerateDummyData}"
-                    Text="Generate dummy Data"
+                    Text="Generate Sample Data Set For Evaluation"
                     TextColor="White" />
                 <ActivityIndicator IsRunning="{Binding IsBusy}" />
             </StackLayout>

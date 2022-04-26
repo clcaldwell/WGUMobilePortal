@@ -61,7 +61,7 @@
             Grid.Row="1"
             BackgroundColor="Transparent"
             ItemsLayout="VerticalList"
-            ItemsSource="{Binding Assessment}"
+            ItemsSource="{Binding Assessments}"
             SelectionMode="Single">
             <CollectionView.EmptyView>
                 <StackLayout Padding="10">
@@ -72,13 +72,6 @@
                 <DataTemplate x:DataType="model:Assessment">
                     <Grid Padding="10">
                         <Frame CornerRadius="20" HasShadow="True">
-                            <!--<xct:Expander>
-                                <xct:Expander.Header>-->
-                            <!--<Label FontSize="Large"
-                                        Text="{Binding Name}"
-                                        VerticalOptions="Center" />-->
-                            <!--</xct:Expander.Header>
-                                <xct:Expander.Content>-->
                             <StackLayout>
                                 <Label
                                     HorizontalOptions="Center"
@@ -94,26 +87,24 @@
                                     TextColor="{StaticResource Primary}"
                                     VerticalOptions="Center">
                                     <Label.Text>
-                                        <MultiBinding StringFormat="{}Date: {0:MM/dd/yyyy} - {1:MM/dd/yyyy}">
-                                            <Binding Path="StartDate" />
-                                            <Binding Path="EndDate" />
+                                        <MultiBinding StringFormat="{}Due Date: {0:MM/dd/yyyy}">
+                                            <Binding Path="DueDate" />
                                         </MultiBinding>
                                     </Label.Text>
                                 </Label>
                                 <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
                                     <Button
-                                        Command="{Binding Source={x:Reference MyAssessmentsPage}, Path=BindingContext.RemoveCommand}"
+                                        Command="{Binding Source={x:Reference MyAssessmentsPage}, Path=BindingContext.ModifyCommand}"
                                         CommandParameter="{Binding .}"
                                         Text="View / Modify"
                                         WidthRequest="200" />
                                     <Button
+                                        BackgroundColor="DarkRed"
                                         Command="{Binding Source={x:Reference MyAssessmentsPage}, Path=BindingContext.RemoveCommand}"
                                         CommandParameter="{Binding .}"
                                         Text="Delete" />
                                 </StackLayout>
                             </StackLayout>
-                            <!--</xct:Expander.Content>
-                            </xct:Expander>-->
                         </Frame>
                     </Grid>
                 </DataTemplate>

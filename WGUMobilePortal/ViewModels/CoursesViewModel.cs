@@ -52,7 +52,6 @@ namespace WGUMobilePortal.ViewModels
         private async void Modify(Course course)
         {
             await AppShell.Current.GoToAsync($"{nameof(ModifyCoursesPage)}?id={course.Id}&name={course.Name}&startDate={course.StartDate}&endDate={course.EndDate}");
-            //await AppShell.Current.GoToAsync($"{nameof(ModifyCoursesPage)}?id={term.Id}&name={term.Name}&startDate={term.StartDate}&endDate={term.EndDate}");
         }
 
         private async Task Refresh()

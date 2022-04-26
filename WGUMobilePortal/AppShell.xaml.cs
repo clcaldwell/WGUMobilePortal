@@ -18,6 +18,7 @@ namespace WGUMobilePortal
             Routing.RegisterRoute(nameof(TermsPage), typeof(TermsPage));
             Routing.RegisterRoute(nameof(ModifyTermsPage), typeof(ModifyTermsPage));
             Routing.RegisterRoute(nameof(ModifyCoursesPage), typeof(ModifyCoursesPage));
+            Routing.RegisterRoute(nameof(ModifyAssessmentsPage), typeof(ModifyAssessmentsPage));
         }
     }
 }

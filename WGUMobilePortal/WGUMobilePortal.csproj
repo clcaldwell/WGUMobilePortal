@@ -29,6 +29,9 @@
     <Compile Update="Views\Modify\ModifyCoursesPage.xaml.cs">
       <DependentUpon>ModifyCoursesPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Modify\ModifyAssessmentsPage.xaml.cs">
+      <DependentUpon>ModifyAssessmentsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Modify\ModifyTermsPage.xaml.cs">
       <DependentUpon>ModifyTermsPage.xaml</DependentUpon>
     </Compile>

@@ -3,6 +3,7 @@
     x:Class="WGUMobilePortal.Views.ModifyCoursesPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:WGUMobilePortal.Behaviors"
     xmlns:models="clr-namespace:WGUMobilePortal.ViewModels"
     xmlns:viewmodels="clr-namespace:WGUMobilePortal.ViewModels"
     x:Name="MyModifyCoursesPage"
@@ -53,7 +54,7 @@
                                         Text="Course Info" />
                                     <TableView RowHeight="-1">
                                         <TableSection>
-                                            <EntryCell Label="Course Name:" Text="{Binding CurrentCourse.Name, Mode=OneWay}" />
+                                            <EntryCell Label="Course Name:" Text="{Binding CurrentCourse.Name, Mode=TwoWay}" />
                                             <ViewCell>
                                                 <ViewCell.View>
                                                     <Grid VerticalOptions="CenterAndExpand">
@@ -68,7 +69,7 @@
                                                             Orientation="Horizontal">
                                                             <Label Text="Course Start:" VerticalOptions="Center" />
                                                             <DatePicker
-                                                                Date="{Binding CurrentCourse.StartDate, Mode=TwoWay}"
+                                                                Date="{Binding StartDate, Mode=TwoWay}"
                                                                 HorizontalOptions="FillAndExpand"
                                                                 MinimumDate="{Binding StartDateMinimum}"
                                                                 VerticalOptions="Center"
@@ -95,7 +96,7 @@
                                                         <StackLayout Padding="15,0" Orientation="Horizontal">
                                                             <Label Text="Course End:" VerticalOptions="Center" />
                                                             <DatePicker
-                                                                Date="{Binding CurrentCourse.EndDate, Mode=TwoWay}"
+                                                                Date="{Binding EndDate, Mode=TwoWay}"
                                                                 HorizontalOptions="FillAndExpand"
                                                                 MinimumDate="{Binding EndDateMinimum}"
                                                                 VerticalOptions="Center"
@@ -218,13 +219,7 @@
                                                                     <Label
                                                                         FontSize="Small"
                                                                         HorizontalOptions="Start"
-                                                                        Text="{Binding StartDate, StringFormat='{}{0:MM/dd/yyyy} - '}" />
-                                                                </StackLayout>
-                                                                <StackLayout Padding="0">
-                                                                    <Label
-                                                                        FontSize="Small"
-                                                                        HorizontalOptions="Start"
-                                                                        Text="{Binding EndDate, StringFormat='{}{0:MM/dd/yyyy}'}" />
+                                                                        Text="{Binding DueDate, StringFormat='{}{0:MM/dd/yyyy}'}" />
                                                                 </StackLayout>
                                                                 <StackLayout>
                                                                     <Label HorizontalOptions="Start" Text="{Binding Style}" />
@@ -263,6 +258,31 @@
                                         Keyboard="Chat"
                                         Text="{Binding CurrentNote.Contents}" />
                                 </StackLayout>
+                            </Frame>
+
+                            <!--#region Term Save / Delete Buttons-->
+                            <Frame
+                                BackgroundColor="AliceBlue"
+                                CornerRadius="20"
+                                HasShadow="True">
+
+                                <StackLayout
+                                    HorizontalOptions="Center"
+                                    Orientation="Horizontal"
+                                    VerticalOptions="End">
+                                    <Button
+                                        Command="{Binding SaveCommand}"
+                                        CommandParameter="{Binding .}"
+                                        Text="Save"
+                                        WidthRequest="175" />
+                                    <Button
+                                        BackgroundColor="DarkRed"
+                                        Command="{Binding DeleteCommand}"
+                                        CommandParameter="{Binding .}"
+                                        Text="Delete"
+                                        WidthRequest="100" />
+                                </StackLayout>
+                                <!--#endregion-->
                             </Frame>
                         </StackLayout>
                     </ScrollView>
@@ -318,13 +338,7 @@
                                                             <Label
                                                                 FontSize="Small"
                                                                 HorizontalOptions="Start"
-                                                                Text="{Binding StartDate, StringFormat='{}{0:MM/dd/yyyy} - '}" />
-                                                        </StackLayout>
-                                                        <StackLayout Padding="0">
-                                                            <Label
-                                                                FontSize="Small"
-                                                                HorizontalOptions="Start"
-                                                                Text="{Binding EndDate, StringFormat='{}{0:MM/dd/yyyy}'}" />
+                                                                Text="{Binding DueDate, StringFormat='{}{0:MM/dd/yyyy}'}" />
                                                         </StackLayout>
                                                         <StackLayout>
                                                             <Label HorizontalOptions="Start" Text="{Binding Style}" />
@@ -388,13 +402,7 @@
                                                             <Label
                                                                 FontSize="Small"
                                                                 HorizontalOptions="Start"
-                                                                Text="{Binding StartDate, StringFormat='{}{0:MM/dd/yyyy} - '}" />
-                                                        </StackLayout>
-                                                        <StackLayout Padding="0">
-                                                            <Label
-                                                                FontSize="Small"
-                                                                HorizontalOptions="Start"
-                                                                Text="{Binding EndDate, StringFormat='{}{0:MM/dd/yyyy}'}" />
+                                                                Text="{Binding DueDate, StringFormat='{}{0:MM/dd/yyyy}'}" />
                                                         </StackLayout>
                                                         <StackLayout>
                                                             <Label HorizontalOptions="Start" Text="{Binding Style}" />

@@ -3,6 +3,8 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 using WGUMobilePortal.Services;
+using WGUMobilePortal.Views;
+using WGUMobilePortal.Models;
 
 using Xamarin.Forms;
 
@@ -14,21 +16,21 @@ namespace WGUMobilePortal.ViewModels
         {
             Title = "Assessments View";
 
-            Assessment = new ObservableCollection<Models.Assessment>();
+            Assessments = new ObservableCollection<Assessment>();
 
             RefreshCommand = new Command(async () => await Refresh());
             AddCommand = new Command(async () => await Add());
-            RemoveCommand = new Command<Models.Assessment>(Remove);
-            //ModifyCommand = new Command<Models.Assessment>();
+            RemoveCommand = new Command<Assessment>(Remove);
+            ModifyCommand = new Command<Assessment>(Modify);
 
             _ = Load();
         }
 
         public Command AddCommand { get; }
-        public ObservableCollection<Models.Assessment> Assessment { get; set; }
-        public Command<Models.Assessment> ModifyCommand { get; }
+        public ObservableCollection<Assessment> Assessments { get; set; }
+        public Command<Assessment> ModifyCommand { get; }
         public Command RefreshCommand { get; }
-        public Command<Models.Assessment> RemoveCommand { get; }
+        public Command<Assessment> RemoveCommand { get; }
 
         public async Task OnAppearing()
         {
@@ -37,45 +39,45 @@ namespace WGUMobilePortal.ViewModels
 
         private async Task Add()
         {
-            string name = await App.Current.MainPage.DisplayPromptAsync("Name", "Name of Assessment");
-
-            DateTime startdate = new DateTime(2022, 06, 01);
-            DateTime enddate = new DateTime(2022, 12, 30);
-            const Models.AssessmentStyle style = Models.AssessmentStyle.Objective;
-
-            await DBService.AddAssessment(name, startdate, enddate, style);
-            await Task.Run(() => Refresh());
+            await AppShell.Current.GoToAsync($"{nameof(ModifyAssessmentsPage)}?id=0");
+            //await Task.Run(() => Refresh());
         }
 
         private async Task Load()
         {
             IsBusy = true;
-            Assessment.Clear();
+            Assessments.Clear();
             var assessments = await DBService.GetAllAssessment();
-            foreach (Models.Assessment assessment in assessments)
+            foreach (Assessment assessment in assessments)
             {
-                Assessment.Add(assessment);
+                Assessments.Add(assessment);
             }
             IsBusy = false;
+        }
+
+        private async void Modify(Assessment assessment)
+        {
+            await AppShell.Current.GoToAsync($"{nameof(ModifyAssessmentsPage)}?id={assessment.Id}");
+            //await AppShell.Current.GoToAsync($"{nameof(ModifyAssessmentsPage)}?id={assessment.Id}&name={assessment.Name}&startDate={assessment.StartDate}&endDate={assessment.EndDate}&style={assessment.Style}");
         }
 
         private async Task Refresh()
         {
             IsBusy = true;
 
-            Assessment.Clear();
+            Assessments.Clear();
 
             var assessments = await DBService.GetAllAssessment();
 
-            foreach (Models.Assessment assessment in assessments)
+            foreach (Assessment assessment in assessments)
             {
-                Assessment.Add(assessment);
+                Assessments.Add(assessment);
             }
 
             IsBusy = false;
         }
 
-        private async void Remove(Models.Assessment assessment)
+        private async void Remove(Assessment assessment)
         {
             await DBService.RemoveAssessment(assessment.Id);
             await Task.Run(() => Refresh());

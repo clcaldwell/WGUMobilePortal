@@ -151,10 +151,6 @@ namespace WGUMobilePortal.ViewModels
             }
         }
 
-        //public DateTime StartDate { get => _startDate; set =>  SetProperty(ref _startDate, value);
-        //        OnPropertyChanged(nameof(StartDate));
-        //    }
-        //}
         public DateTime StartDate
         {
             get => _startDate; set

@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 
 using WGUMobilePortal.Models;
@@ -30,13 +29,13 @@ namespace WGUMobilePortal.Services
             Notifications = new List<NotificationObject>();
 
             IEnumerable<Assessment> Assessments = await DBService.GetAllAssessment();
-            Assessments.Where(x => x.ShouldNotify).ToList().ForEach(assessment =>
+            Assessments.Where(x => x.DueDateShouldNotify).ToList().ForEach(assessment =>
             {
                 Notifications.Add(
                     new NotificationObject
                     {
                         Title = $"Assessment: {assessment.Name}",
-                        Message = $"Assessment is Due: {assessment.EndDate}",
+                        Message = $"Assessment is Due: {assessment.DueDate}",
                         Time = DateTime.Now
                     });
             });
