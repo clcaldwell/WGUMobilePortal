@@ -145,34 +145,15 @@
                                     <TableView RowHeight="-1">
                                         <TableSection>
                                             <EntryCell
-                                                IsEnabled="False"
                                                 Label="Name"
-                                                Text="{Binding CurrentInstructor.FullName, Mode=OneWay}" />
+                                                Text="{Binding CurrentCourse.InstructorName, Mode=TwoWay}" />
                                             <EntryCell
-                                                IsEnabled="False"
                                                 Label="Phone"
-                                                Text="{Binding CurrentInstructor.PhoneNumber, Mode=OneWay}" />
+                                                Text="{Binding CurrentCourse.InstructorPhone, Mode=TwoWay}" />
                                             <EntryCell
-                                                IsEnabled="False"
                                                 Label="Email"
-                                                Text="{Binding CurrentInstructor.EmailAddress, Mode=OneWay}" />
-                                            <ViewCell>
-                                                <ViewCell.View>
-                                                    <StackLayout>
-                                                        <Button
-                                                            Command="{Binding ChangeInstructorCommand}"
-                                                            CommandParameter="{Binding Source={x:Reference Instructor_Picker}, Path=.}"
-                                                            Text="Change Instructor" />
-                                                        <Picker
-                                                            x:Name="Instructor_Picker"
-                                                            IsVisible="False"
-                                                            ItemDisplayBinding="{Binding FullName}"
-                                                            ItemsSource="{Binding Instructors}"
-                                                            SelectedItem="{Binding CurrentInstructor, Mode=TwoWay}" />
-                                                    </StackLayout>
-                                                </ViewCell.View>
-                                            </ViewCell>
-                                        </TableSection>
+                                                Text="{Binding CurrentCourse.InstructorEmail, Mode=TwoWay}" />
+                                          </TableSection>
                                     </TableView>
                                 </StackLayout>
                             </Frame>

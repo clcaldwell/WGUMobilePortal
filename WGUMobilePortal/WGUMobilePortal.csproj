@@ -11,6 +11,8 @@
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <Platforms>AnyCPU;x86</Platforms>
     <OutputType>Library</OutputType>
+    <ApplicationIcon />
+    <StartupObject />
   </PropertyGroup>
 
   <ItemGroup>

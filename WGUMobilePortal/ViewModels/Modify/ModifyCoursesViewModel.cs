@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -17,17 +18,14 @@ namespace WGUMobilePortal.ViewModels
         private ObservableCollection<Assessment> _assessmentSelectionList;
         private ObservableCollection<Assessment> _courseAssessments;
         private Course _currentCourse;
-        private Instructor _currentInstructor;
         private Note _currentNote;
         private ViewType _currentView;
         private DateTime _endDate;
         private DateTime _endDateMinimum;
-        private ObservableCollection<Instructor> _instructors;
         private Assessment _selectedAssessment;
         private Assessment _selectedAttachAssessment;
         private Course _selectedCourse;
         private CourseStatus _selectedCourseStatus;
-        private Instructor _selectedInstructor;
         private DateTime _startDate;
 
         public ModifyCoursesViewModel()
@@ -39,8 +37,6 @@ namespace WGUMobilePortal.ViewModels
             ModifyAssessmentCommand = new Command(async () => await ModifyAssessment());
             RemoveAssessmentCommand = new Command(async () => await RemoveAssessment());
             AttachAssessmentCommand = new Command(async () => await AttachAssessment());
-            ChangeInstructorCommand = new Command(async (obj) => await ChangeInstructor(obj));
-            SelectInstructorCommand = new Command(async () => await SelectInstructor());
             OkAssessmentSelectionCommand = new Command(async () => await OkAssessmentSelection());
             CancelAssessmentSelectionCommand = new Command(async () => await CancelAssessmentSelection());
 
@@ -48,16 +44,12 @@ namespace WGUMobilePortal.ViewModels
             {
                 CourseAssessments = new ObservableCollection<Assessment>();
             }
-            if (Instructors == null)
-            {
-                Instructors = new ObservableCollection<Instructor>();
-            }
+
         }
 
         public enum ViewType
         {
             CourseModification,
-            InstructorModification,
             AssessmentModification
         }
 
@@ -77,8 +69,6 @@ namespace WGUMobilePortal.ViewModels
         public Command BackToMainModifyCommand { get; }
         public Command CancelAssessmentSelectionCommand { get; }
         public Command CancelCourseSelectionCommand { get; }
-        public Command CancelSelectInstructorCommand { get; }
-        public Command ChangeInstructorCommand { get; }
 
         public ObservableCollection<Assessment> CourseAssessments
         {
@@ -107,16 +97,6 @@ namespace WGUMobilePortal.ViewModels
                 SetProperty(ref _currentCourse, value);
                 OnPropertyChanged(nameof(CurrentCourse));
                 _ = ChangeCurrent();
-            }
-        }
-
-        public Instructor CurrentInstructor
-        {
-            get => _currentInstructor;
-            set
-            {
-                SetProperty(ref _currentInstructor, value);
-                OnPropertyChanged(nameof(CurrentInstructor));
             }
         }
 
@@ -162,29 +142,11 @@ namespace WGUMobilePortal.ViewModels
             }
         }
 
-        public ObservableCollection<Instructor> Instructors
-        {
-            get => _instructors;
-            set
-            {
-                SetProperty(ref _instructors, value);
-                OnPropertyChanged(nameof(Instructors));
-            }
-        }
-
-        public bool IsInstructorSelection { get; set; }
-
-        public bool IsInstructorView { get; set; }
-
         public Command ModifyAssessmentCommand { get; }
 
         public Command ModifyCommand { get; }
 
-        public Command<Instructor> ModifyInstructorCommand { get; }
-
         public Command NewAssessmentCommand { get; }
-
-        public Command NewInstructorCommand { get; }
 
         public Command OkAssessmentSelectionCommand { get; }
 
@@ -242,18 +204,6 @@ namespace WGUMobilePortal.ViewModels
             }
         }
 
-        public Instructor SelectedInstructor
-        {
-            get => _selectedInstructor;
-            set
-            {
-                SetProperty(ref _selectedInstructor, value);
-                OnPropertyChanged(nameof(SelectedInstructor));
-            }
-        }
-
-        public Command SelectInstructorCommand { get; }
-
         public DateTime StartDate
         {
             get => _startDate;
@@ -289,38 +239,79 @@ namespace WGUMobilePortal.ViewModels
             CurrentView = ViewType.CourseModification;
         }
 
+        public async Task<bool> ValidateCourse(Course course)
+        {
+            // Null Checks
+            if (string.IsNullOrWhiteSpace(course.Name))
+            {
+                await Shell.Current.DisplayAlert("Alert", "Unable to save, must specify a Course Name", "OK");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(course.InstructorName))
+            {
+                await Shell.Current.DisplayAlert("Alert", "Unable to save, Instructor name cannot be empty", "OK");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(course.InstructorEmail))
+            {
+                await Shell.Current.DisplayAlert("Alert", "Unable to save, Instructor email cannot be empty", "OK");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(course.InstructorPhone))
+            {
+                await Shell.Current.DisplayAlert("Alert", "Unable to save, Instructor phone cannot be empty", "OK");
+                return false;
+            }
+
+            // Regex Checks
+            Regex PhoneRegex = new Regex(@"\d{3}-\d{3}-\d{4}");
+            Regex EmailRegex = new Regex(@"\w+@wgu\.edu");
+
+            if (!PhoneRegex.IsMatch(course.InstructorPhone))
+            {
+                await Shell.Current.DisplayAlert("Alert", 
+                    "Unable to save, Instructor phone is invalid.\n" +
+                    "Phone must match this pattern:\n" +
+                    "123-456-7891", "OK");
+                return false;
+            }
+
+            if (!EmailRegex.IsMatch(course.InstructorEmail))
+            {
+                await Shell.Current.DisplayAlert("Alert",
+                    "Unable to save, Instructor email is invalid.\n" +
+                    "Email must match this pattern:\n" +
+                    "name@wgu.edu\n" +
+                    "ex. 'ccald15@wgu.edu'",
+                    "OK");
+                return false;
+            }
+
+
+            // Date checks
+            if (course.StartDate.Date >= course.EndDate.Date)
+            {
+                await Shell.Current.DisplayAlert("Alert", "Unable to save, End date must be after Start date", "OK");
+                return false;
+            }
+
+            return true;
+
+        }
+
         public async Task Save()
         {
             IsBusy = true;
             Course course = CurrentCourse;
 
-            CurrentCourse.StartDate = StartDate;
-            CurrentCourse.EndDate = EndDate;
+            course.StartDate = StartDate;
+            course.EndDate = EndDate;
 
-            if (CurrentInstructor == null)
+            if (!await ValidateCourse(course))
             {
-                await Shell.Current.DisplayAlert("Alert", "Unable to save, must select an Instructor", "OK");
-                return;
-            }
-            else
-            {
-                course.InstructorId = CurrentInstructor.Id;
-            }
-
-            if (string.IsNullOrWhiteSpace(course.Name))
-            {
-                await Shell.Current.DisplayAlert("Alert", "Unable to save, must specify a Course Name", "OK");
-                return;
-            }
-            if (course.InstructorId == 0)
-            {
-                await Shell.Current.DisplayAlert("Alert", "Unable to save, must select an Instructor", "OK");
-                return;
-            }
-
-            if (course.StartDate.Date >= course.EndDate.Date)
-            {
-                await Shell.Current.DisplayAlert("Alert", "Unable to save, End date must be after Start date", "OK");
                 return;
             }
 
@@ -424,20 +415,9 @@ namespace WGUMobilePortal.ViewModels
 
         private async Task ChangeCurrent()
         {
-            CurrentInstructor = await DBService.GetInstructor(CurrentCourse.InstructorId);
             CurrentNote = await DBService.GetNote(CurrentCourse.NoteId);
 
             await SetCourseAssessments();
-        }
-
-        private async Task ChangeInstructor(Object obj)
-        {
-            var picker = obj as Picker;
-
-            picker.IsEnabled = true;
-            picker.IsVisible = true;
-            Device.BeginInvokeOnMainThread(() => picker.Focus());
-            _ = picker.SelectedItem;
         }
 
         private async Task Delete()
@@ -458,23 +438,11 @@ namespace WGUMobilePortal.ViewModels
 
             CurrentCourse = await DBService.GetCourse(Id);
 
-            foreach (Instructor instructor in await DBService.GetAllInstructor())
-            {
-                Instructors.Add(instructor);
-            }
-
-            //StartDate = CurrentCourse.StartDate;
-            //EndDate = CurrentCourse.EndDate;
         }
 
         private async Task LoadNew()
         {
             CurrentCourse = new Course();
-
-            foreach (Instructor instructor in await DBService.GetAllInstructor())
-            {
-                Instructors.Add(instructor);
-            }
 
             EndDateMinimum = CurrentCourse.StartDate.AddDays(1).Date;
         }
@@ -501,14 +469,6 @@ namespace WGUMobilePortal.ViewModels
         private async Task RemoveAssessment()
         {
             CourseAssessments.Remove(SelectedAssessment);
-        }
-
-        private async Task SelectInstructor()
-        {
-            CurrentInstructor = SelectedInstructor;
-            SelectedInstructor = CurrentInstructor;
-            IsInstructorView = true;
-            IsInstructorSelection = false;
         }
 
         private async Task SetCourseAssessments()

@@ -18,10 +18,6 @@ namespace WGUMobilePortal.Services
             var term3 = await DBService.GetTerm(await DBService.AddTerm("Future Term 2", DateTime.Today.AddMonths(12), DateTime.Today.AddMonths(18)));
             List<Term> termList = new List<Term>() { term1, term2, term3 };
 
-            // Add Instructors
-            var defaultInstructor = await DBService.AddInstructor("Coby", "Caldwell", "808-690-7792", "ccald15@wgu.edu");
-            await DBService.AddInstructor("Sample", "Instructor", "111-222-1234", "SampleInstructor@wgu.edu");
-
             // Add Courses
             var rand = new Random();
             var courseStatusEnum = Enum.GetValues(typeof(CourseStatus));
@@ -35,7 +31,9 @@ namespace WGUMobilePortal.Services
                     StartDate = DateTime.Today.AddMonths(i),
                     EndDate = DateTime.Today.AddMonths(i + 1),
                     Status = (CourseStatus)courseStatusEnum.GetValue(rand.Next(courseStatusEnum.Length)),
-                    InstructorId = defaultInstructor,
+                    InstructorName = "Coby Caldwell",
+                    InstructorPhone = "808-690-7792",
+                    InstructorEmail = "ccald15@wgu.edu",
                     ObjectiveAssessmentId = await DBService.AddAssessment(
                         $"Objective Assessment {i + 1}",
                         DateTime.Today.AddMonths(i + 1),
