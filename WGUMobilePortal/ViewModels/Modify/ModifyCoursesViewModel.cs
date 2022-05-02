@@ -9,6 +9,7 @@ using System.Web;
 using WGUMobilePortal.Models;
 using WGUMobilePortal.Services;
 
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace WGUMobilePortal.ViewModels
@@ -39,12 +40,12 @@ namespace WGUMobilePortal.ViewModels
             AttachAssessmentCommand = new Command(async () => await AttachAssessment());
             OkAssessmentSelectionCommand = new Command(async () => await OkAssessmentSelection());
             CancelAssessmentSelectionCommand = new Command(async () => await CancelAssessmentSelection());
+            ShareNoteCommand = new Command(async () => await ShareNote());
 
             if (CourseAssessments == null)
             {
                 CourseAssessments = new ObservableCollection<Assessment>();
             }
-
         }
 
         public enum ViewType
@@ -143,25 +144,15 @@ namespace WGUMobilePortal.ViewModels
         }
 
         public Command ModifyAssessmentCommand { get; }
-
         public Command ModifyCommand { get; }
-
         public Command NewAssessmentCommand { get; }
-
         public Command OkAssessmentSelectionCommand { get; }
-
         public Command OpenCourseSelectionCommand { get; }
-
         public Command RemoveAssessmentCommand { get; }
-
         public Command RemoveCourseCommand { get; }
-
         public Command RemoveObjectiveAssessmentCommand { get; }
-
         public Command RemovePerformanceAssessmentCommand { get; }
-
         public Command SaveCommand { get; }
-
         public Command SelectCourseCommand { get; }
 
         public Assessment SelectedAssessment
@@ -204,6 +195,8 @@ namespace WGUMobilePortal.ViewModels
             }
         }
 
+        public Command ShareNoteCommand { get; }
+
         public DateTime StartDate
         {
             get => _startDate;
@@ -237,69 +230,6 @@ namespace WGUMobilePortal.ViewModels
         public async Task OnAppearing()
         {
             CurrentView = ViewType.CourseModification;
-        }
-
-        public async Task<bool> ValidateCourse(Course course)
-        {
-            // Null Checks
-            if (string.IsNullOrWhiteSpace(course.Name))
-            {
-                await Shell.Current.DisplayAlert("Alert", "Unable to save, must specify a Course Name", "OK");
-                return false;
-            }
-
-            if (string.IsNullOrWhiteSpace(course.InstructorName))
-            {
-                await Shell.Current.DisplayAlert("Alert", "Unable to save, Instructor name cannot be empty", "OK");
-                return false;
-            }
-
-            if (string.IsNullOrWhiteSpace(course.InstructorEmail))
-            {
-                await Shell.Current.DisplayAlert("Alert", "Unable to save, Instructor email cannot be empty", "OK");
-                return false;
-            }
-
-            if (string.IsNullOrWhiteSpace(course.InstructorPhone))
-            {
-                await Shell.Current.DisplayAlert("Alert", "Unable to save, Instructor phone cannot be empty", "OK");
-                return false;
-            }
-
-            // Regex Checks
-            Regex PhoneRegex = new Regex(@"\d{3}-\d{3}-\d{4}");
-            Regex EmailRegex = new Regex(@"\w+@wgu\.edu");
-
-            if (!PhoneRegex.IsMatch(course.InstructorPhone))
-            {
-                await Shell.Current.DisplayAlert("Alert", 
-                    "Unable to save, Instructor phone is invalid.\n" +
-                    "Phone must match this pattern:\n" +
-                    "123-456-7891", "OK");
-                return false;
-            }
-
-            if (!EmailRegex.IsMatch(course.InstructorEmail))
-            {
-                await Shell.Current.DisplayAlert("Alert",
-                    "Unable to save, Instructor email is invalid.\n" +
-                    "Email must match this pattern:\n" +
-                    "name@wgu.edu\n" +
-                    "ex. 'ccald15@wgu.edu'",
-                    "OK");
-                return false;
-            }
-
-
-            // Date checks
-            if (course.StartDate.Date >= course.EndDate.Date)
-            {
-                await Shell.Current.DisplayAlert("Alert", "Unable to save, End date must be after Start date", "OK");
-                return false;
-            }
-
-            return true;
-
         }
 
         public async Task Save()
@@ -357,7 +287,7 @@ namespace WGUMobilePortal.ViewModels
                 return;
             }
 
-            if (CurrentNote == null || CurrentNote.Id == 0)
+            if (CurrentNote.Id == 0)
             {
                 course.NoteId = await DBService.AddNote(CurrentNote.Contents);
             }
@@ -377,6 +307,77 @@ namespace WGUMobilePortal.ViewModels
             }
             IsBusy = false;
             await Shell.Current.GoToAsync("..");
+        }
+
+        public async Task ShareNote()
+        {
+            await Share.RequestAsync(
+                new ShareTextRequest
+                {
+                    Text = CurrentNote.Contents,
+                    Title = "Share Note"
+                });
+        }
+
+        public async Task<bool> ValidateCourse(Course course)
+        {
+            // Null Checks
+            if (string.IsNullOrWhiteSpace(course.Name))
+            {
+                await Shell.Current.DisplayAlert("Alert", "Unable to save, must specify a Course Name", "OK");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(course.InstructorName))
+            {
+                await Shell.Current.DisplayAlert("Alert", "Unable to save, Instructor name cannot be empty", "OK");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(course.InstructorEmail))
+            {
+                await Shell.Current.DisplayAlert("Alert", "Unable to save, Instructor email cannot be empty", "OK");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(course.InstructorPhone))
+            {
+                await Shell.Current.DisplayAlert("Alert", "Unable to save, Instructor phone cannot be empty", "OK");
+                return false;
+            }
+
+            // Regex Checks
+            Regex PhoneRegex = new Regex(@"\d{3}-\d{3}-\d{4}");
+            Regex EmailRegex = new Regex(@"\w+@wgu\.edu");
+
+            if (!PhoneRegex.IsMatch(course.InstructorPhone))
+            {
+                await Shell.Current.DisplayAlert("Alert",
+                    "Unable to save, Instructor phone is invalid.\n" +
+                    "Phone must match this pattern:\n" +
+                    "123-456-7891", "OK");
+                return false;
+            }
+
+            if (!EmailRegex.IsMatch(course.InstructorEmail))
+            {
+                await Shell.Current.DisplayAlert("Alert",
+                    "Unable to save, Instructor email is invalid.\n" +
+                    "Email must match this pattern:\n" +
+                    "name@wgu.edu\n" +
+                    "ex. 'ccald15@wgu.edu'",
+                    "OK");
+                return false;
+            }
+
+            // Date checks
+            if (course.StartDate.Date >= course.EndDate.Date)
+            {
+                await Shell.Current.DisplayAlert("Alert", "Unable to save, End date must be after Start date", "OK");
+                return false;
+            }
+
+            return true;
         }
 
         private async Task AttachAssessment()
@@ -437,14 +438,19 @@ namespace WGUMobilePortal.ViewModels
             }
 
             CurrentCourse = await DBService.GetCourse(Id);
-
         }
 
         private async Task LoadNew()
         {
             CurrentCourse = new Course();
+            StartDate = DateTime.Today;
+            EndDate = DateTime.Today.AddDays(1);
+            CurrentNote = new Note();
 
-            EndDateMinimum = CurrentCourse.StartDate.AddDays(1).Date;
+            // Hardcode instructor name to me, as per odd item on rubric
+            CurrentCourse.InstructorName = "Coby Caldwell";
+            CurrentCourse.InstructorPhone = "808-690-7792";
+            CurrentCourse.InstructorEmail = "ccald15@wgu.edu";
         }
 
         private async Task ModifyAssessment()

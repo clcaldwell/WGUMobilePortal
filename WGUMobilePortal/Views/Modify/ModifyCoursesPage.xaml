@@ -3,12 +3,9 @@
     x:Class="WGUMobilePortal.Views.ModifyCoursesPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:behaviors="clr-namespace:WGUMobilePortal.Behaviors"
-    xmlns:models="clr-namespace:WGUMobilePortal.ViewModels"
     xmlns:viewmodels="clr-namespace:WGUMobilePortal.ViewModels"
     x:Name="MyModifyCoursesPage"
     Title="{Binding Title}"
-    BackgroundColor="White"
     ControlTemplate="{DynamicResource ModifyCoursesView}">
     <ContentPage.BindingContext>
         <viewmodels:ModifyCoursesViewModel />
@@ -43,9 +40,7 @@
                         <StackLayout>
                             <Frame
                                 x:DataType="viewmodels:ModifyCoursesViewModel"
-                                BackgroundColor="AliceBlue"
                                 CornerRadius="20"
-                                HasShadow="True"
                                 HeightRequest="225">
                                 <StackLayout>
                                     <Label
@@ -54,7 +49,12 @@
                                         Text="Course Info" />
                                     <TableView RowHeight="-1">
                                         <TableSection>
-                                            <EntryCell Label="Course Name:" Text="{Binding CurrentCourse.Name, Mode=TwoWay}" />
+                                            <ViewCell>
+                                                <StackLayout Padding="15,0" Orientation="Horizontal">
+                                                    <Label Text="Course Name:" VerticalOptions="Center" />
+                                                    <Entry Text="{Binding CurrentCourse.Name, Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
+                                                </StackLayout>
+                                            </ViewCell>
                                             <ViewCell>
                                                 <ViewCell.View>
                                                     <Grid VerticalOptions="CenterAndExpand">
@@ -133,10 +133,8 @@
 
                             <Frame
                                 x:DataType="viewmodels:ModifyCoursesViewModel"
-                                BackgroundColor="AliceBlue"
                                 CornerRadius="20"
-                                HasShadow="True"
-                                HeightRequest="260">
+                                HeightRequest="200">
                                 <StackLayout>
                                     <Label
                                         FontAttributes="Bold"
@@ -144,16 +142,25 @@
                                         Text="Instructor" />
                                     <TableView RowHeight="-1">
                                         <TableSection>
-                                            <EntryCell
-                                                Label="Name"
-                                                Text="{Binding CurrentCourse.InstructorName, Mode=TwoWay}" />
-                                            <EntryCell
-                                                Label="Phone"
-                                                Text="{Binding CurrentCourse.InstructorPhone, Mode=TwoWay}" />
-                                            <EntryCell
-                                                Label="Email"
-                                                Text="{Binding CurrentCourse.InstructorEmail, Mode=TwoWay}" />
-                                          </TableSection>
+                                            <ViewCell>
+                                                <StackLayout Padding="15,0" Orientation="Horizontal">
+                                                    <Label Text="Name:" VerticalOptions="Center" />
+                                                    <Entry Text="{Binding CurrentCourse.InstructorName, Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
+                                                </StackLayout>
+                                            </ViewCell>
+                                            <ViewCell>
+                                                <StackLayout Padding="15,0" Orientation="Horizontal">
+                                                    <Label Text="Phone:" VerticalOptions="Center" />
+                                                    <Entry Text="{Binding CurrentCourse.InstructorPhone, Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
+                                                </StackLayout>
+                                            </ViewCell>
+                                            <ViewCell>
+                                                <StackLayout Padding="15,0" Orientation="Horizontal">
+                                                    <Label Text="Email:" VerticalOptions="Center" />
+                                                    <Entry Text="{Binding CurrentCourse.InstructorEmail, Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
+                                                </StackLayout>
+                                            </ViewCell>
+                                        </TableSection>
                                     </TableView>
                                 </StackLayout>
                             </Frame>
@@ -184,9 +191,7 @@
                                                     <StackLayout Padding="10">
                                                         <Frame
                                                             Padding="2"
-                                                            BackgroundColor="AliceBlue"
-                                                            CornerRadius="5"
-                                                            HasShadow="True">
+                                                            CornerRadius="5">
                                                             <StackLayout
                                                                 Padding="0"
                                                                 BackgroundColor="AliceBlue"
@@ -224,10 +229,8 @@
 
                             <Frame
                                 Padding="5,5,5,5"
-                                BackgroundColor="AliceBlue"
                                 CornerRadius="20"
-                                HasShadow="True"
-                                HeightRequest="100">
+                                HeightRequest="150">
 
                                 <StackLayout>
                                     <Label
@@ -237,15 +240,14 @@
                                     <Editor
                                         AutoSize="TextChanges"
                                         Keyboard="Chat"
-                                        Text="{Binding CurrentNote.Contents}" />
+                                        Text="{Binding CurrentNote.Contents}"
+                                        TextColor="Black" />
+                                    <Button Text="Share Note" Command="{Binding ShareNoteCommand}" />
                                 </StackLayout>
                             </Frame>
 
                             <!--#region Term Save / Delete Buttons-->
-                            <Frame
-                                BackgroundColor="AliceBlue"
-                                CornerRadius="20"
-                                HasShadow="True">
+                            <Frame CornerRadius="20">
 
                                 <StackLayout
                                     HorizontalOptions="Center"
@@ -303,9 +305,7 @@
                                             <StackLayout Padding="10">
                                                 <Frame
                                                     Padding="2"
-                                                    BackgroundColor="AliceBlue"
-                                                    CornerRadius="5"
-                                                    HasShadow="True">
+                                                    CornerRadius="5">
                                                     <StackLayout
                                                         Padding="0"
                                                         BackgroundColor="AliceBlue"
@@ -367,9 +367,7 @@
                                             <StackLayout Padding="10">
                                                 <Frame
                                                     Padding="2"
-                                                    BackgroundColor="AliceBlue"
-                                                    CornerRadius="5"
-                                                    HasShadow="True">
+                                                    CornerRadius="5">
                                                     <StackLayout
                                                         Padding="0"
                                                         BackgroundColor="AliceBlue"

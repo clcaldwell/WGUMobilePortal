@@ -31,7 +31,7 @@ namespace WGUMobilePortal.ViewModels
         {
             Title = "Add/Modify Terms Page";
             DeleteCommand = new Command<Term>(Delete);
-            SaveCommand = new Command<Term>(Save);
+            SaveCommand = new Command(async () => await Save());
             RemoveCourseCommand = new Command(async () => await RemoveCourse());
             OpenCourseSelectionCommand = new Command(async () => await OpenCourseSelection());
             CancelCourseSelectionCommand = new Command(async () => await CancelCourseSelection());
@@ -128,7 +128,7 @@ namespace WGUMobilePortal.ViewModels
 
         public Command OpenCourseSelectionCommand { get; }
         public Command RemoveCourseCommand { get; }
-        public Command<Term> SaveCommand { get; }
+        public Command SaveCommand { get; }
         public Command SelectCourseCommand { get; }
 
         public Course SelectedAttachCourse
@@ -198,27 +198,58 @@ namespace WGUMobilePortal.ViewModels
             IsCourseSelection = false;
         }
 
-        public async void Save(Term term)
+        public async Task Save()
         {
-            term.Name = Name;
-            term.StartDate = StartDate;
-            term.EndDate = EndDate;
+            Term.Name = Name;
+            Term.StartDate = StartDate;
+            Term.EndDate = EndDate;
 
             List<int> Courses = AttachedCourses.Select(x => x.Id).ToList();
             Courses.Sort();
-            term.CourseId = Courses;
+            Term.CourseId = Courses;
 
-            if (term.Id == 0)
+            if (!await ValidateTerm(Term))
             {
-                await DBService.AddTerm(term);
+                return;
+            }
+
+            if (Term.Id == 0)
+            {
+                await DBService.AddTerm(Term);
             }
             else
             {
-                await DBService.EditTerm(term);
+                await DBService.EditTerm(Term);
             }
 
             await Shell.Current.Navigation.PopAsync();
             //await Shell.Current.GoToAsync("..");
+        }
+
+        public async Task<bool> ValidateTerm(Term term)
+        {
+            // Null Checks
+            if (string.IsNullOrWhiteSpace(term.Name))
+            {
+                await Shell.Current.DisplayAlert("Alert", "Unable to save, must specify a Course Name", "OK");
+                return false;
+            }
+
+            // Date checks
+            if (term.StartDate.Date >= term.EndDate.Date)
+            {
+                await Shell.Current.DisplayAlert("Alert", "Unable to save, End date must be after Start date", "OK");
+                return false;
+            }
+
+            // Course Count check
+            if (term.CourseId.Count > 6)
+            {
+                await Shell.Current.DisplayAlert("Alert", "Unable to save, Term can only hold 6 courses", "OK");
+                return false;
+            }
+
+            return true;
         }
 
         private async Task CancelCourseSelection()
@@ -264,6 +295,8 @@ namespace WGUMobilePortal.ViewModels
         {
             Term = new Term();
             await Task.Run(() => AttachedCourses = new ObservableCollection<Course>());
+            StartDate = DateTime.Today;
+            EndDate = DateTime.Today.AddDays(1);
         }
 
         private async Task OpenCourseSelection()

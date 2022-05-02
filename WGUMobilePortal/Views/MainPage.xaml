@@ -43,33 +43,26 @@
                     Text="Mobile Student Portal"
                     TextColor="{StaticResource Secondary}" />
                 <Label Padding="0,0,0,0" />
-                <!--FlyoutItem Title="About" Icon="icon_about.png">
-                    <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
-                </FlyoutItem>-->
                 <Button
                     Margin="0,10,0,0"
                     BackgroundColor="{StaticResource Primary}"
                     Command="{Binding NavigateToTerms}"
-                    Text="Terms"
-                    TextColor="White" />
+                    Text="Terms" />
                 <Button
                     Margin="0,10,0,0"
                     BackgroundColor="{StaticResource Primary}"
                     Command="{Binding NavigateToCourses}"
-                    Text="Courses"
-                    TextColor="White" />
+                    Text="Courses" />
                 <Button
                     Margin="0,10,0,0"
                     BackgroundColor="{StaticResource Primary}"
                     Command="{Binding NavigateToAssessments}"
-                    Text="Assessments"
-                    TextColor="White" />
+                    Text="Assessments" />
                 <Button
                     Margin="0,10,0,0"
                     BackgroundColor="DarkBlue"
                     Command="{Binding GenerateDummyData}"
-                    Text="Generate Sample Data Set For Evaluation"
-                    TextColor="White" />
+                    Text="Generate Sample Data Set For Evaluation" />
                 <ActivityIndicator IsRunning="{Binding IsBusy}" />
             </StackLayout>
         </ScrollView>

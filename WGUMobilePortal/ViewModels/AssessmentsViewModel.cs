@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
+using WGUMobilePortal.Models;
 using WGUMobilePortal.Services;
 using WGUMobilePortal.Views;
-using WGUMobilePortal.Models;
 
 using Xamarin.Forms;
 
@@ -39,7 +38,7 @@ namespace WGUMobilePortal.ViewModels
 
         private async Task Add()
         {
-            await AppShell.Current.GoToAsync($"{nameof(ModifyAssessmentsPage)}?id=0");
+            await AppShell.Current.GoToAsync($"{nameof(ModifyAssessmentsPage)}?id={null}");
             //await Task.Run(() => Refresh());
         }
 
@@ -64,23 +63,22 @@ namespace WGUMobilePortal.ViewModels
         private async Task Refresh()
         {
             IsBusy = true;
-
             Assessments.Clear();
-
             var assessments = await DBService.GetAllAssessment();
-
             foreach (Assessment assessment in assessments)
             {
                 Assessments.Add(assessment);
             }
-
             IsBusy = false;
         }
 
         private async void Remove(Assessment assessment)
         {
-            await DBService.RemoveAssessment(assessment.Id);
-            await Task.Run(() => Refresh());
+            if (await Shell.Current.DisplayAlert("Confirm Deletion", $"Are you sure you want to delete {assessment.Name}", "Delete", "Cancel"))
+            {
+                await DBService.RemoveAssessment(assessment.Id);
+                Assessments.Remove(assessment);
+            }
         }
     }
 }

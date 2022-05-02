@@ -7,8 +7,7 @@
     xmlns:viewmodels="clr-namespace:WGUMobilePortal.ViewModels"
     x:Name="MyTermsPage"
     Title="{Binding Title}"
-    x:DataType="viewmodels:TermsViewModel"
-    BackgroundColor="White">
+    x:DataType="viewmodels:TermsViewModel">
     <ContentPage.BindingContext>
         <viewmodels:TermsViewModel />
     </ContentPage.BindingContext>
@@ -71,7 +70,7 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="model:Term">
                         <Grid Padding="10">
-                            <Frame CornerRadius="20" HasShadow="True">
+                            <Frame CornerRadius="20">
                                 <StackLayout>
                                     <Label
                                         HorizontalOptions="Start"

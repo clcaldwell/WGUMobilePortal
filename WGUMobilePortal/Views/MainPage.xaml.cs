@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 
-using WGUMobilePortal.ViewModels;
 using WGUMobilePortal.Services;
+using WGUMobilePortal.ViewModels;
 
 using Xamarin.Forms;
 

@@ -1,12 +1,13 @@
-﻿using Notify = Plugin.LocalNotifications.CrossLocalNotifications;
+﻿using SQLite;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 using WGUMobilePortal.Models;
-using System.Threading.Tasks;
-using SQLite;
+
+using Notify = Plugin.LocalNotifications.CrossLocalNotifications;
 
 namespace WGUMobilePortal.Services
 {

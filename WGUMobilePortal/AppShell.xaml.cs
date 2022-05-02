@@ -2,8 +2,6 @@
 
 using Xamarin.Forms;
 
-using System.Threading.Tasks;
-
 namespace WGUMobilePortal
 {
     public partial class AppShell : Xamarin.Forms.Shell

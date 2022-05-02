@@ -3,11 +3,9 @@
     x:Class="WGUMobilePortal.Views.ModifyAssessmentsPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:behaviors="clr-namespace:WGUMobilePortal.Behaviors"
     xmlns:viewmodels="clr-namespace:WGUMobilePortal.ViewModels"
     x:Name="MyModifyAssessmentsPage"
     Title="{Binding Title}"
-    BackgroundColor="White"
     ControlTemplate="{DynamicResource ModifyAssessmentsView}">
     <ContentPage.BindingContext>
         <viewmodels:ModifyAssessmentsViewModel />
@@ -18,11 +16,13 @@
 
         <TableView HasUnevenRows="True" Intent="Settings">
             <TableRoot>
-                <TableSection Title="Assessment">
-                    <EntryCell
-                        x:Name="Name"
-                        Label="Name:"
-                        Text="{Binding Name, Mode=TwoWay}" />
+                <TableSection>
+                    <ViewCell>
+                        <StackLayout Padding="15,0" Orientation="Horizontal">
+                            <Label Text="Name:" VerticalOptions="Center" />
+                            <Entry Text="{Binding Name, Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
+                        </StackLayout>
+                    </ViewCell>
                     <ViewCell>
                         <ViewCell.View>
                             <Grid VerticalOptions="CenterAndExpand">
@@ -31,8 +31,9 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <StackLayout Padding="15,0" Orientation="Horizontal">
-                                    <Label Text="End:" VerticalOptions="Center" />
+                                    <Label Text="Due:" VerticalOptions="Center" />
                                     <DatePicker
+                                        MinimumDate="{Binding MinimumDueDate, Mode=OneWay}"
                                         Date="{Binding DueDate, Mode=TwoWay}"
                                         HorizontalOptions="FillAndExpand"
                                         VerticalOptions="Center"

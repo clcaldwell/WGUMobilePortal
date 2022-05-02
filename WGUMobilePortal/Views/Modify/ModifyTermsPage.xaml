@@ -7,7 +7,6 @@
     xmlns:viewmodels="clr-namespace:WGUMobilePortal.ViewModels"
     x:Name="MyModifyTermsPage"
     Title="{Binding Title}"
-    BackgroundColor="White"
     ControlTemplate="{DynamicResource ModifyTermsView}">
     <ContentPage.BindingContext>
         <viewmodels:ModifyTermsViewModel />
@@ -97,9 +96,7 @@
                                     <StackLayout Padding="10">
                                         <Frame
                                             Padding="2"
-                                            BackgroundColor="AliceBlue"
-                                            CornerRadius="5"
-                                            HasShadow="True">
+                                            CornerRadius="5">
 
                                             <StackLayout
                                                 Padding="0"
@@ -206,9 +203,7 @@
                                         <StackLayout Padding="10">
                                             <Frame
                                                 Padding="2"
-                                                BackgroundColor="AliceBlue"
-                                                CornerRadius="5"
-                                                HasShadow="True">
+                                                CornerRadius="5">
                                                 <StackLayout
                                                     Padding="0"
                                                     BackgroundColor="AliceBlue"

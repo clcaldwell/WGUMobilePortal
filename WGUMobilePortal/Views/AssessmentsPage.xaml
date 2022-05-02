@@ -7,8 +7,7 @@
     xmlns:viewmodels="clr-namespace:WGUMobilePortal.ViewModels"
     x:Name="MyAssessmentsPage"
     Title="{Binding Title}"
-    x:DataType="viewmodels:AssessmentsViewModel"
-    BackgroundColor="White">
+    x:DataType="viewmodels:AssessmentsViewModel">
     <ContentPage.BindingContext>
         <viewmodels:AssessmentsViewModel />
     </ContentPage.BindingContext>
@@ -54,61 +53,62 @@
             Grid.Row="1"
             Command="{Binding RefreshCommand}"
             HorizontalOptions="Center"
-            IsRefreshing="True"
-            RefreshColor="Red" />
+            IsRefreshing="{Binding IsBusy}"
+            RefreshColor="Red" >
 
-        <CollectionView
+            <CollectionView
             Grid.Row="1"
             BackgroundColor="Transparent"
             ItemsLayout="VerticalList"
             ItemsSource="{Binding Assessments}"
             SelectionMode="Single">
-            <CollectionView.EmptyView>
-                <StackLayout Padding="10">
-                    <Label HorizontalOptions="Center" Text="No assessments exist" />
-                </StackLayout>
-            </CollectionView.EmptyView>
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="model:Assessment">
-                    <Grid Padding="10">
-                        <Frame CornerRadius="20" HasShadow="True">
-                            <StackLayout>
-                                <Label
+                <CollectionView.EmptyView>
+                    <StackLayout Padding="10">
+                        <Label HorizontalOptions="Center" Text="No assessments exist" />
+                    </StackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Assessment">
+                        <Grid Padding="10">
+                            <Frame CornerRadius="20">
+                                <StackLayout>
+                                    <Label
                                     HorizontalOptions="Center"
                                     TextColor="{StaticResource Primary}"
                                     VerticalOptions="Center">
-                                    <Label.Text>
-                                        <Binding Path="Name" />
-                                    </Label.Text>
-                                </Label>
+                                        <Label.Text>
+                                            <Binding Path="Name" />
+                                        </Label.Text>
+                                    </Label>
 
-                                <Label
+                                    <Label
                                     HorizontalOptions="Center"
                                     TextColor="{StaticResource Primary}"
                                     VerticalOptions="Center">
-                                    <Label.Text>
-                                        <MultiBinding StringFormat="{}Due Date: {0:MM/dd/yyyy}">
-                                            <Binding Path="DueDate" />
-                                        </MultiBinding>
-                                    </Label.Text>
-                                </Label>
-                                <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
-                                    <Button
+                                        <Label.Text>
+                                            <MultiBinding StringFormat="{}Due Date: {0:MM/dd/yyyy}">
+                                                <Binding Path="DueDate" />
+                                            </MultiBinding>
+                                        </Label.Text>
+                                    </Label>
+                                    <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
+                                        <Button
                                         Command="{Binding Source={x:Reference MyAssessmentsPage}, Path=BindingContext.ModifyCommand}"
                                         CommandParameter="{Binding .}"
                                         Text="View / Modify"
                                         WidthRequest="200" />
-                                    <Button
+                                        <Button
                                         BackgroundColor="DarkRed"
                                         Command="{Binding Source={x:Reference MyAssessmentsPage}, Path=BindingContext.RemoveCommand}"
                                         CommandParameter="{Binding .}"
                                         Text="Delete" />
+                                    </StackLayout>
                                 </StackLayout>
-                            </StackLayout>
-                        </Frame>
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                            </Frame>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
     </Grid>
 </ContentPage>

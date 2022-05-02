@@ -80,6 +80,7 @@ namespace WGUMobilePortal.ViewModels
             }
         }
 
+        public DateTime MinimumDueDate => DateTime.Today.AddMonths(-1);
         public Command ModifyCommand { get; }
 
         public string Name
@@ -108,7 +109,7 @@ namespace WGUMobilePortal.ViewModels
 
         public void ApplyQueryAttributes(IDictionary<string, string> query)
         {
-            if (string.IsNullOrWhiteSpace(query["id"])) // Will be null for new Assessment requests
+            if (String.IsNullOrWhiteSpace(query["id"]))
             {
                 Task.Run(async () => await LoadNew());
             }
@@ -127,6 +128,11 @@ namespace WGUMobilePortal.ViewModels
             Assessment.DueDateShouldNotify = DueDateShouldNotify;
             Assessment.Style = Style;
 
+            if (!await ValidateAssessment(Assessment))
+            {
+                return;
+            }
+
             if (Assessment.Id == 0)
             {
                 await DBService.AddAssessment(Assessment);
@@ -137,6 +143,25 @@ namespace WGUMobilePortal.ViewModels
             }
 
             await Shell.Current.Navigation.PopAsync();
+        }
+
+        public async Task<bool> ValidateAssessment(Assessment assessment)
+        {
+            // Null Checks
+            if (string.IsNullOrWhiteSpace(assessment.Name))
+            {
+                await Shell.Current.DisplayAlert("Alert", "Unable to save, must specify a Course Name", "OK");
+                return false;
+            }
+
+            // Date checks
+            if (assessment.DueDate == null)
+            {
+                await Shell.Current.DisplayAlert("Alert", "Unable to save, Due Date must have a value", "OK");
+                return false;
+            }
+
+            return true;
         }
 
         private async Task Delete()
@@ -160,6 +185,7 @@ namespace WGUMobilePortal.ViewModels
         private async Task LoadNew()
         {
             Assessment = new Assessment();
+            DueDate = DateTime.Today;
         }
     }
 }

@@ -7,8 +7,7 @@
     xmlns:viewmodels="clr-namespace:WGUMobilePortal.ViewModels"
     x:Name="MyCoursesPage"
     Title="{Binding Title}"
-    x:DataType="viewmodels:CoursesViewModel"
-    BackgroundColor="White">
+    x:DataType="viewmodels:CoursesViewModel">
     <ContentPage.BindingContext>
         <viewmodels:CoursesViewModel />
     </ContentPage.BindingContext>
@@ -71,7 +70,7 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="model:Course">
                         <Grid Padding="10">
-                            <Frame CornerRadius="20" HasShadow="True">
+                            <Frame CornerRadius="20">
                                 <StackLayout>
                                     <Label
                                         HorizontalOptions="Start"

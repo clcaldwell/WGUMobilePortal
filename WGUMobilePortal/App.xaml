@@ -11,6 +11,7 @@
             <!--  WGU Colors from: https://www.wgu.edu/about/brand.html  -->
             <Color x:Key="Primary">#003057</Color>
             <Color x:Key="Secondary">#4986AD</Color>
+            <Color x:Key="WindowBackgroundColor">#f2f2f8</Color>
             <Style TargetType="Button">
                 <Setter Property="TextColor" Value="White" />
                 <Setter Property="VisualStateManager.VisualStateGroups">
@@ -29,6 +30,26 @@
                         </VisualStateGroup>
                     </VisualStateGroupList>
                 </Setter>
+            </Style>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="Black" />
+            </Style>
+            <Style TargetType="DatePicker">
+                <Setter Property="TextColor" Value="Black" />
+            </Style>
+            <Style TargetType="Entry">
+                <Setter Property="TextColor" Value="Black" />
+            </Style>
+            <Style TargetType="Picker">
+                <Setter Property="TextColor" Value="Black" />
+            </Style>
+            <Style TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="AliceBlue" />
+                <Setter Property="CornerRadius" Value="5" />
+                <Setter Property="HasShadow" Value="True" />
+            </Style>
+            <Style TargetType="ContentPage">
+                <Setter Property="BackgroundColor" Value="{StaticResource WindowBackgroundColor}" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>

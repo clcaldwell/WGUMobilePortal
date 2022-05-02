@@ -147,8 +147,6 @@ namespace WGUMobilePortal.Services
             await db.UpdateAsync(course);
         }
 
-
-
         public static async Task EditNote(Note note)
         {
             await InitDB();

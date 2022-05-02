@@ -25,13 +25,12 @@ namespace WGUMobilePortal.ViewModels
 
         public ICommand GenerateDummyData { get; }
 
+        public bool IsDataGenerated { get; set; } = false;
         public ICommand NavigateToAssessments { get; }
 
         public ICommand NavigateToCourses { get; }
 
         public ICommand NavigateToTerms { get; }
-
-        public bool IsDataGenerated { get; set; } = false;
 
         public async Task GenerateData()
         {

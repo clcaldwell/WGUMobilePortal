@@ -1,7 +1,4 @@
-﻿using System.Threading.Tasks;
-
-using WGUMobilePortal.Models;
-using WGUMobilePortal.ViewModels;
+﻿using WGUMobilePortal.ViewModels;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
