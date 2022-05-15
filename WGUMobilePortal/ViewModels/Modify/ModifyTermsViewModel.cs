@@ -223,7 +223,6 @@ namespace WGUMobilePortal.ViewModels
             }
 
             await Shell.Current.Navigation.PopAsync();
-            //await Shell.Current.GoToAsync("..");
         }
 
         public async Task<bool> ValidateTerm(Term term)

@@ -39,7 +39,6 @@ namespace WGUMobilePortal.ViewModels
         private async Task Add()
         {
             await AppShell.Current.GoToAsync($"{nameof(ModifyAssessmentsPage)}?id={null}");
-            //await Task.Run(() => Refresh());
         }
 
         private async Task Load()
@@ -57,7 +56,6 @@ namespace WGUMobilePortal.ViewModels
         private async void Modify(Assessment assessment)
         {
             await AppShell.Current.GoToAsync($"{nameof(ModifyAssessmentsPage)}?id={assessment.Id}");
-            //await AppShell.Current.GoToAsync($"{nameof(ModifyAssessmentsPage)}?id={assessment.Id}&name={assessment.Name}&startDate={assessment.StartDate}&endDate={assessment.EndDate}&style={assessment.Style}");
         }
 
         private async Task Refresh()

@@ -31,8 +31,6 @@ namespace WGUMobilePortal.Models
                 {
                     _courseId.Sort();
                     return _courseId;
-                    //List<string> strList = _courseId.Select(x => x.ToString()).ToList();
-                    //return string.Join(",", strList);
                 }
                 else
                 {
@@ -71,12 +69,5 @@ namespace WGUMobilePortal.Models
             }
             set => _strCourseId = value;
         }
-
-        //[SQLite.Ignore]
-        //public List<int> intCourseId
-        //{
-        //}
-        //private string _strCourseId;
-        //private List<int> _intCourseId;
     }
 }

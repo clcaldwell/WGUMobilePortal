@@ -203,7 +203,6 @@ namespace WGUMobilePortal.Services
             return await db.Table<Term>().ToListAsync();
         }
 
-        // Assessment Tasks
         public static async Task<Assessment> GetAssessment(int id)
         {
             await InitDB();
@@ -212,14 +211,12 @@ namespace WGUMobilePortal.Services
             return assessment;
         }
 
-        // Course Tasks
         public static async Task<Course> GetCourse(int id)
         {
             await InitDB();
             return await db.GetAsync<Course>(id);
         }
 
-        // course Notes
         public static async Task<Note> GetNote(int id)
         {
             await InitDB();
@@ -228,7 +225,6 @@ namespace WGUMobilePortal.Services
             return note;
         }
 
-        // Term Tasks
         public static async Task<Term> GetTerm(int id)
         {
             await InitDB();
