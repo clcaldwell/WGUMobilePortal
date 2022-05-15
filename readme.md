@@ -1,6 +1,6 @@
 # WGU Mobile Portal
 
-This project is a mockup of a college course scheduling app, made with C# and Xamarin.Forms. This was course work for Western Governors University (WGU). This project has not been published to the Google Play store, as it currently includes resources copyrighted by WGU.
+This project is a mockup of a college course scheduling app, made with C# and Xamarin.Forms. This was course work for degree program at Western Governors University (WGU). This project has not been published to the Google Play store, as it currently includes resources copyrighted by WGU.
 
 Currently, only a Android project is available for this, as that was the only requirement for the course; I also do not have a readily availble platform for testing the functionality against iphones.
 
